@@ -50,12 +50,12 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       )}
 
       {/* Logo container */}
-      <div className="w-full h-16 sm:h-20 flex items-center justify-center mb-1">
+      <div className="w-full h-20 sm:h-24 flex items-center justify-center mb-1">
         <img
           src={channel.logo}
           alt={channel.title}
           loading="lazy"
-          className="max-w-[92%] max-h-14 sm:max-h-16 object-contain transition-transform duration-200 group-hover:scale-105"
+          className="max-w-[95%] max-h-18 sm:max-h-20 object-contain transition-transform duration-200 group-hover:scale-105"
           onError={(e) => {
             // Fallback for broken image
             (e.target as HTMLImageElement).src =
