@@ -300,12 +300,10 @@ export const PlayerVideo = forwardRef<PlayerVideoHandle, PlayerVideoProps>(
             </div>
           )}
 
-          {/* Fullscreen Floating Controls Bar (Volver atrás & Cerrar) - Transparent styling */}
+          {/* Fullscreen Floating Controls Bar (Volver atrás & Cerrar) - Always visible */}
           {isFullscreen && (
             <div
-              className={`absolute top-0 left-1/2 -translate-x-1/2 z-50 px-2.5 sm:px-3.5 py-1.5 bg-black/20 hover:bg-black/40 backdrop-blur-[2px] rounded-b-2xl border-x border-b border-white/20 flex items-center justify-center gap-2 sm:gap-3 transition-all duration-300 ${
-                showControls ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-              }`}
+              className="absolute top-0 left-1/2 -translate-x-1/2 z-50 px-2.5 sm:px-3.5 py-1.5 bg-black/25 hover:bg-black/45 backdrop-blur-[2px] rounded-b-2xl border-x border-b border-white/20 flex items-center justify-center gap-2 sm:gap-3 opacity-100 pointer-events-auto transition-all duration-200"
             >
               <button
                 id="fullscreen-back-btn"
