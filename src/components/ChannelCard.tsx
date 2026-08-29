@@ -35,7 +35,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       title={`${channel.title} - ${channel.category} (${serverCount} ${
         serverCount === 1 ? 'servidor' : 'servidores'
       })`}
-      className={`group relative flex flex-col items-center justify-between p-2.5 rounded-2xl cursor-pointer transition-all duration-200 select-none min-h-[145px] sm:min-h-[155px] tv-focusable shadow-md ${
+      className={`w-full group relative flex flex-col items-center justify-between p-2.5 rounded-2xl cursor-pointer transition-all duration-200 select-none min-h-[145px] sm:min-h-[155px] tv-focusable shadow-md ${
         isPlaying
           ? 'bg-[#d4fcd9] border-[3px] border-[#00ff88] shadow-[0_0_15px_rgba(0,255,136,0.7)] scale-[1.02]'
           : 'bg-white/95 border-[3px] border-[#ff2a2a] hover:bg-[#a8e6cf] hover:border-[#00e5ff] hover:shadow-[0_8px_20px_rgba(0,0,0,0.5)] hover:-translate-y-1'

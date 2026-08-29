@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Header } from './components/Header';
 import { CategoriesNav } from './components/CategoriesNav';
-import { PlayerSection } from './components/PlayerSection';
+import { PlayerControlBar, PlayerVideo, PlayerVideoHandle } from './components/PlayerSection';
 import { ChannelCard } from './components/ChannelCard';
 import { ChannelManagerModal } from './components/ChannelManagerModal';
 import { Footer } from './components/Footer';
@@ -34,6 +34,8 @@ export default function App() {
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
   const [activeSourceIndex, setActiveSourceIndex] = useState<number>(0);
   const [isManagerOpen, setIsManagerOpen] = useState<boolean>(false);
+  const [reloadKey, setReloadKey] = useState<number>(0);
+  const playerVideoRef = useRef<PlayerVideoHandle>(null);
 
   // Save changes to localStorage
   const handleSaveChannels = useCallback((newChannels: Channel[]) => {
@@ -212,36 +214,66 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeChannel, isManagerOpen, handleClosePlayer]);
 
+  const handlePlayerReload = useCallback(() => {
+    setReloadKey((k) => k + 1);
+    playerVideoRef.current?.reload();
+  }, []);
+
+  const handlePlayerExternal = useCallback(() => {
+    if (activeChannel) {
+      const src = activeChannel.sources[activeSourceIndex] || activeChannel.sources[0];
+      if (src?.url) {
+        window.open(src.url, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }, [activeChannel, activeSourceIndex]);
+
+  const handlePlayerFullscreen = useCallback(() => {
+    playerVideoRef.current?.toggleFullscreen();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header with Search and Navigation */}
-      <Header
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        onClearSearch={() => setSearchQuery('')}
-        onLogoClick={() => {
-          setCurrentCategory('Todos');
-          setSearchQuery('');
-        }}
-      />
-
-      {/* Horizontal Sticky Categories Menu */}
-      <CategoriesNav
-        categories={categories}
-        currentCategory={currentCategory}
-        onSelectCategory={setCurrentCategory}
-        channels={channels}
-      />
-
-      {/* Integrated Video Player Section (when active) */}
-      {activeChannel && (
-        <PlayerSection
-          channel={activeChannel}
-          sourceIndex={activeSourceIndex}
-          onSelectSource={setActiveSourceIndex}
-          onClose={handleClosePlayer}
+      {/* Sticky Top Navigation & Controls Group (Header + Categories + Active Player Bar) */}
+      <div className="sticky top-0 z-40 bg-[#0d1117]/95 backdrop-blur-md shadow-2xl border-b border-[#007bff]/20 flex flex-col">
+        <Header
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onClearSearch={() => setSearchQuery('')}
+          onLogoClick={() => {
+            setCurrentCategory('Todos');
+            setSearchQuery('');
+          }}
         />
-      )}
+
+        <CategoriesNav
+          categories={categories}
+          currentCategory={currentCategory}
+          onSelectCategory={setCurrentCategory}
+          channels={channels}
+        />
+
+        {/* Channel Info & Servers Bar (Permanently pinned under CategoriesNav when playing) */}
+        {activeChannel && (
+          <>
+            <PlayerControlBar
+              channel={activeChannel}
+              sourceIndex={activeSourceIndex}
+              onSelectSource={setActiveSourceIndex}
+            />
+            <PlayerVideo
+              ref={playerVideoRef}
+              channel={activeChannel}
+              sourceIndex={activeSourceIndex}
+              reloadKey={reloadKey}
+              onReload={handlePlayerReload}
+              onExternal={handlePlayerExternal}
+              onFullscreen={handlePlayerFullscreen}
+              onClose={handleClosePlayer}
+            />
+          </>
+        )}
+      </div>
 
       {/* Main Grid View */}
       <main className="flex-1 max-w-[1600px] w-full mx-auto px-4 py-6">
@@ -268,7 +300,7 @@ export default function App() {
 
         {/* Channel Cards Grid */}
         {filteredChannels.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-3 sm:gap-4 justify-center justify-items-center">
             {filteredChannels.map((channel) => (
               <ChannelCard
                 key={channel.id}

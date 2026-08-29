@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
   onLogoClick,
 }) => {
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-b from-[#152244] to-[#1F305E] border-b-2 border-[#007bff]/40 shadow-xl px-4 py-2.5">
+    <header className="bg-gradient-to-b from-[#152244] to-[#1F305E] border-b border-[#007bff]/40 px-4 py-2.5">
       <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
         {/* Logo and Brand */}
         <div

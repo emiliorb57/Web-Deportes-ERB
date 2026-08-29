@@ -15,7 +15,7 @@ export const CategoriesNav: React.FC<CategoriesNavProps> = ({
   channels,
 }) => {
   return (
-    <nav className="sticky top-[62px] z-40 bg-[#0f141e]/90 backdrop-blur-md border-b border-white/10 overflow-x-auto py-1.5 px-4 scrollbar-thin">
+    <nav className="bg-[#0f141e]/95 backdrop-blur-md overflow-x-auto py-1.5 px-4 scrollbar-thin">
       <div className="max-w-[1600px] mx-auto flex items-center gap-2.5">
         {categories.map((cat) => {
           const isActive = currentCategory === cat.name;
