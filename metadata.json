@@ -1,0 +1,8 @@
+{
+  "name": "Remix DEPORTES ERB",
+  "description": "TV Online en Directo de canales deportivos con reproductor integrado y soporte HLS/Embed.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

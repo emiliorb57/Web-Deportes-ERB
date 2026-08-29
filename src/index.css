@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --accent: #007bff;
+  --accent-hover: #0056b3;
+  --focus-ring: #00e5ff;
+  --text-main: #f0f6fc;
+  --text-dark: #1f2328;
+  --header-bg: #1F305E;
+  --card-border: #ff2a2a;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  background-image: linear-gradient(rgba(13, 17, 23, 0.92), rgba(13, 17, 23, 0.92)), url('https://i.postimg.cc/kXmwrWPN/fondo-web.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3b5c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff;
+}
+
+/* Smart TV & keyboard focus states */
+.tv-focusable:focus {
+  outline: none;
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.8), 0 0 20px rgba(0, 229, 255, 0.6) !important;
+  transform: scale(1.05);
+  z-index: 20;
+}
