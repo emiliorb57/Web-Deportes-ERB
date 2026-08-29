@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from './components/Header';
 import { CategoriesNav } from './components/CategoriesNav';
-import { PlayerControlBar, PlayerVideo, PlayerVideoHandle } from './components/PlayerSection';
+import { PlayerPage } from './components/PlayerPage';
 import { ChannelCard } from './components/ChannelCard';
 import { ChannelManagerModal } from './components/ChannelManagerModal';
 import { Footer } from './components/Footer';
@@ -34,8 +34,55 @@ export default function App() {
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
   const [activeSourceIndex, setActiveSourceIndex] = useState<number>(0);
   const [isManagerOpen, setIsManagerOpen] = useState<boolean>(false);
-  const [reloadKey, setReloadKey] = useState<number>(0);
-  const playerVideoRef = useRef<PlayerVideoHandle>(null);
+
+  // Sync with URL Query Parameters on initial load
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const channelId = params.get('channel');
+      const sourceParam = params.get('source');
+      if (channelId) {
+        const found = channels.find((c) => c.id === channelId);
+        if (found) {
+          setActiveChannel(found);
+          if (sourceParam) {
+            const idx = parseInt(sourceParam, 10);
+            if (!isNaN(idx) && idx >= 0 && idx < found.sources.length) {
+              setActiveSourceIndex(idx);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to parse URL params', e);
+    }
+  }, [channels]);
+
+  // Handle browser back/forward history navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const channelId = params.get('channel');
+        const sourceParam = params.get('source');
+        if (channelId) {
+          const found = channels.find((c) => c.id === channelId);
+          if (found) {
+            setActiveChannel(found);
+            const idx = sourceParam ? parseInt(sourceParam, 10) : 0;
+            setActiveSourceIndex(!isNaN(idx) && idx >= 0 && idx < found.sources.length ? idx : 0);
+            return;
+          }
+        }
+        setActiveChannel(null);
+      } catch (e) {
+        console.error('Failed popstate handler', e);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [channels]);
 
   // Save changes to localStorage
   const handleSaveChannels = useCallback((newChannels: Channel[]) => {
@@ -66,17 +113,39 @@ export default function App() {
   const handlePlayChannel = useCallback((channel: Channel, sourceIdx: number = 0) => {
     setActiveChannel(channel);
     setActiveSourceIndex(sourceIdx);
-    setTimeout(() => {
-      const playerEl = document.getElementById('playerSection');
-      if (playerEl) {
-        playerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      const newUrl = `${window.location.pathname}?channel=${encodeURIComponent(channel.id)}${
+        sourceIdx > 0 ? `&source=${sourceIdx}` : ''
+      }`;
+      window.history.pushState({ channelId: channel.id, sourceIdx }, '', newUrl);
+    } catch {
+      // Ignore if pushState blocked
+    }
   }, []);
+
+  const handleSelectSource = useCallback((idx: number) => {
+    setActiveSourceIndex(idx);
+    if (activeChannel) {
+      try {
+        const newUrl = `${window.location.pathname}?channel=${encodeURIComponent(activeChannel.id)}${
+          idx > 0 ? `&source=${idx}` : ''
+        }`;
+        window.history.replaceState({ channelId: activeChannel.id, sourceIdx: idx }, '', newUrl);
+      } catch {
+        // Ignore
+      }
+    }
+  }, [activeChannel]);
 
   const handleClosePlayer = useCallback(() => {
     setActiveChannel(null);
     setActiveSourceIndex(0);
+    try {
+      window.history.pushState({}, '', window.location.pathname);
+    } catch {
+      // Ignore
+    }
   }, []);
 
   // Filter channels based on Category and Search Query
@@ -214,27 +283,23 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeChannel, isManagerOpen, handleClosePlayer]);
 
-  const handlePlayerReload = useCallback(() => {
-    setReloadKey((k) => k + 1);
-    playerVideoRef.current?.reload();
-  }, []);
-
-  const handlePlayerExternal = useCallback(() => {
-    if (activeChannel) {
-      const src = activeChannel.sources[activeSourceIndex] || activeChannel.sources[0];
-      if (src?.url) {
-        window.open(src.url, '_blank', 'noopener,noreferrer');
-      }
-    }
-  }, [activeChannel, activeSourceIndex]);
-
-  const handlePlayerFullscreen = useCallback(() => {
-    playerVideoRef.current?.toggleFullscreen();
-  }, []);
+  // If a channel is actively playing, render the dedicated Player Page
+  if (activeChannel) {
+    return (
+      <PlayerPage
+        channel={activeChannel}
+        sourceIndex={activeSourceIndex}
+        onSelectSource={handleSelectSource}
+        onClose={handleClosePlayer}
+        onSelectChannel={(ch) => handlePlayChannel(ch, 0)}
+        allChannels={channels}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Sticky Top Navigation & Controls Group (Header + Categories + Active Player Bar) */}
+      {/* Sticky Top Navigation (Header + Categories) */}
       <div className="sticky top-0 z-40 bg-[#0d1117]/95 backdrop-blur-md shadow-2xl border-b border-[#007bff]/20 flex flex-col">
         <Header
           searchQuery={searchQuery}
@@ -252,27 +317,6 @@ export default function App() {
           onSelectCategory={setCurrentCategory}
           channels={channels}
         />
-
-        {/* Channel Info & Servers Bar (Permanently pinned under CategoriesNav when playing) */}
-        {activeChannel && (
-          <>
-            <PlayerControlBar
-              channel={activeChannel}
-              sourceIndex={activeSourceIndex}
-              onSelectSource={setActiveSourceIndex}
-            />
-            <PlayerVideo
-              ref={playerVideoRef}
-              channel={activeChannel}
-              sourceIndex={activeSourceIndex}
-              reloadKey={reloadKey}
-              onReload={handlePlayerReload}
-              onExternal={handlePlayerExternal}
-              onFullscreen={handlePlayerFullscreen}
-              onClose={handleClosePlayer}
-            />
-          </>
-        )}
       </div>
 
       {/* Main Grid View */}
@@ -305,7 +349,7 @@ export default function App() {
               <ChannelCard
                 key={channel.id}
                 channel={channel}
-                isPlaying={activeChannel?.id === channel.id}
+                isPlaying={false}
                 onPlay={(chan) => handlePlayChannel(chan, 0)}
               />
             ))}
@@ -323,7 +367,7 @@ export default function App() {
                 setSearchQuery('');
                 setCurrentCategory('Todos');
               }}
-              className="inline-flex items-center gap-2 bg-[#007bff] hover:bg-[#0056b3] text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition-all shadow-md"
+              className="inline-flex items-center gap-2 bg-[#007bff] hover:bg-[#0056b3] text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition-all shadow-md cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Restablecer Filtros</span>
