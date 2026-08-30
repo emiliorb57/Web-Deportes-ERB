@@ -384,12 +384,6 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={onClose}
-                  className="text-xs text-[#00e5ff] hover:underline font-semibold cursor-pointer ml-1 sm:ml-2"
-                >
-                  Ver todas las categorías →
-                </button>
               </div>
             </div>
 
