@@ -5,24 +5,19 @@ interface CategoriesNavProps {
   categories: CategoryInfo[];
   currentCategory: string;
   onSelectCategory: (category: string) => void;
-  channels: Channel[];
+  channels?: Channel[];
 }
 
 export const CategoriesNav: React.FC<CategoriesNavProps> = ({
   categories,
   currentCategory,
   onSelectCategory,
-  channels,
 }) => {
   return (
     <nav className="bg-[#0f141e]/95 backdrop-blur-md overflow-x-auto py-1.5 px-4 scrollbar-thin">
       <div className="max-w-[1600px] mx-auto flex items-center gap-2.5">
         {categories.map((cat) => {
           const isActive = currentCategory === cat.name;
-          const count =
-            cat.name === 'Todos'
-              ? channels.length
-              : channels.filter((c) => c.category === cat.name).length;
 
           return (
             <button
@@ -44,13 +39,6 @@ export const CategoriesNav: React.FC<CategoriesNavProps> = ({
                 />
               )}
               <span>{cat.name}</span>
-              <span
-                className={`text-xs px-2 py-0.5 rounded-full font-extrabold ${
-                  isActive ? 'bg-black/30 text-white' : 'bg-black/40 text-gray-400'
-                }`}
-              >
-                {count}
-              </span>
             </button>
           );
         })}

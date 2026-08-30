@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import {
   ArrowLeft,
-  RotateCw,
-  ExternalLink,
   Maximize,
   X,
   Zap,
   Server,
   Radio,
   Tv,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { Channel } from '../types';
 
@@ -33,6 +33,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const channelsScrollRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -166,20 +167,31 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
     onClose();
   };
 
-  // Other channels in same category or overall
-  const otherChannels = allChannels.filter((c) => c.id !== channel.id);
+  // Filter channels to only include those in the exact same category as the active channel (excluding current channel)
+  const sameCategoryChannels = allChannels.filter(
+    (c) =>
+      c.id !== channel.id &&
+      c.category.trim().toLowerCase() === channel.category.trim().toLowerCase()
+  );
+
+  const scrollChannels = (direction: 'left' | 'right') => {
+    if (channelsScrollRef.current) {
+      const offset = direction === 'left' ? -320 : 320;
+      channelsScrollRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#070b14] text-white flex flex-col animate-in fade-in duration-300">
       {/* Dedicated Page Header Navigation */}
       <header className="sticky top-0 z-40 bg-[#0d1626]/95 backdrop-blur-md border-b border-[#007bff]/30 shadow-xl px-3 sm:px-6 py-2.5">
         <div className="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-3">
-          {/* Left: Back to Channels & Channel Info */}
+          {/* Left: Back to Channels, Channel Info & Server Selector */}
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
             <button
               id="player-back-to-channels-btn"
               onClick={onClose}
-              className="flex items-center gap-2 bg-[#1c263c] hover:bg-[#007bff] text-white border border-[#334366] hover:border-[#00e5ff] px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all tv-focusable cursor-pointer shadow-md group"
+              className="flex items-center gap-2 bg-[#1c263c] hover:bg-[#007bff] text-white border border-[#334366] hover:border-[#00e5ff] px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all tv-focusable cursor-pointer shadow-md group shrink-0"
               title="Volver a la lista de canales (Esc)"
             >
               <ArrowLeft className="w-4 h-4 text-[#00e5ff] group-hover:text-white transition-transform group-hover:-translate-x-0.5" />
@@ -214,32 +226,41 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
                 </div>
               </div>
             </div>
+
+            <div className="h-6 w-px bg-white/10 hidden md:block" />
+
+            {/* Servidores integrados a continuación del logo y nombre del canal */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <div className="flex items-center gap-1 text-xs font-bold text-gray-300 mr-0.5">
+                <Server className="w-3.5 h-3.5 text-[#00e5ff]" />
+                <span className="hidden sm:inline">Servidores ({channel.sources.length}):</span>
+              </div>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {channel.sources.map((src, idx) => {
+                  const isSelected = idx === sourceIndex;
+                  const isSrcM3u8 = src.type === 'm3u8' || (src.url && src.url.includes('.m3u8'));
+                  return (
+                    <button
+                      key={`${src.name}-${idx}`}
+                      id={`server-btn-${idx}`}
+                      onClick={() => onSelectSource(idx)}
+                      className={`flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-lg transition-all tv-focusable cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#007bff] text-white border border-[#00e5ff] shadow-[0_0_10px_rgba(0,123,255,0.8)] scale-105'
+                          : 'bg-[#1a2336] text-gray-300 border border-[#2a3750] hover:bg-[#25324d] hover:text-white hover:border-[#00e5ff]'
+                      }`}
+                    >
+                      {isSrcM3u8 && <Zap className="w-3 h-3 text-yellow-300 fill-yellow-300" />}
+                      <span>{src.name || `Servidor ${idx + 1}`}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          {/* Right: Actions (Reload, External, Fullscreen, Close) */}
+          {/* Right: Actions (Fullscreen, Close) */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <button
-              id="player-reload-btn"
-              onClick={handleReload}
-              className="flex items-center gap-1.5 bg-[#1c263c] hover:bg-[#007bff] text-white border border-[#334366] hover:border-[#00e5ff] px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all tv-focusable cursor-pointer shadow-sm"
-              title="Recargar stream"
-              aria-label="Recargar stream"
-            >
-              <RotateCw className="w-4 h-4 text-[#00e5ff]" />
-              <span className="hidden md:inline">Recargar</span>
-            </button>
-
-            <button
-              id="player-external-btn"
-              onClick={handleExternal}
-              className="flex items-center gap-1.5 bg-[#1c263c] hover:bg-[#007bff] text-white border border-[#334366] hover:border-[#00e5ff] px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all tv-focusable cursor-pointer shadow-sm"
-              title="Abrir en ventana externa"
-              aria-label="Abrir en ventana externa"
-            >
-              <ExternalLink className="w-4 h-4 text-emerald-400" />
-              <span className="hidden md:inline">Ventana externa</span>
-            </button>
-
             <button
               id="player-fullscreen-btn"
               onClick={handleToggleFullscreen}
@@ -263,45 +284,6 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
           </div>
         </div>
       </header>
-
-      {/* Subheader: Server Source Selector Bar */}
-      <div className="bg-[#101726] border-b border-[#1f2d47] px-3 sm:px-6 py-2 shadow-inner">
-        <div className="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-300 mr-1">
-              <Server className="w-3.5 h-3.5 text-[#00e5ff]" />
-              <span>Servidores ({channel.sources.length}):</span>
-            </div>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {channel.sources.map((src, idx) => {
-                const isSelected = idx === sourceIndex;
-                const isSrcM3u8 = src.type === 'm3u8' || (src.url && src.url.includes('.m3u8'));
-                return (
-                  <button
-                    key={`${src.name}-${idx}`}
-                    id={`server-btn-${idx}`}
-                    onClick={() => onSelectSource(idx)}
-                    className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-lg transition-all tv-focusable cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#007bff] text-white border border-[#00e5ff] shadow-[0_0_10px_rgba(0,123,255,0.8)] scale-105'
-                        : 'bg-[#1a2336] text-gray-300 border border-[#2a3750] hover:bg-[#25324d] hover:text-white hover:border-[#00e5ff]'
-                    }`}
-                  >
-                    {isSrcM3u8 && <Zap className="w-3 h-3 text-yellow-300 fill-yellow-300" />}
-                    <span>{src.name || `Servidor ${idx + 1}`}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="text-xs text-gray-400 hidden lg:flex items-center gap-3">
-            <span>Usa <strong>F</strong> para pantalla completa</span>
-            <span>•</span>
-            <span>Usa <strong>Esc</strong> para volver</span>
-          </div>
-        </div>
-      </div>
 
       {/* Main Playback Area */}
       <main className="flex-1 flex flex-col items-center justify-start p-2 sm:p-4 md:p-6 w-full max-w-[1700px] mx-auto">
@@ -374,47 +356,78 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
           )}
         </div>
 
-        {/* Quick Channels Strip / Otros canales recomendados */}
-        {otherChannels.length > 0 && onSelectChannel && (
-          <div className="w-full mt-6 pt-4 border-t border-white/10">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <h3 className="text-sm sm:text-base font-bold text-gray-200 flex items-center gap-2">
+        {/* Quick Channels Strip / Canales de la misma categoría - Menú desplazable horizontal */}
+        {sameCategoryChannels.length > 0 && onSelectChannel && (
+          <div className="w-full mt-5 pt-3.5 border-t border-[#1f2d47]">
+            <div className="flex items-center justify-between gap-2 mb-2.5">
+              <h3 className="text-sm sm:text-base font-bold text-gray-200 flex items-center gap-2 flex-wrap">
                 <Tv className="w-4 h-4 text-[#00e5ff]" />
-                <span>Cambiar de canal rápidamente</span>
+                <span>Canales de {channel.category}</span>
+                <span className="text-xs font-semibold text-[#00e5ff] bg-[#007bff]/20 border border-[#007bff]/40 px-2 py-0.5 rounded-full">
+                  {sameCategoryChannels.length} {sameCategoryChannels.length === 1 ? 'canal' : 'canales'}
+                </span>
               </h3>
-              <button
-                onClick={onClose}
-                className="text-xs text-[#00e5ff] hover:underline font-semibold"
-              >
-                Ver todos los canales →
-              </button>
-            </div>
-            <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#1f2d47]">
-              {otherChannels.slice(0, 12).map((ch) => (
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <button
-                  key={ch.id}
-                  onClick={() => onSelectChannel(ch)}
-                  className="shrink-0 flex items-center gap-2 bg-[#121927] hover:bg-[#1a253a] border border-[#212f47] hover:border-[#00e5ff] px-3 py-2 rounded-xl transition-all tv-focusable cursor-pointer text-left group"
+                  onClick={() => scrollChannels('left')}
+                  className="p-1.5 rounded-lg bg-[#141c2c] hover:bg-[#007bff] text-gray-300 hover:text-white border border-[#23314c] hover:border-[#00e5ff] transition-all tv-focusable cursor-pointer shadow-xs"
+                  title="Desplazar a la izquierda"
+                  aria-label="Desplazar a la izquierda"
                 >
-                  <img
-                    src={ch.logo}
-                    alt={ch.title}
-                    className="h-6 w-6 object-contain bg-white rounded p-0.5 shrink-0"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        'https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png';
-                    }}
-                  />
-                  <div className="max-w-[120px]">
-                    <div className="text-xs font-bold text-white truncate group-hover:text-[#00e5ff]">
-                      {ch.title}
-                    </div>
-                    <div className="text-[10px] text-gray-400 truncate">
-                      {ch.category}
-                    </div>
-                  </div>
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-              ))}
+                <button
+                  onClick={() => scrollChannels('right')}
+                  className="p-1.5 rounded-lg bg-[#141c2c] hover:bg-[#007bff] text-gray-300 hover:text-white border border-[#23314c] hover:border-[#00e5ff] transition-all tv-focusable cursor-pointer shadow-xs"
+                  title="Desplazar a la derecha"
+                  aria-label="Desplazar a la derecha"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={onClose}
+                  className="text-xs text-[#00e5ff] hover:underline font-semibold cursor-pointer ml-1 sm:ml-2"
+                >
+                  Ver todas las categorías →
+                </button>
+              </div>
+            </div>
+
+            {/* Contenedor del menú desplazable horizontal */}
+            <div className="relative">
+              <div
+                ref={channelsScrollRef}
+                className="flex items-center gap-2.5 overflow-x-auto pb-2.5 pt-1 scroll-smooth scrollbar-thin scrollbar-thumb-[#23314c] scrollbar-track-transparent snap-x"
+              >
+                {sameCategoryChannels.map((ch) => (
+                  <button
+                    key={ch.id}
+                    onClick={() => onSelectChannel(ch)}
+                    className="shrink-0 flex items-center gap-2.5 bg-[#121927] hover:bg-[#1c263c] border border-[#212f47] hover:border-[#00e5ff] px-3 py-2 rounded-xl transition-all tv-focusable cursor-pointer text-left group shadow-sm hover:scale-[1.02] min-w-[190px] sm:min-w-[220px] max-w-[250px] snap-start"
+                  >
+                    <img
+                      src={ch.logo}
+                      alt={ch.title}
+                      className="h-8 w-8 object-contain bg-white rounded-lg p-0.5 shrink-0 border border-white/10 group-hover:border-[#00e5ff]/50 shadow-xs"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png';
+                      }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white truncate group-hover:text-[#00e5ff]">
+                        {ch.title}
+                      </div>
+                      <div className="text-[10px] text-gray-400 truncate flex items-center gap-1 mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                        <span>
+                          {ch.sources.length} {ch.sources.length === 1 ? 'servidor' : 'servidores'}
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
