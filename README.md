@@ -275,9 +275,9 @@
 
         .menu-cat-btn:hover, .menu-cat-btn:focus {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(0, 210, 255, 0.4);
-            color: #fff;
+            background: #93c5fd; /* Azul claro */
+            border-color: #ffd700; /* Amarillo oro */
+            color: #7f1d1d; /* Rojo oscuro */
             outline: none;
         }
 
