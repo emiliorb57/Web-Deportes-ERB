@@ -308,7 +308,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
                 title="Volver a la vista normal"
               >
                 <ArrowLeft className="w-4 h-4 text-[#00e5ff] drop-shadow" />
-                <span className="drop-shadow">Volver atrás</span>
+                <span className="drop-shadow uppercase tracking-wide">Volver atrás</span>
               </button>
 
               <div className="hidden md:flex items-center gap-2 bg-black/30 px-2.5 py-0.5 rounded-md border border-white/15">
@@ -328,7 +328,7 @@ export const PlayerPage: React.FC<PlayerPageProps> = ({
                 title="Cerrar reproducción"
               >
                 <X className="w-4 h-4 drop-shadow" />
-                <span className="drop-shadow">Cerrar</span>
+                <span className="drop-shadow uppercase tracking-wide">Cerrar</span>
               </button>
             </div>
           )}
