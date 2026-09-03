@@ -213,38 +213,13 @@
             justify-content: center;
         }
 
-        .nav-scroll-btn {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            width: 32px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: absolute;
-            z-index: 10;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .nav-scroll-btn:hover, .nav-scroll-btn:focus {
-            background: var(--primary);
-            color: #000;
-            outline: none;
-        }
-
-        .nav-scroll-btn.left { left: 10px; }
-        .nav-scroll-btn.right { right: 10px; }
-
         .desplazable-horizontal {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 14px;
             overflow-x: auto;
-            padding: 4px 52px;
+            padding: 4px 20px;
             scroll-behavior: smooth;
             width: 100%;
             scrollbar-width: thin;
@@ -281,11 +256,13 @@
             outline: none;
         }
 
+        /* Estado Activo permanente hasta pulsar otro */
         .menu-cat-btn.active {
-            background: rgba(0, 210, 255, 0.12);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 15px var(--primary-glow);
+            transform: translateY(-2px);
+            background: #93c5fd !important;
+            border-color: #ffd700 !important;
+            color: #7f1d1d !important;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
         .menu-cat-logo-wrap {
@@ -301,8 +278,12 @@
             transition: transform 0.2s ease;
         }
 
-        .menu-cat-btn:hover .menu-cat-logo-wrap { transform: scale(1.05); }
-        .menu-cat-btn.active .menu-cat-logo-wrap { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+        .menu-cat-btn:hover .menu-cat-logo-wrap,
+        .menu-cat-btn.active .menu-cat-logo-wrap { 
+            transform: scale(1.05); 
+            border-color: #ffd700; 
+        }
+        
         .menu-cat-logo-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .menu-cat-name {
@@ -498,7 +479,7 @@
             .site-header { padding: 10px 16px; }
             .brand-title { font-size: 1.1rem; }
             .main-container { padding: 0 14px; margin-top: 14px; }
-            .desplazable-horizontal { justify-content: flex-start; padding: 4px 40px; }
+            .desplazable-horizontal { justify-content: flex-start; padding: 4px 16px; }
             .menu-inferior-wrapper { top: 61px; }
 
             .channels-grid {
@@ -559,8 +540,6 @@
 
     <nav class="menu-inferior-wrapper">
         <div class="nav-controls">
-            <button class="nav-scroll-btn left" onclick="scrollNav(-200)" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
-            
             <div class="desplazable-horizontal" id="bottomNavScroll">
                 <button class="menu-cat-btn active" data-category="all" onclick="filterCategory('all')">
                     <div class="menu-cat-logo-wrap">
@@ -611,8 +590,6 @@
                     <span class="menu-cat-name">Canales Latinos</span>
                 </button>
             </div>
-
-            <button class="nav-scroll-btn right" onclick="scrollNav(200)" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </nav>
 
@@ -651,7 +628,7 @@
             { id: 14, name: "Espn Deportes", server: "embedme", serverKey: "embedme", category: "La Liga", categoryLabel: "La Liga", url: "https://embedme.click/player/3/71", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
             { id: 15, name: "Espn Deportes", server: "nexgen", serverKey: "nexgen", category: "La Liga", categoryLabel: "La Liga", url: "https://tx3.nexgen.bz:4000/ESPN_DEPORTES/index.m3u8", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
             { id: 16, name: "Espn Deportes", server: "bolaloca", serverKey: "bolaloca", category: "La Liga", categoryLabel: "La Liga", url: "https://bolaloca.my/player/capo/71", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 17, name: "Sky S. LaLiga", server: "a03h", serverKey: "a03h", category: "La Liga", categoryLabel: "La Liga", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", logo: "https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png" },
+            { id: 17, name: "Sky S. LaLiga", server: "a03h", serverKey: "a03h", category: "La Liga", categoryLabel: "La Liga", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", logo: "https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png", type: "m3u8" },
             { id: 18, name: "Sky S. LaLiga", server: "tvporint", serverKey: "tvporint", category: "La Liga", categoryLabel: "La Liga", url: "https://www.tvporinternet2.com/sky-sports-la-liga-en-vivo-por-internet.html", logo: "https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png" },
             { id: 19, name: "Página Web LaLiga", server: "livetv", serverKey: "livetv", category: "La Liga", categoryLabel: "La Liga", url: "https://livetv.sx/es/competitions/15/", logo: "https://i.postimg.cc/FRTD23wN/Pagina-Web-La-Liga.png" },
 // CHAMPIONS LEAGUE
@@ -813,6 +790,8 @@
             const playerWindow = window.open('', '_blank');
             if (!playerWindow) return;
 
+            const isM3U8 = channel.url.includes('.m3u8') || channel.type === 'm3u8';
+
             playerWindow.document.write(`
                 <!DOCTYPE html>
                 <html lang="es">
@@ -824,6 +803,7 @@
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+                    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"><\/script>
                     <style>
                         * { margin: 0; padding: 0; box-sizing: border-box; }
                         body, html {
@@ -834,7 +814,7 @@
                             color: #f8fafc;
                             display: flex;
                             flex-direction: column;
-                            overflow-x: hidden;
+                            overflow: hidden;
                         }
                         .player-header {
                             background: rgba(11, 15, 25, 0.95);
@@ -917,25 +897,27 @@
                             background: rgba(255, 255, 255, 0.12);
                         }
                         
-                        /* Marco envolvente para el reproductor */
+                        /* Marco envolvente adaptable para el reproductor */
                         .player-wrapper-outer {
                             flex: 1;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            padding: 20px;
+                            padding: 15px;
                             background: #0b0f19;
+                            width: 100%;
+                            height: calc(100vh - 61px);
                             overflow: hidden;
                         }
 
                         .iframe-container {
                             width: 100%;
                             height: 100%;
-                            max-width: 1400px;
-                            max-height: 800px;
+                            max-width: 100%;
+                            max-height: 100%;
                             background: #000;
                             position: relative;
-                            border-radius: 14px;
+                            border-radius: 12px;
                             border: 2px solid rgba(0, 210, 255, 0.3);
                             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.15);
                             overflow: hidden;
@@ -943,35 +925,34 @@
                             flex-direction: column;
                         }
 
-                        iframe {
+                        iframe, video {
                             width: 100%;
                             height: 100%;
                             border: none;
                             flex: 1;
+                            object-fit: contain; /* Adapta y escala el video perfectamente */
+                            background: #000;
                         }
 
                         @media (max-width: 768px) {
                             .player-header {
                                 flex-direction: column;
                                 align-items: stretch;
-                                padding: 12px;
-                                gap: 10px;
-                            }
-                            .header-left {
-                                width: 100%;
+                                padding: 10px;
+                                gap: 8px;
                             }
                             .header-right {
                                 width: 100%;
                                 display: flex;
                                 justify-content: flex-end;
-                                gap: 6px;
                             }
                             .player-btn {
                                 flex: 1;
                                 justify-content: center;
                             }
                             .player-wrapper-outer {
-                                padding: 10px;
+                                padding: 5px;
+                                height: calc(100vh - 100px);
                             }
                         }
                     </style>
@@ -995,9 +976,31 @@
                     </header>
                     <div class="player-wrapper-outer">
                         <div class="iframe-container" id="iframeContainer">
-                            <iframe src="${channel.url}" allowfullscreen allow="encrypted-media; picture-in-picture"></iframe>
+                            ${isM3U8 
+                                ? `<video id="videoPlayer" controls autoplay playsinline></video>` 
+                                : `<iframe src="${channel.url}" allowfullscreen allow="encrypted-media; picture-in-picture"></iframe>`
+                            }
                         </div>
                     </div>
+
+                    ${isM3U8 ? `
+                    <script>
+                        const video = document.getElementById('videoPlayer');
+                        const videoSrc = "${channel.url}";
+                        if (Hls.isSupported()) {
+                            const hls = new Hls();
+                            hls.loadSource(videoSrc);
+                            hls.attachMedia(video);
+                            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                                video.play().catch(e => console.log("Autoplay bloqueado:", e));
+                            });
+                        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                            video.src = videoSrc;
+                            video.addEventListener('loadedmetadata',function() {
+                                video.play().catch(e => console.log("Autoplay bloqueado:", e));
+                            });
+                        }
+                    <\/script>` : ''}
                 </body>
                 </html>
             `);
@@ -1007,6 +1010,7 @@
         function filterCategory(category) {
             currentCategory = category;
             
+            // Remueve la clase active de todas las categorías y la asigna únicamente a la seleccionada
             document.querySelectorAll('.menu-cat-btn').forEach(btn => {
                 if (btn.getAttribute('data-category') === category) {
                     btn.classList.add('active');
@@ -1016,11 +1020,6 @@
             });
 
             renderChannels(category);
-        }
-
-        function scrollNav(amount) {
-            const container = document.getElementById('bottomNavScroll');
-            container.scrollBy({ left: amount, behavior: 'smooth' });
         }
 
         function toggleDeviceMode() {
