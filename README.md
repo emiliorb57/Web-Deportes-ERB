@@ -190,7 +190,7 @@
             outline: none;
         }
 
-        /* 2. Menú Desplazable Horizontal */
+        /* 2. Menú Desplazable Horizontal y Bloque de Título Fijo Integrado */
         .menu-inferior-wrapper {
             position: sticky;
             top: 69px;
@@ -201,7 +201,7 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            padding: 10px 0;
+            padding: 10px 0 0 0;
         }
 
         .nav-controls {
@@ -219,7 +219,7 @@
             align-items: center;
             gap: 14px;
             overflow-x: auto;
-            padding: 4px 20px;
+            padding: 4px 20px 10px 20px;
             scroll-behavior: smooth;
             width: 100%;
             scrollbar-width: thin;
@@ -293,22 +293,27 @@
             text-align: center;
         }
 
-        /* 3. Área Principal y Título de Sección */
-        .main-container {
-            max-width: 1600px;
-            margin: 20px auto;
-            padding: 0 24px;
+        /* Sección de Título Fija unida al menú flotante */
+        .sticky-section-header-wrapper {
+            background: rgba(18, 25, 41, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-color);
+            padding: 10px 24px;
             width: 100%;
-            flex: 1;
+        }
+
+        .sticky-section-header-container {
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
+            align-items: center;
+            border-bottom: none;
+            padding-bottom: 0;
             flex-wrap: wrap;
             gap: 12px;
         }
@@ -320,7 +325,7 @@
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #fff;
             display: flex;
@@ -337,6 +342,15 @@
             background: rgba(255, 255, 255, 0.06);
             padding: 4px 10px;
             border-radius: 20px;
+        }
+
+        /* 3. Área Principal */
+        .main-container {
+            max-width: 1600px;
+            margin: 20px auto;
+            padding: 0 24px;
+            width: 100%;
+            flex: 1;
         }
 
         /* Cuadrícula de Canales */
@@ -479,8 +493,9 @@
             .site-header { padding: 10px 16px; }
             .brand-title { font-size: 1.1rem; }
             .main-container { padding: 0 14px; margin-top: 14px; }
-            .desplazable-horizontal { justify-content: flex-start; padding: 4px 16px; }
+            .desplazable-horizontal { justify-content: flex-start; padding: 4px 16px 10px 16px; }
             .menu-inferior-wrapper { top: 61px; }
+            .sticky-section-header-wrapper { padding: 8px 16px; }
 
             .channels-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
@@ -591,19 +606,23 @@
                 </button>
             </div>
         </div>
+
+        <div class="sticky-section-header-wrapper">
+            <div class="sticky-section-header-container">
+                <div class="section-header">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title" id="currentSectionTitle">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Todos los Canales</span>
+                        </h2>
+                        <span class="channel-counter" id="visibleCounter">Mostrando 0 canales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <main class="main-container">
-        <div class="section-header">
-            <div class="section-title-wrap">
-                <h2 class="section-title" id="currentSectionTitle">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <span>Todos los Canales</span>
-                </h2>
-                <span class="channel-counter" id="visibleCounter">Mostrando 0 canales</span>
-            </div>
-        </div>
-
         <div class="channels-grid" id="channelsGrid">
             </div>
     </main>
