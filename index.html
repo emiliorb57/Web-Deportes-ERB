@@ -3,1112 +3,693 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deportes ERB - Canales y Streaming Deportivo en Directo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <title>DEPORTES ERB</title>
     <style>
-        :root {
-            --bg-main: #0b0f19;
-            --bg-card: rgba(22, 30, 49, 0.85);
-            --bg-card-hover: rgba(30, 41, 69, 0.95);
-            --bg-header: rgba(11, 15, 25, 0.9);
-            --bg-nav: rgba(30, 58, 138, 0.95); /* Modificado a azul marino */
-            
-            --primary: #00d2ff;
-            --primary-glow: rgba(0, 210, 255, 0.4);
-            --accent: #3a7bd5;
-            --live-red: #ff3366;
-            --live-glow: rgba(255, 51, 102, 0.5);
-            
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-sub: #cbd5e1;
-            
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-highlight: rgba(0, 210, 255, 0.4);
-            
-            --server-daddylive: #8b5cf6;
-            --server-zonatv: #3b82f6;
-            --server-tvcstreams: #f59e0b;
-            --server-bolaloca: #10b981;
-            --server-tvporint: #ec4899;
-            --server-sportz: #06b6d4;
-            --server-livetv: #6366f1;
-            --server-nexgen: #14b8a6;
-
-            --card-scale: 1;
-            --font-scale: 1rem;
-        }
-
-        /* Modos de Pantalla */
-        body.mode-tv {
-            --card-scale: 1.15;
-            --font-scale: 1.15rem;
-            padding-top: 10px;
-        }
-
-        body.mode-mobile {
-            --card-scale: 0.9;
-            --font-scale: 0.9rem;
-        }
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-main);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(58, 123, 213, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(0, 210, 255, 0.12) 0px, transparent 50%),
-                radial-gradient(at 50% 100%, rgba(255, 51, 102, 0.08) 0px, transparent 50%);
+            background-color: red;
+            background-image: url('https://i.postimg.cc/kXmwrWPN/fondo-web.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            font-size: var(--font-scale);
+            color: white;
+            line-height: 1.6;
+            padding: 20px;
         }
 
-        /* 1. Encabezado */
-        .site-header {
-            position: sticky;
+        /* Encabezado fijo superior */
+        header {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            background: var(--bg-header);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            padding: 10px 10px;
+            text-align: center;
+            z-index: 1000;
         }
 
-        .header-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
+        header h1 {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 0;
         }
 
-        .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .brand-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            background: #fff;
-        }
-
-        .brand-title-wrap {
+        /* Página de selección inicial (Superpuesta tipo pantalla completa) */
+        #pagina-inicio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
             display: flex;
             flex-direction: column;
+            padding: 30px 20px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .brand-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+        #pagina-inicio.hidden-start {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Sección fija del título en la página de inicio */
+        .start-header-fixed {
+            flex-shrink: 0;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Contenedor con scroll independiente para las tarjetas de categorías */
+        .start-scroll-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-bottom: 20px;
+        }
+
+        /* Contenedor en cuadrícula adaptativo para el menú inicial */
+        .start-menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            width: 110%;
+            max-width: 1100px;
+        }
+
+        .btn-start-menu {
+            background: linear-gradient(135deg, #ff6b6b, #ee5253);
+            color: white;
+            border: none;
+            padding: 20px 15px;
+            border-radius: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background 0.2s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            width: 100%;
+        }
+
+        .btn-start-menu:hover {
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #ee5253, #d63031);
+        }
+
+        .categoria-inicio-nombre {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 5px;
             line-height: 1.2;
         }
 
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #fff;
-            letter-spacing: 0.5px;
+        .btn-start-menu img {
+            max-width: 80%;
+            height: auto;
+            object-fit: contain;
         }
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--live-red);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px var(--live-glow);
-            animation: pulse-live 1.6s infinite ease-in-out;
-        }
-
-        @keyframes pulse-live {
-            0% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 var(--live-glow); }
-            70% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 0 8px rgba(255, 51, 102, 0); }
-            100% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); }
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            text-decoration: none;
-        }
-
-        .action-btn:hover, .action-btn.active, .action-btn:focus {
-            background: rgba(0, 210, 255, 0.15);
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: 0 0 12px var(--primary-glow);
-            outline: none;
-        }
-
-        /* 2. Menú Desplazable Horizontal y Bloque de Título Fijo Integrado */
-        .menu-inferior-wrapper {
-            position: sticky;
-            top: 69px;
-            z-index: 90;
+        /* Menú de navegación superior modificado: Izquierda (Logo + Categoría) y Derecha (Botón) */
+        .nav-container {
+            position: fixed;
+            top: 45px;
+            left: 0;
             width: 100%;
-            background: var(--bg-nav);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            padding: 10px 0 0 0;
-        }
-
-        .nav-controls {
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .desplazable-horizontal {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            overflow-x: auto;
-            padding: 4px 20px 10px 20px;
-            scroll-behavior: smooth;
-            width: 100%;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        .desplazable-horizontal::-webkit-scrollbar { height: 4px; }
-        .desplazable-horizontal::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-
-        .menu-cat-btn {
-            flex: 0 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 6px 14px 8px;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-            min-width: 120px;
-        }
-
-        .menu-cat-btn:hover, .menu-cat-btn:focus {
-            transform: translateY(-2px);
-            background: #93c5fd; /* Azul claro */
-            border-color: #ffd700; /* Amarillo oro */
-            color: #7f1d1d; /* Rojo oscuro */
-            outline: none;
-        }
-
-        /* Estado Activo permanente hasta pulsar otro */
-        .menu-cat-btn.active {
-            transform: translateY(-2px);
-            background: #93c5fd !important;
-            border-color: #ffd700 !important;
-            color: #7f1d1d !important;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .menu-cat-logo-wrap {
-            width: 130px;
-            height: 72px;
-            background: #ffffff;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
-        }
-
-        .menu-cat-btn:hover .menu-cat-logo-wrap,
-        .menu-cat-btn.active .menu-cat-logo-wrap { 
-            transform: scale(1.05); 
-            border-color: #ffd700; 
-        }
-        
-        .menu-cat-logo-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-        .menu-cat-name {
-            font-size: 0.8rem;
-            font-weight: 700;
-            white-space: nowrap;
-            text-align: center;
-        }
-
-        /* Sección de Título Fija unida al menú flotante */
-        .sticky-section-header-wrapper {
-            background: rgba(18, 25, 41, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid var(--border-color);
-            padding: 10px 24px;
-            width: 100%;
-        }
-
-        .sticky-section-header-container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .section-header {
+            background-color: #34495e;
+            padding: 8px 15px;
+            z-index: 999;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: none;
-            padding-bottom: 0;
-            flex-wrap: wrap;
-            gap: 12px;
         }
 
-        .section-title-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #fff;
+        .nav-left-group {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .section-title i { color: var(--primary); }
+        .nav-logo {
+            width: 60px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
 
-        .channel-counter {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.06);
-            padding: 4px 10px;
+        .btn-nav {
+            background-color: #ff6b6b;
+            color: LightBlue;
+            border: none;
+            text-decoration: none;
+            padding: 6px 14px;
             border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 18px;
         }
 
-        /* 3. Área Principal */
-        .main-container {
-            max-width: 1600px;
-            margin: 20px auto;
-            padding: 0 24px;
-            width: 100%;
-            flex: 1;
+        /* Botón para volver al menú de categorías inicial */
+        .btn-volver-menu {
+            background-color: #2c3e50;
+        }
+        .btn-volver-menu:hover {
+            background-color: red;
         }
 
-        /* Cuadrícula de Canales */
-        .channels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(calc(160px * var(--card-scale)), 1fr));
-            gap: calc(16px * var(--card-scale));
-            transition: all 0.3s ease;
+        /* Estilo para mostrar el nombre de la categoría actual */
+        .categoria-actual-label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f1c40f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .channel-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 14px 12px 12px;
+        /* Contenedor de Tarjetas */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 110px 20px 40px; 
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Diseño de cada tarjeta de canal */
+        .card {
+            border: 2px solid blue;
+            background: lightblue;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 150px;
+            padding: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            position: relative;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            justify-content: center;
             cursor: pointer;
         }
 
-        .channel-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .card:hover {
+            background-color: yellow;
+            transform: scale(1.08);
         }
 
-        .channel-card:hover, .channel-card:focus {
-            transform: translateY(-6px) scale(1.02);
-            background: var(--bg-card-hover);
-            border-color: var(--border-highlight);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 210, 255, 0.2);
-            outline: none;
-        }
-
-        .channel-card:hover::before, .channel-card:focus::before { opacity: 1; }
-
-        .card-logo-container {
-            width: 100%;
-            height: calc(85px * var(--card-scale));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 12px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.25s ease;
-        }
-
-        .channel-card:hover .card-logo-container, .channel-card:focus .card-logo-container { transform: scale(1.04); }
-
-        .card-logo {
-            max-width: 100%;
-            max-height: 100%;
+        .card img {
+            width: 100px;
+            height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            margin-bottom: 5px;
         }
 
-        .card-info {
-            width: 100%;
+        .card .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: #555;
+            word-break: break-all;
+            margin-top: 2px;
+        }
+
+        /* Pantalla de Reproducción con Marco de Plata pequeño */
+        #pantalla-reproduccion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-
-        .card-channel-name {
-            font-size: calc(0.92rem * var(--card-scale));
-            font-weight: 700;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.3;
-        }
-
-        .card-category-name {
-            font-size: calc(0.72rem * var(--card-scale));
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .server-badge {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: calc(0.7rem * var(--card-scale));
-            font-weight: 700;
-            margin-top: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-sub);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            width: 100%;
+            padding: 20px;
         }
 
-        .server-badge.daddylive { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; border-color: rgba(139, 92, 246, 0.3); }
-        .server-badge.zonatv { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border-color: rgba(59, 130, 246, 0.3); }
-        .server-badge.tvcstreams { background: rgba(245, 158, 11, 0.15); color: #fde68a; border-color: rgba(245, 158, 11, 0.3); }
-        .server-badge.bolaloca { background: rgba(16, 185, 129, 0.15); color: #a7f3d0; border-color: rgba(16, 185, 129, 0.3); }
-        .server-badge.tvporint { background: rgba(236, 72, 153, 0.15); color: #fbcfe8; border-color: rgba(236, 72, 153, 0.3); }
-        .server-badge.sportz { background: rgba(6, 182, 212, 0.15); color: #a5f3fc; border-color: rgba(6, 182, 212, 0.3); }
-        .server-badge.livetv { background: rgba(99, 102, 241, 0.15); color: #c7d2fe; border-color: rgba(99, 102, 241, 0.3); }
-        .server-badge.nexgen { background: rgba(20, 184, 166, 0.15); color: #99f6e4; border-color: rgba(20, 184, 166, 0.3); }
-
-        .empty-state {
-            grid-column: 1 / -1;
-            padding: 60px 20px;
-            text-align: center;
-            background: var(--bg-card);
-            border-radius: 16px;
-            border: 1px dashed var(--border-color);
+        .marco-reproduccion {
+            position: relative;
+            width: 100%;
+            max-width: 1500px;
+            height: 100vh;
+            background: #111;
+            border: 3px solid #c0c0c0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            padding-top: 55px;
+        }
+
+        /* Info superior izquierda dentro del marco */
+        .info-reproduccion-header {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            z-index: 10;
         }
 
-        .empty-state i { font-size: 3rem; color: var(--text-muted); opacity: 0.6; }
-        .empty-state h3 { font-size: 1.2rem; color: #fff; }
-        .empty-state p { color: var(--text-muted); font-size: 0.9rem; max-width: 400px; }
+        .info-reproduccion-header img {
+            width: 55px;
+            height: 45px;
+            object-fit: contain;
+        }
 
+        .info-texto {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .info-texto h3 {
+            font-size: 20px;
+            color: #fff;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .info-texto span {
+            font-size: 14px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        /* Botón Cerrar arriba a la derecha dentro del marco */
+        .btn-cerrar-reproduccion {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 12px;
+        }
+
+        .btn-cerrar-reproduccion:hover {
+            background: #ee5253;
+        }
+
+        .marco-reproduccion iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: black;
+        }
+
+        /* Utilidad para ocultar secciones */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ADAPTACIÓN ESPECÍFICA PARA TABLETS (entre 768px y 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .start-menu-container {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 15px;
+                width: 100%;
+            }
+            .btn-start-menu {
+                min-height: 120px;
+                padding: 15px 10px;
+                font-size: 16px;
+                border-radius: 15px;
+            }
+            .categoria-inicio-nombre {
+                font-size: 16px;
+            }
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Responsividad para móviles modificada */
         @media (max-width: 768px) {
-            .site-header { padding: 10px 16px; }
-            .brand-title { font-size: 1.1rem; }
-            .main-container { padding: 0 14px; margin-top: 14px; }
-            .desplazable-horizontal { justify-content: flex-start; padding: 4px 16px 10px 16px; }
-            .menu-inferior-wrapper { top: 61px; }
-            .sticky-section-header-wrapper { padding: 8px 16px; }
+            .info-reproduccion-header {
+                padding: 5px 8px;
+                gap: 8px;
+                max-width: calc(100vw - 50px);
+            }
 
-            .channels-grid {
+            .info-reproduccion-header img {
+                width: 38px;
+                height: 38px;
+            }
+
+            .info-texto {
+                gap: 6px;
+            }
+
+            .info-texto h3 {
+                font-size: 14px;
+            }
+
+            .info-texto span {
+                font-size: 12px;
+            }
+
+            body {
+                padding: 10px;
+            }
+            header h1 {
+                font-size: 0.95rem;
+            }
+            .nav-container {
+                top: 38px;
+                padding: 6px 10px;
+            }
+            .nav-logo {
+                width: 24px;
+                height: 24px;
+            }
+            .categoria-actual-label {
+                font-size: 0.85rem;
+            }
+            .cards-container {
+                padding-top: 105px;
+                gap: 8px;
+            }
+            .cards-container .card {
+                width: calc(50% - 6px);
+                max-width: none;
+            }
+            .start-menu-container {
                 grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
+                gap: 10px;
             }
-            .channel-card {
-                padding: 10px 8px 8px !important;
+            .btn-start-menu {
+                min-height: 110px;
+                padding: 12px 8px;
+                font-size: 18px;
             }
-            .card-logo-container {
-                height: 70px !important;
-                margin-bottom: 8px !important;
+            .categoria-inicio-nombre {
+                font-size: 18px;
             }
-            .card-channel-name {
-                font-size: 0.85rem !important;
+            #pantalla-reproduccion {
+                padding: 10px 5px;
             }
-            .card-category-name {
-                font-size: 0.68rem !important;
+            .marco-reproduccion {
+                height: 75vh;
+                max-width: 100%;
+                border-width: 2px;
+                padding-top: 50px;
             }
-            .server-badge {
-                font-size: 0.65rem !important;
-                padding: 2px 6px !important;
-                margin-top: 6px !important;
+            .btn-cerrar-reproduccion {
+                padding: 5px 10px;
+                font-size: 11px;
             }
-        }
-
-        @media (max-width: 480px) {
-            .action-btn span { display: none; }
         }
     </style>
+
+<style id="ajuste-encabezado-movil">
+@media (max-width: 768px) {
+    #pagina-inicio header,
+    #pagina-inicio .header,
+    #pagina-inicio .encabezado {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        min-height: 0 !important;
+    }
+
+    #pagina-inicio h1,
+    #pagina-inicio .logo-text,
+    #pagina-inicio .titulo,
+    #pagina-inicio .brand-title {
+        font-size: 24px !important;
+        line-height: 1.1 !important;
+    }
+}
+</style>
+
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="header-container">
-            <div class="brand-section" onclick="filterCategory('all')">
-                <img src="https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png" alt="Deportes ERB" class="brand-logo">
-                <div class="brand-title-wrap">
-                    <h1 class="brand-title">Deportes ERB</h1>
-                    <div class="brand-badge">
-                        <span class="live-dot"></span>
-                        <span>Streaming En Directo</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="header-actions">
-                <button class="action-btn" id="deviceModeBtn" onclick="toggleDeviceMode()" title="Cambiar modo de vista">
-                    <i class="fa-solid fa-desktop" id="deviceModeIcon"></i>
-                    <span id="deviceModeText">Modo: TV</span>
-                </button>
-                <button class="action-btn" onclick="toggleFullScreen()" title="Pantalla Completa">
-                    <i class="fa-solid fa-expand"></i>
-                </button>
+    <div id="pagina-inicio">
+        <div class="start-header-fixed">
+            <h2 class="welcome-title">DEPORTES ERB</h2>
+        </div>
+        <div class="start-scroll-container">
+            <div class="start-menu-container">
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('todos', 'Todos los Canales', 'https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png')"><img src="https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Todos los Canales</button>
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('La Liga', 'La Liga', 'https://i.postimg.cc/VsF4nL28/La-Liga.png')"><img src="https://i.postimg.cc/VsF4nL28/La-Liga.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">La Liga</span></button> 
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('Champions League', 'Champions League', 'https://i.postimg.cc/HxpVrP34/Champions-League.png')"><img src="https://i.postimg.cc/HxpVrP34/Champions-League.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Champions League</span></button>
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('Liga ACB', 'Liga ACB', 'https://i.postimg.cc/HscGzrMV/Liga-ACB.png')"><img src="https://i.postimg.cc/HscGzrMV/Liga-ACB.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Liga ACB</span></button>
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('Euroliga', 'Euroliga', 'https://basketpasion.es/wp-content/uploads/2022/06/euroleague-basketball-1300.webp')"><img src="https://basketpasion.es/wp-content/uploads/2022/06/euroleague-basketball-1300.webp" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Euroliga</span></button>
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('Zona Dazn', 'Zona Dazn', 'https://i.postimg.cc/bJt15wh9/Zona-Dazn.png')"><img src="https://i.postimg.cc/bJt15wh9/Zona-Dazn.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Zona Dazn</span></button>
+                <button class="btn-start-menu" onclick="seleccionarCategoriaInicio('Canales Latinos', 'Canales Latinos', 'https://i.postimg.cc/cCWt57Td/Canales-Latinoamerica.png')"><img src="https://i.postimg.cc/cCWt57Td/Canales-Latinoamerica.png" alt="Mi Logo" width="230" height="auto"><span class="categoria-inicio-nombre">Canales Latinos</span></button>
             </div>
         </div>
+    </div>
+
+
+    <header>
+        <h1>DEPORTES ERB</h1>
     </header>
 
-    <nav class="menu-inferior-wrapper">
-        <div class="nav-controls">
-            <div class="desplazable-horizontal" id="bottomNavScroll">
-                <button class="menu-cat-btn active" data-category="all" onclick="filterCategory('all')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png" alt="Todos">
-                    </div>
-                    <span class="menu-cat-name">Canales</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="La Liga" onclick="filterCategory('La Liga')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/VsF4nL28/La-Liga.png" alt="La Liga">
-                    </div>
-                    <span class="menu-cat-name">La Liga</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="Champions League" onclick="filterCategory('Champions League')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/HxpVrP34/Champions-League.png" alt="Champions League">
-                    </div>
-                    <span class="menu-cat-name">Champions League</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="Liga ACB" onclick="filterCategory('Liga ACB')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/HscGzrMV/Liga-ACB.png" alt="Liga ACB">
-                    </div>
-                    <span class="menu-cat-name">Liga ACB</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="Euroliga" onclick="filterCategory('Euroliga')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://basketpasion.es/wp-content/uploads/2022/06/euroleague-basketball-1300.webp" alt="Euroliga">
-                    </div>
-                    <span class="menu-cat-name">Euroliga</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="Zona Dazn" onclick="filterCategory('Zona Dazn')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/bJt15wh9/Zona-Dazn.png" alt="Zona Dazn">
-                    </div>
-                    <span class="menu-cat-name">Zona Dazn</span>
-                </button>
-
-                <button class="menu-cat-btn" data-category="Canales Latinos" onclick="filterCategory('Canales Latinos')">
-                    <div class="menu-cat-logo-wrap">
-                        <img src="https://i.postimg.cc/cCWt57Td/Canales-Latinoamerica.png" alt="Canales Latinos">
-                    </div>
-                    <span class="menu-cat-name">Canales Latinos</span>
-                </button>
-            </div>
+    <!-- Barra de navegación modificada -->
+    <div class="nav-container">
+        <div class="nav-left-group">
+            <img id="nav-logo-img" src="https://i.postimg.cc/htMSxGZJ/Deportes-ERB-fondo.png" alt="Logo Categoría" class="nav-logo">
+            <span id="categoria-actual" class="categoria-actual-label">Todos</span>
         </div>
+        <button class="btn-nav btn-volver-menu" onclick="mostrarPaginaInicio()">Menú Categorías</button>
+    </div>
 
-        <div class="sticky-section-header-wrapper">
-            <div class="sticky-section-header-container">
-                <div class="section-header">
-                    <div class="section-title-wrap">
-                        <h2 class="section-title" id="currentSectionTitle">
-                            <i class="fa-solid fa-layer-group"></i>
-                            <span>Todos los Canales</span>
-                        </h2>
-                        <span class="channel-counter" id="visibleCounter">Mostrando 0 canales</span>
-                    </div>
+    <div class="cards-container" id="container-tarjetas">
+
+<a href="https://sportzonline.click/channels/hd/hd6.php" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'LaLiga/Dazn', '(sportzonline)', 'https://i.postimg.cc/nr8tQ8cX/La-Liga-Tv-Dazn-La-Liga.png'); return false;"><img src="https://i.postimg.cc/nr8tQ8cX/La-Liga-Tv-Dazn-La-Liga.png"><div class="card-body"><div class="card-title">LaLiga/Dazn<p>(sportzonline)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-84.php" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(daddylive)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/laliga/" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(zonatv)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/4" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(zicotv)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/49" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(embedme)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/49" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(bolaloca)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/movistar-la-liga-en-vivo-por-internet.html" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'M. LaLiga', '(tvporint)', 'https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png'); return false;"><img src="https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png"><div class="card-body"><div class="card-title">M. LaLiga<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-538.php" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(daddylive)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/dazn-laliga/" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(zonatv)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/1" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(zicotv)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/51" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(embedme)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/51" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(bolaloca)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/dazn-la-liga-en-vivo-por-internet.html" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Dazn LaLiga', '(tvporint)', 'https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Dazn LaLiga<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-375.php" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(daddylive)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/espn-deportes/" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(zonatv)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/10" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(zicotv)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/71" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(embedme)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(embedme)</p></div></div></a>
+<a href="https://asiria.is/espndeportes.php" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(asiria)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(asiria)</p></div></div></a>
+<a href="https://tx3.nexgen.bz:4000/ESPN_DEPORTES/index.m3u8" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(nexgen)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(nexgen)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/71" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Espn Deportes', '(bolaloca)', 'https://i.postimg.cc/4dPchzfK/Espn-deportes.png'); return false;"><img src="https://i.postimg.cc/4dPchzfK/Espn-deportes.png"><div class="card-body"><div class="card-title">Espn Deportes<p>(bolaloca)</p></div></div></a>
+<a href="http://45.228.234.30:16000/play/a03h/index.m3u8" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Sky S. LaLiga', '(a03h)', 'https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Sky S. LaLiga<p>(a03h)</p></div></div></a>
+<a href="https://www.tvporinternet.org/sky-sports-la-liga-en-vivo-por-internet.html" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Sky S. LaLiga', '(tvporint)', 'https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png'); return false;"><img src="https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png"><div class="card-body"><div class="card-title">Sky S. LaLiga<p>(tvporint)</p></div></div></a>
+<a href="https://livetv.sx/es/competitions/15/" class="card" data-categoria="La Liga" onclick="abrirReproductor(this, this.href, 'Página Web LaLiga', '(livetv)', 'https://i.postimg.cc/FRTD23wN/Pagina-Web-La-Liga.png'); return false;"><img src="https://i.postimg.cc/FRTD23wN/Pagina-Web-La-Liga.png"><div class="card-body"><div class="card-title">Página Web LaLiga<p>(livetv)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-435.php" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(daddylive)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/campeones/" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(zonatv)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/6" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(zicotv)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/61" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(embedme)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/61" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(bolaloca)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/movistar-liga-de-campeones-en-vivo-por-internet.html" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'L. Campeones', '(tvporint)', 'https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png'); return false;"><img src="https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png"><div class="card-body"><div class="card-title">L. Campeones<p>(tvporint)</p></div></div></a>
+<a href="https://latamplay1.click/channel/tudnmx.html" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(latamplay1)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(latamplay1)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-66.php" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(daddylive)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/tudn/" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(zonatv)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(zonatv)</p></div></div></a>
+<a href="https://embedme.click/player/3/68" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(embedme)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(embedme)</p></div></div></a>
+<a href="http://45.5.117.57:8999/play/a04t/index.m3u8" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(a04t)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(a04t)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/68" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(bolaloca)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/tudn-en-vivo-por-internet.html" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Tudn', '(tvporint)', 'https://i.postimg.cc/QtMLX404/TUDN-Logo.png'); return false;"><img src="https://i.postimg.cc/QtMLX404/TUDN-Logo.png"><div class="card-body"><div class="card-title">Tudn<p>(tvporint)</p></div></div></a>
+<a href="https://livetv.sx/es/competitions/7/" class="card" data-categoria="Champions League" onclick="abrirReproductor(this, this.href, 'Página Web Champions League', '(livetv)', 'https://i.postimg.cc/Hs0V3LQk/P-gina-Web-Champions-League.png'); return false;"><img src="https://i.postimg.cc/Hs0V3LQk/P-gina-Web-Champions-League.png"><div class="card-body"><div class="card-title">Página Web Champions League<p>(livetv)</p></div></div></a>
+<a href="https://embedme.click/player/3/155" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 1', '(embedme)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/155" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 1', '(bolaloca)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 1<p>(bolaloca)</p></div></div></a>
+<a href="https://embedme.click/player/3/156" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 2', '(embedme)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 2<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/156" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 2', '(bolaloca)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 2<p>(bolaloca)</p></div></div></a>
+<a href="https://embedme.click/player/3/157" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 3', '(embedme)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 3<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/157" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'ACB Dazn 3', '(bolaloca)', 'https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg'); return false;"><img src="https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg"><div class="card-body"><div class="card-title">ACB Dazn 3<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-932.php" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'TVC Deportes', '(daddylive)', 'https://s3.superluchas.com/wp-content/uploads/20190320114903/tvc_deportes.png'); return false;"><img src="https://s3.superluchas.com/wp-content/uploads/20190320114903/tvc_deportes.png"><div class="card-body"><div class="card-title">TVC Deportes<p>(daddylive)</p></div></div></a>
+<a href="https://livetv.sx/es/competitions/215/" class="card" data-categoria="Liga ACB" onclick="abrirReproductor(this, this.href, 'Página Web Liga ACB', '(livetv)', 'https://i.postimg.cc/hGNDKF9Y/P-gina-Web-Liga-ACB.png'); return false;"><img src="https://i.postimg.cc/hGNDKF9Y/P-gina-Web-Liga-ACB.png"><div class="card-body"><div class="card-title">Página Web Liga ACB<p>(livetv)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-437.php" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Movistar+', '(daddylive)', 'https://i.postimg.cc/Gtd7zdzm/movistar.png'); return false;"><img src="https://i.postimg.cc/Gtd7zdzm/movistar.png"><div class="card-body"><div class="card-title">Movistar+<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/canal-0/" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Movistar+', '(zonatv)', 'https://i.postimg.cc/Gtd7zdzm/movistar.png'); return false;"><img src="https://i.postimg.cc/Gtd7zdzm/movistar.png"><div class="card-body"><div class="card-title">Movistar+<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/28" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Movistar+', '(zicotv)', 'https://i.postimg.cc/Gtd7zdzm/movistar.png'); return false;"><img src="https://i.postimg.cc/Gtd7zdzm/movistar.png"><div class="card-body"><div class="card-title">Movistar+<p>(zicotv)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-436.php" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 1', '(daddylive)', 'https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png'); return false;"><img src="https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 1<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/deportes/" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 1', '(zonatv)', 'https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png'); return false;"><img src="https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 1<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/19" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. deportes 1', '(zicotv)', 'https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png'); return false;"><img src="https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png"><div class="card-body"><div class="card-title">M. deportes 1<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/62" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 1', '(embedme)', 'https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png'); return false;"><img src="https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/62" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 1', '(bolaloca)', 'https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png'); return false;"><img src="https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 1<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-438.php" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 2', '(daddylive)', 'https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png'); return false;"><img src="https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 2<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/deportes2/" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'M. Deportes 2', '(zonatv)', 'https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png'); return false;"><img src="https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png"><div class="card-body"><div class="card-title">M. Deportes 2<p>(zonatv)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-521.php" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Vamos', '(daddylive)', 'https://i.postimg.cc/mg44mdVP/Vamos-Logo.png'); return false;"><img src="https://i.postimg.cc/mg44mdVP/Vamos-Logo.png"><div class="card-body"><div class="card-title">Vamos<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/vamos/" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Vamos', '(zonatv)', 'https://i.postimg.cc/mg44mdVP/Vamos-Logo.png'); return false;"><img src="https://i.postimg.cc/mg44mdVP/Vamos-Logo.png"><div class="card-body"><div class="card-title">Vamos<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/9" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Vamos', '(zicotv)', 'https://i.postimg.cc/mg44mdVP/Vamos-Logo.png'); return false;"><img src="https://i.postimg.cc/mg44mdVP/Vamos-Logo.png"><div class="card-body"><div class="card-title">Vamos<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/55" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Vamos', '(embedme)', 'https://i.postimg.cc/mg44mdVP/Vamos-Logo.png'); return false;"><img src="https://i.postimg.cc/mg44mdVP/Vamos-Logo.png"><div class="card-body"><div class="card-title">Vamos<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/55" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Vamos', '(bolaloca)', 'https://i.postimg.cc/mg44mdVP/Vamos-Logo.png'); return false;"><img src="https://i.postimg.cc/mg44mdVP/Vamos-Logo.png"><div class="card-body"><div class="card-title">Vamos<p>(bolaloca)</p></div></div></a>
+<a href="https://livetv.sx/es/competitions/41/" class="card" data-categoria="Euroliga" onclick="abrirReproductor(this, this.href, 'Página Web Euroliga', '(livetv)', 'https://i.postimg.cc/ry1V2Pzh/P-gina-Web-Euroliga.png'); return false;"><img src="https://i.postimg.cc/ry1V2Pzh/P-gina-Web-Euroliga.png"><div class="card-body"><div class="card-title">Página Web Euroliga<p>(livetv)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-445.php" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 1', '(daddylive)', 'https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 1<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/dazn1/" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 1', '(zonatv)', 'https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 1<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/2" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 1', '(zicotv)', 'https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 1<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/56" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 1', '(embedme)', 'https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/56" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 1', '(bolaloca)', 'https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 1<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-446.php" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 2', '(daddylive)', 'https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 2<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/dazn2/" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 2', '(zonatv)', 'https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 2<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/3" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 2', '(zicotv)', 'https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 2<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/57" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 2', '(embedme)', 'https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 2<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/57" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 2', '(bolaloca)', 'https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 2<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-447.php" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 3', '(daddylive)', 'https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 3<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/dazn3/" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 3', '(zonatv)', 'https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 3<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/34" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 3', '(zicotv)', 'https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 3<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/58" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 3', '(embedme)', 'https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 3<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/58" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 3', '(bolaloca)', 'https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 3<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-448.php" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 4', '(daddylive)', 'https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 4<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/dazn4/" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 4', '(zonatv)', 'https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 4<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/37" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 4', '(zicotv)', 'https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 4<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/59" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 4', '(embedme)', 'https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 4<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/59" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn 4', '(bolaloca)', 'https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png'); return false;"><img src="https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png"><div class="card-body"><div class="card-title">Dazn 4<p>(bolaloca)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-537.php" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn F1', '(daddylive)', 'https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png'); return false;"><img src="https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png"><div class="card-body"><div class="card-title">Dazn F1<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/formula1/" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn F1', '(zonatv)', 'https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png'); return false;"><img src="https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png"><div class="card-body"><div class="card-title">Dazn F1<p>(zonatv)</p></div></div></a>
+<a href="https://zicotv.cc/api/player/11" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn F1', '(zicotv)', 'https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png'); return false;"><img src="https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png"><div class="card-body"><div class="card-title">Dazn F1<p>(zicotv)</p></div></div></a>
+<a href="https://embedme.click/player/3/60" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn F1', '(embedme)', 'https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png'); return false;"><img src="https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png"><div class="card-body"><div class="card-title">Dazn F1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/60" class="card" data-categoria="Zona Dazn" onclick="abrirReproductor(this, this.href, 'Dazn F1', '(bolaloca)', 'https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png'); return false;"><img src="https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png"><div class="card-body"><div class="card-title">Dazn F1<p>(bolaloca)</p></div></div></a>
+<a href="https://latamplay1.click/channel/dsports.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 1', '(latamplay1)', 'https://i.postimg.cc/43NYNsBZ/DSports.png'); return false;"><img src="https://i.postimg.cc/43NYNsBZ/DSports.png"><div class="card-body"><div class="card-title">Dsports 1<p>(latamplay1)</p></div></div></a>
+<a href="https://embedme.click/player/3/94" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 1', '(embedme)', 'https://i.postimg.cc/43NYNsBZ/DSports.png'); return false;"><img src="https://i.postimg.cc/43NYNsBZ/DSports.png"><div class="card-body"><div class="card-title">Dsports 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/94" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 1', '(bolaloca)', 'https://i.postimg.cc/43NYNsBZ/DSports.png'); return false;"><img src="https://i.postimg.cc/43NYNsBZ/DSports.png"><div class="card-body"><div class="card-title">Dsports 1<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/directv-sports-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 1', '(tvporint)', 'https://i.postimg.cc/43NYNsBZ/DSports.png'); return false;"><img src="https://i.postimg.cc/43NYNsBZ/DSports.png"><div class="card-body"><div class="card-title">Dsports 1<p>(tvporint)</p></div></div></a>
+<a href="https://embedme.click/player/3/95" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 2', '(embedme)', 'https://i.postimg.cc/fyFcYkqx/DSports2.png'); return false;"><img src="https://i.postimg.cc/fyFcYkqx/DSports2.png"><div class="card-body"><div class="card-title">Dsports 2<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/95" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 2', '(bolaloca)', 'https://i.postimg.cc/fyFcYkqx/DSports2.png'); return false;"><img src="https://i.postimg.cc/fyFcYkqx/DSports2.png"><div class="card-body"><div class="card-title">Dsports 2<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/directv-sports-2-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Dsports 2', '(tvporint)', 'https://i.postimg.cc/fyFcYkqx/DSports2.png'); return false;"><img src="https://i.postimg.cc/fyFcYkqx/DSports2.png"><div class="card-body"><div class="card-title">Dsports 2<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-149.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 1', '(daddylive)', 'https://i.postimg.cc/pXY3gZTy/ESPN1.png'); return false;"><img src="https://i.postimg.cc/pXY3gZTy/ESPN1.png"><div class="card-body"><div class="card-title">Espn 1<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/espn/op2.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 1', '(zonatv)', 'https://i.postimg.cc/pXY3gZTy/ESPN1.png'); return false;"><img src="https://i.postimg.cc/pXY3gZTy/ESPN1.png"><div class="card-body"><div class="card-title">Espn 1<p>(zonatv)</p></div></div></a>
+<a href="https://embedme.click/player/3/87" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 1', '(embedme)', 'https://i.postimg.cc/pXY3gZTy/ESPN1.png'); return false;"><img src="https://i.postimg.cc/pXY3gZTy/ESPN1.png"><div class="card-body"><div class="card-title">Espn 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/87" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 1', '(bolaloca)', 'https://i.postimg.cc/pXY3gZTy/ESPN1.png'); return false;"><img src="https://i.postimg.cc/pXY3gZTy/ESPN1.png"><div class="card-body"><div class="card-title">Espn 1<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/espn-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 1', '(tvporint)', 'https://i.postimg.cc/pXY3gZTy/ESPN1.png'); return false;"><img src="https://i.postimg.cc/pXY3gZTy/ESPN1.png"><div class="card-body"><div class="card-title">Espn 1<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-150.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 2', '(daddylive)', 'https://i.postimg.cc/43kY0sFz/ESPN2.png'); return false;"><img src="https://i.postimg.cc/43kY0sFz/ESPN2.png"><div class="card-body"><div class="card-title">Espn 2<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/espn2/op2.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 2', '(zonatv)', 'https://i.postimg.cc/43kY0sFz/ESPN2.png'); return false;"><img src="https://i.postimg.cc/43kY0sFz/ESPN2.png"><div class="card-body"><div class="card-title">Espn 2<p>(zonatv)</p></div></div></a>
+<a href="https://embedme.click/player/3/88" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 2', '(embedme)', 'https://i.postimg.cc/43kY0sFz/ESPN2.png'); return false;"><img src="https://i.postimg.cc/43kY0sFz/ESPN2.png"><div class="card-body"><div class="card-title">Espn 2<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/88" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 2', '(bolaloca)', 'https://i.postimg.cc/43kY0sFz/ESPN2.png'); return false;"><img src="https://i.postimg.cc/43kY0sFz/ESPN2.png"><div class="card-body"><div class="card-title">Espn 2<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/espn-2-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 2', '(tvporint)', 'https://i.postimg.cc/43kY0sFz/ESPN2.png'); return false;"><img src="https://i.postimg.cc/43kY0sFz/ESPN2.png"><div class="card-body"><div class="card-title">Espn 2<p>(tvporint)</p></div></div></a>
+<a href="https://embedme.click/player/3/89" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 3', '(embedme)', 'https://i.postimg.cc/fyf4Mjwz/ESPN3.png'); return false;"><img src="https://i.postimg.cc/fyf4Mjwz/ESPN3.png"><div class="card-body"><div class="card-title">Espn 3<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/89" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 3', '(bolaloca)', 'https://i.postimg.cc/fyf4Mjwz/ESPN3.png'); return false;"><img src="https://i.postimg.cc/fyf4Mjwz/ESPN3.png"><div class="card-body"><div class="card-title">Espn 3<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/espn-3-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Espn 3', '(tvporint)', 'https://i.postimg.cc/fyf4Mjwz/ESPN3.png'); return false;"><img src="https://i.postimg.cc/fyf4Mjwz/ESPN3.png"><div class="card-body"><div class="card-title">Espn 3<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-767.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 1', '(daddylive)', 'https://i.postimg.cc/15jNWQjC/foxsport-AR.png'); return false;"><img src="https://i.postimg.cc/15jNWQjC/foxsport-AR.png"><div class="card-body"><div class="card-title">Fox Sports 1<p>(daddylive)</p></div></div></a>
+<a href="https://gollibre.com/total/stream-767.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 1', '(zonatv)', 'https://i.postimg.cc/15jNWQjC/foxsport-AR.png'); return false;"><img src="https://i.postimg.cc/15jNWQjC/foxsport-AR.png"><div class="card-body"><div class="card-title">Fox Sports 1<p>(zonatv)</p></div></div></a>
+<a href="https://embedme.click/player/3/78" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 1', '(embedme)', 'https://i.postimg.cc/15jNWQjC/foxsport-AR.png'); return false;"><img src="https://i.postimg.cc/15jNWQjC/foxsport-AR.png"><div class="card-body"><div class="card-title">Fox Sports 1<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/78" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 1', '(bolaloca)', 'https://i.postimg.cc/15jNWQjC/foxsport-AR.png'); return false;"><img src="https://i.postimg.cc/15jNWQjC/foxsport-AR.png"><div class="card-body"><div class="card-title">Fox Sports 1<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/fox-sports-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 1', '(tvporint)', 'https://i.postimg.cc/15jNWQjC/foxsport-AR.png'); return false;"><img src="https://i.postimg.cc/15jNWQjC/foxsport-AR.png"><div class="card-body"><div class="card-title">Fox Sports 1<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-788.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 2', '(daddylive)', 'https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png'); return false;"><img src="https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png"><div class="card-body"><div class="card-title">Fox Sports 2<p>(daddylive)</p></div></div></a>
+<a href="https://zonatv.space/canales/fox-sports2/op2.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 2', '(zonatv)', 'https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png'); return false;"><img src="https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png"><div class="card-body"><div class="card-title">Fox Sports 2<p>(zonatv)</p></div></div></a>
+<a href="https://embedme.click/player/3/79" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 2', '(embedme)', 'https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png'); return false;"><img src="https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png"><div class="card-body"><div class="card-title">Fox Sports 2<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/79" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 2', '(bolaloca)', 'https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png'); return false;"><img src="https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png"><div class="card-body"><div class="card-title">Fox Sports 2<p>(bolaloca)</p></div></div></a>
+<a href="https://www.tvporinternet.org/fox-sports-2-en-vivo-por-internet.html" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 2', '(tvporint)', 'https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png'); return false;"><img src="https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png"><div class="card-body"><div class="card-title">Fox Sports 2<p>(tvporint)</p></div></div></a>
+<a href="https://dlhd.st/watch/stream-789.php" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 3', '(daddylive)', 'https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png'); return false;"><img src="https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png"><div class="card-body"><div class="card-title">Fox Sports 3<p>(daddylive)</p></div></div></a>
+<a href="https://embedme.click/player/3/80" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 3', '(embedme)', 'https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png'); return false;"><img src="https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png"><div class="card-body"><div class="card-title">Fox Sports 3<p>(embedme)</p></div></div></a>
+<a href="https://bolaloca.my/player/capo/80" class="card" data-categoria="Canales Latinos" onclick="abrirReproductor(this, this.href, 'Fox Sports 3', '(bolaloca)', 'https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png'); return false;"><img src="https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png"><div class="card-body"><div class="card-title">Fox Sports 3<p>(bolaloca)</p></div></div></a>
+
+</div>
+
+    <div id="pantalla-reproduccion" class="hidden">
+        <div class="marco-reproduccion">
+            <div class="info-reproduccion-header">
+                <img id="repro-logo" src="" alt="Logo">
+                <div class="info-texto">
+                    <h3 id="repro-titulo">Nombre Canal</h3>
+                    <span id="repro-servidor">Servidor</span>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <main class="main-container">
-        <div class="channels-grid" id="channelsGrid">
-            </div>
-    </main>
+            <button class="btn-cerrar-reproduccion" onclick="cerrarReproductor()">CERRAR</button>
+
+            <iframe id="iframe-reproductor" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+	
+
 
     <script>
-        const CHANNELS_DATA = [
-		
-// LA LIGA
-            { id: 1, name: "LaLiga/Dazn", server: "sportzonline", serverKey: "sportzonline", category: "La Liga", categoryLabel: "La Liga", url: "https://sportzonline.click/channels/hd/hd6.php", logo: "https://i.postimg.cc/nr8tQ8cX/La-Liga-Tv-Dazn-La-Liga.png" },
-            { id: 2, name: "M. LaLiga", server: "daddylive", serverKey: "daddylive", category: "La Liga", categoryLabel: "La Liga", url: "https://dlhd.st/watch/stream-84.php", logo: "https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png" },
-            { id: 3, name: "M. LaLiga", server: "zonatv", serverKey: "zonatv", category: "La Liga", categoryLabel: "La Liga", url: "https://zonatv.space/canales/laliga/", logo: "https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png" },
-            { id: 4, name: "M. LaLiga", server: "embedme", serverKey: "embedme", category: "La Liga", categoryLabel: "La Liga", url: "https://embedme.click/player/3/49", logo: "https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png" },
-            { id: 5, name: "M. LaLiga", server: "bolaloca", serverKey: "bolaloca", category: "La Liga", categoryLabel: "La Liga", url: "https://bolaloca.my/player/capo/49", logo: "https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png" },
-            { id: 6, name: "M. LaLiga", server: "tvporint", serverKey: "tvporint", category: "La Liga", categoryLabel: "La Liga", url: "https://www.tvporinternet2.com/movistar-la-liga-en-vivo-por-internet.html", logo: "https://i.postimg.cc/0Q5CtMNJ/La-Liga-TV-Logo.png" },
-            { id: 7, name: "Dazn LaLiga", server: "daddylive", serverKey: "daddylive", category: "La Liga", categoryLabel: "La Liga", url: "https://dlhd.st/watch/stream-538.php", logo: "https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png" },
-            { id: 8, name: "Dazn LaLiga", server: "zonatv", serverKey: "zonatv", category: "La Liga", categoryLabel: "La Liga", url: "https://zonatv.space/canales/dazn-laliga/", logo: "https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png" },
-            { id: 9, name: "Dazn LaLiga", server: "embedme", serverKey: "embedme", category: "La Liga", categoryLabel: "La Liga", url: "https://embedme.click/player/3/51", logo: "https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png" },
-            { id: 10, name: "Dazn LaLiga", server: "bolaloca", serverKey: "bolaloca", category: "La Liga", categoryLabel: "La Liga", url: "https://bolaloca.my/player/capo/51", logo: "https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png" },
-            { id: 11, name: "Dazn LaLiga", server: "tvporint", serverKey: "tvporint", category: "La Liga", categoryLabel: "La Liga", url: "https://www.tvporinternet2.com/dazn-la-liga-en-vivo-por-internet.html", logo: "https://i.postimg.cc/9M5NptRX/DAZN-La-Liga-Logo.png" },
-            { id: 12, name: "Espn Deportes", server: "daddylive", serverKey: "daddylive", category: "La Liga", categoryLabel: "La Liga", url: "https://dlhd.st/watch/stream-375.php", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 13, name: "Espn Deportes", server: "zonatv", serverKey: "zonatv", category: "La Liga", categoryLabel: "La Liga", url: "https://zonatv.space/canales/espn-deportes/", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 14, name: "Espn Deportes", server: "embedme", serverKey: "embedme", category: "La Liga", categoryLabel: "La Liga", url: "https://embedme.click/player/3/71", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 15, name: "Espn Deportes", server: "asiria", serverKey: "asiria", category: "La Liga", categoryLabel: "La Liga", url: "https://asiria.is/espndeportes.php", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 16, name: "Espn Deportes", server: "nexgen", serverKey: "nexgen", category: "La Liga", categoryLabel: "La Liga", url: "https://tx3.nexgen.bz:4000/ESPN_DEPORTES/index.m3u8", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 17, name: "Espn Deportes", server: "bolaloca", serverKey: "bolaloca", category: "La Liga", categoryLabel: "La Liga", url: "https://bolaloca.my/player/capo/71", logo: "https://i.postimg.cc/4dPchzfK/Espn-deportes.png" },
-            { id: 18, name: "Sky S. LaLiga", server: "a03h", serverKey: "a03h", category: "La Liga", categoryLabel: "La Liga", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", logo: "https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png" },
-            { id: 19, name: "Sky S. LaLiga", server: "tvporint", serverKey: "tvporint", category: "La Liga", categoryLabel: "La Liga", url: "https://www.tvporinternet2.com/sky-sports-la-liga-en-vivo-por-internet.html", logo: "https://i.postimg.cc/9F8LhgZN/Sky-Sports-La-Liga-Logo.png" },
-            { id: 20, name: "Página Web LaLiga", server: "livetv", serverKey: "livetv", category: "La Liga", categoryLabel: "La Liga", url: "https://livetv.sx/es/competitions/15/", logo: "https://i.postimg.cc/FRTD23wN/Pagina-Web-La-Liga.png" },
-// CHAMPIONS LEAGUE
-            { id: 21, name: "L. Campeones", server: "daddylive", serverKey: "daddylive", category: "Champions League", categoryLabel: "Champions League", url: "https://dlhd.st/watch/stream-435.php", logo: "https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png" },
-            { id: 22, name: "L. Campeones", server: "zonatv", serverKey: "zonatv", category: "Champions League", categoryLabel: "Champions League", url: "https://zonatv.space/canales/campeones/", logo: "https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png" },
-            { id: 23, name: "L. Campeones", server: "embedme", serverKey: "embedme", category: "Champions League", categoryLabel: "Champions League", url: "https://embedme.click/player/3/61", logo: "https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png" },
-            { id: 24, name: "L. Campeones", server: "bolaloca", serverKey: "bolaloca", category: "Champions League", categoryLabel: "Champions League", url: "https://bolaloca.my/player/capo/61", logo: "https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png" },
-            { id: 25, name: "L. Campeones", server: "tvporint", serverKey: "tvporint", category: "Champions League", categoryLabel: "Champions League", url: "https://www.tvporinternet2.com/movistar-liga-de-campeones-en-vivo-por-internet.html", logo: "https://i.postimg.cc/5tWWqrXR/Liga-de-Campeones-Logo.png" },
-            { id: 26, name: "Tudn", server: "latamplay1", serverKey: "latamplay1", category: "Champions League", categoryLabel: "Champions League", url: "https://latamplay1.click/channel/tudnmx.html", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 27, name: "Tudn", server: "daddylive", serverKey: "daddylive", category: "Champions League", categoryLabel: "Champions League", url: "https://dlhd.st/watch/stream-66.php", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 28, name: "Tudn", server: "zonatv", serverKey: "zonatv", category: "Champions League", categoryLabel: "Champions League", url: "https://zonatv.space/canales/tudn/", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 29, name: "Tudn", server: "embedme", serverKey: "embedme", category: "Champions League", categoryLabel: "Champions League", url: "https://embedme.click/player/3/68", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 30, name: "Tudn", server: "a04t", serverKey: "a04t", category: "Champions League", categoryLabel: "Champions League", url: "http://45.5.117.57:8999/play/a04t/index.m3u8", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 31, name: "Tudn", server: "bolaloca", serverKey: "bolaloca", category: "Champions League", categoryLabel: "Champions League", url: "https://bolaloca.my/player/capo/68", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 32, name: "Tudn", server: "tvporint", serverKey: "tvporint", category: "Champions League", categoryLabel: "Champions League", url: "https://www.tvporinternet2.com/tudn-en-vivo-por-internet.html", logo: "https://i.postimg.cc/QtMLX404/TUDN-Logo.png" },
-            { id: 33, name: "Página Web Champions League", server: "livetv", serverKey: "livetv", category: "Champions League", categoryLabel: "Champions League", url: "https://livetv.sx/es/competitions/7/", logo: "https://i.postimg.cc/Hs0V3LQk/P-gina-Web-Champions-League.png" },
-// LIGA ACB
-            { id: 34, name: "ACB Dazn 1", server: "embedme", serverKey: "embedme", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://embedme.click/player/3/155", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 35, name: "ACB Dazn 1", server: "bolaloca", serverKey: "bolaloca", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://bolaloca.my/player/capo/155", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 36, name: "ACB Dazn 2", server: "embedme", serverKey: "embedme", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://embedme.click/player/3/156", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 37, name: "ACB Dazn 2", server: "bolaloca", serverKey: "bolaloca", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://bolaloca.my/player/capo/156", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 38, name: "ACB Dazn 3", server: "embedme", serverKey: "embedme", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://embedme.click/player/3/157", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 39, name: "ACB Dazn 3", server: "bolaloca", serverKey: "bolaloca", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://bolaloca.my/player/capo/157", logo: "https://cdn.gigantes.com/wp-content/uploads/sites/4/2025/09/acb-dazn-liga-endesa-2526.jpg" },
-            { id: 40, name: "TVC Deportes", server: "daddylive", serverKey: "daddylive", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://dlhd.st/watch/stream-932.php", logo: "https://s3.superluchas.com/wp-content/uploads/20190320114903/tvc_deportes.png" },
-            { id: 41, name: "Página Web Liga ACB", server: "livetv", serverKey: "livetv", category: "Liga ACB", categoryLabel: "Liga ACB", url: "https://livetv.sx/es/competitions/215/", logo: "https://i.postimg.cc/hGNDKF9Y/P-gina-Web-Liga-ACB.png" },
-// EUROLIGA
-            { id: 42, name: "Movistar+", server: "daddylive", serverKey: "daddylive", category: "Euroliga", categoryLabel: "Euroliga", url: "https://dlhd.st/watch/stream-437.php", logo: "https://i.postimg.cc/Gtd7zdzm/movistar.png" },
-            { id: 43, name: "Movistar+", server: "zonatv", serverKey: "zonatv", category: "Euroliga", categoryLabel: "Euroliga", url: "https://zonatv.space/canales/canal-0/", logo: "https://i.postimg.cc/Gtd7zdzm/movistar.png" },
-            { id: 44, name: "M. Deportes 1", server: "daddylive", serverKey: "daddylive", category: "Euroliga", categoryLabel: "Euroliga", url: "https://dlhd.st/watch/stream-436.php", logo: "https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png" },
-            { id: 45, name: "M. Deportes 1", server: "zonatv", serverKey: "zonatv", category: "Euroliga", categoryLabel: "Euroliga", url: "https://zonatv.space/canales/deportes/", logo: "https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png" },
-            { id: 46, name: "M. Deportes 1", server: "embedme", serverKey: "embedme", category: "Euroliga", categoryLabel: "Euroliga", url: "https://embedme.click/player/3/62", logo: "https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png" },
-            { id: 47, name: "M. Deportes 1", server: "bolaloca", serverKey: "bolaloca", category: "Euroliga", categoryLabel: "Euroliga", url: "https://bolaloca.my/player/capo/62", logo: "https://i.postimg.cc/HxZp22D8/movistar-deportes-Logo.png" },
-            { id: 48, name: "M. Deportes 2", server: "daddylive", serverKey: "daddylive", category: "Euroliga", categoryLabel: "Euroliga", url: "https://dlhd.st/watch/stream-438.php", logo: "https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png" },
-            { id: 49, name: "M. Deportes 2", server: "zonatv", serverKey: "zonatv", category: "Euroliga", categoryLabel: "Euroliga", url: "https://zonatv.space/canales/deportes2/", logo: "https://i.postimg.cc/GhvMnHS2/movistar-deportes-2-Logo.png" },
-            { id: 50, name: "Vamos", server: "daddylive", serverKey: "daddylive", category: "Euroliga", categoryLabel: "Euroliga", url: "https://dlhd.st/watch/stream-521.php", logo: "https://i.postimg.cc/mg44mdVP/Vamos-Logo.png" },
-            { id: 51, name: "Vamos", server: "zonatv", serverKey: "zonatv", category: "Euroliga", categoryLabel: "Euroliga", url: "https://zonatv.space/canales/vamos/", logo: "https://i.postimg.cc/mg44mdVP/Vamos-Logo.png" },
-            { id: 52, name: "Vamos", server: "embedme", serverKey: "embedme", category: "Euroliga", categoryLabel: "Euroliga", url: "https://embedme.click/player/3/55", logo: "https://i.postimg.cc/mg44mdVP/Vamos-Logo.png" },
-            { id: 53, name: "Vamos", server: "bolaloca", serverKey: "bolaloca", category: "Euroliga", categoryLabel: "Euroliga", url: "https://bolaloca.my/player/capo/55", logo: "https://i.postimg.cc/mg44mdVP/Vamos-Logo.png" },
-            { id: 54, name: "Página Web Euroliga", server: "livetv", serverKey: "livetv", category: "Euroliga", categoryLabel: "Euroliga", url: "https://livetv.sx/es/competitions/41/", logo: "https://i.postimg.cc/ry1V2Pzh/P-gina-Web-Euroliga.png" },
-// ZONA DAZN
-            { id: 55, name: "Dazn 1", server: "daddylive", serverKey: "daddylive", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://dlhd.st/watch/stream-445.php", logo: "https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png" },
-            { id: 56, name: "Dazn 1", server: "zonatv", serverKey: "zonatv", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://zonatv.space/canales/dazn1/", logo: "https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png" },
-            { id: 57, name: "Dazn 1", server: "embedme", serverKey: "embedme", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://embedme.click/player/3/56", logo: "https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png" },
-            { id: 58, name: "Dazn 1", server: "bolaloca", serverKey: "bolaloca", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://bolaloca.my/player/capo/56", logo: "https://i.ibb.co/BNcPbdV/1-0-1-76-A4-416-1-C00000-0-0-0.png" },
-            { id: 59, name: "Dazn 2", server: "daddylive", serverKey: "daddylive", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://dlhd.st/watch/stream-446.php", logo: "https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png" },
-            { id: 60, name: "Dazn 2", server: "zonatv", serverKey: "zonatv", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://zonatv.space/canales/dazn2/", logo: "https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png" },
-            { id: 61, name: "Dazn 2", server: "embedme", serverKey: "embedme", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://embedme.click/player/3/57", logo: "https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png" },
-            { id: 62, name: "Dazn 2", server: "bolaloca", serverKey: "bolaloca", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://bolaloca.my/player/capo/57", logo: "https://i.ibb.co/C7RpvcF/1-0-1-772-A-416-1-C00000-0-0-0.png" },
-            { id: 63, name: "Dazn 3", server: "daddylive", serverKey: "daddylive", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://dlhd.st/watch/stream-447.php", logo: "https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png" },
-            { id: 64, name: "Dazn 3", server: "zonatv", serverKey: "zonatv", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://zonatv.space/canales/dazn3/", logo: "https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png" },
-            { id: 65, name: "Dazn 3", server: "embedme", serverKey: "embedme", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://embedme.click/player/3/58", logo: "https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png" },
-            { id: 66, name: "Dazn 3", server: "bolaloca", serverKey: "bolaloca", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://bolaloca.my/player/capo/58", logo: "https://i.ibb.co/3NQ78Sx/1-0-1-77-BE-40-A-1-C00000-0-0-0.png" },
-            { id: 67, name: "Dazn 4", server: "daddylive", serverKey: "daddylive", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://dlhd.st/watch/stream-448.php", logo: "https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png" },
-            { id: 68, name: "Dazn 4", server: "zonatv", serverKey: "zonatv", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://zonatv.space/canales/dazn4/", logo: "https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png" },
-            { id: 69, name: "Dazn 4", server: "embedme", serverKey: "embedme", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://embedme.click/player/3/59", logo: "https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png" },
-            { id: 70, name: "Dazn 4", server: "bolaloca", serverKey: "bolaloca", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://bolaloca.my/player/capo/59", logo: "https://i.ibb.co/2Mm09qs/1-0-1-77-C0-40-A-1-C00000-0-0-0.png" },
-            { id: 71, name: "Dazn F1", server: "daddylive", serverKey: "daddylive", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://dlhd.st/watch/stream-537.php", logo: "https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png" },
-            { id: 72, name: "Dazn F1", server: "zonatv", serverKey: "zonatv", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://zonatv.space/canales/formula1/", logo: "https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png" },
-            { id: 73, name: "Dazn F1", server: "embedme", serverKey: "embedme", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://embedme.click/player/3/60", logo: "https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png" },
-            { id: 74, name: "Dazn F1", server: "bolaloca", serverKey: "bolaloca", category: "Zona Dazn", categoryLabel: "Zona Dazn", url: "https://bolaloca.my/player/capo/60", logo: "https://i.postimg.cc/j2Z3Y01j/DAZN-F1-Logo.png" },
-// CANALES LATINOS
-            { id: 75, name: "Dsports 1", server: "latamplay1", serverKey: "latamplay1", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://latamplay1.click/channel/dsports.html", logo: "https://i.postimg.cc/43NYNsBZ/DSports.png" },
-            { id: 76, name: "Dsports 1", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/94", logo: "https://i.postimg.cc/43NYNsBZ/DSports.png" },
-            { id: 77, name: "Dsports 1", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/94", logo: "https://i.postimg.cc/43NYNsBZ/DSports.png" },
-            { id: 78, name: "Dsports 1", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/directv-sports-en-vivo-por-internet.html", logo: "https://i.postimg.cc/43NYNsBZ/DSports.png" },
-            { id: 79, name: "Dsports 2", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/95", logo: "https://i.postimg.cc/fyFcYkqx/DSports2.png" },
-            { id: 80, name: "Dsports 2", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/95", logo: "https://i.postimg.cc/fyFcYkqx/DSports2.png" },
-            { id: 81, name: "Dsports 2", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/directv-sports-2-en-vivo-por-internet.html", logo: "https://i.postimg.cc/fyFcYkqx/DSports2.png" },
-            { id: 82, name: "Espn 1", server: "daddylive", serverKey: "daddylive", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://dlhd.st/watch/stream-149.php", logo: "https://i.postimg.cc/pXY3gZTy/ESPN1.png" },
-            { id: 83, name: "Espn 1", server: "zonatv", serverKey: "zonatv", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://zonatv.space/canales/espn/op2.php", logo: "https://i.postimg.cc/pXY3gZTy/ESPN1.png" },
-            { id: 84, name: "Espn 1", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/87", logo: "https://i.postimg.cc/pXY3gZTy/ESPN1.png" },
-            { id: 85, name: "Espn 1", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/87", logo: "https://i.postimg.cc/pXY3gZTy/ESPN1.png" },
-            { id: 86, name: "Espn 1", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/espn-en-vivo-por-internet.html", logo: "https://i.postimg.cc/pXY3gZTy/ESPN1.png" },
-            { id: 87, name: "Espn 2", server: "daddylive", serverKey: "daddylive", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://dlhd.st/watch/stream-150.php", logo: "https://i.postimg.cc/43kY0sFz/ESPN2.png" },
-            { id: 88, name: "Espn 2", server: "zonatv", serverKey: "zonatv", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://zonatv.space/canales/espn2/op2.php", logo: "https://i.postimg.cc/43kY0sFz/ESPN2.png" },
-            { id: 89, name: "Espn 2", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/88", logo: "https://i.postimg.cc/43kY0sFz/ESPN2.png" },
-            { id: 90, name: "Espn 2", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/88", logo: "https://i.postimg.cc/43kY0sFz/ESPN2.png" },
-            { id: 91, name: "Espn 2", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/espn-2-en-vivo-por-internet.html", logo: "https://i.postimg.cc/43kY0sFz/ESPN2.png" },
-            { id: 92, name: "Espn 3", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/89", logo: "https://i.postimg.cc/fyf4Mjwz/ESPN3.png" },
-            { id: 93, name: "Espn 3", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/89", logo: "https://i.postimg.cc/fyf4Mjwz/ESPN3.png" },
-            { id: 94, name: "Espn 3", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/espn-3-en-vivo-por-internet.html", logo: "https://i.postimg.cc/fyf4Mjwz/ESPN3.png" },
-            { id: 95, name: "Fox Sports 1", server: "daddylive", serverKey: "daddylive", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://dlhd.st/watch/stream-767.php", logo: "https://i.postimg.cc/15jNWQjC/foxsport-AR.png" },
-            { id: 96, name: "Fox Sports 1", server: "zonatv", serverKey: "zonatv", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://gollibre.com/total/stream-767.php", logo: "https://i.postimg.cc/15jNWQjC/foxsport-AR.png" },
-            { id: 97, name: "Fox Sports 1", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/78", logo: "https://i.postimg.cc/15jNWQjC/foxsport-AR.png" },
-            { id: 98, name: "Fox Sports 1", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/78", logo: "https://i.postimg.cc/15jNWQjC/foxsport-AR.png" },
-            { id: 99, name: "Fox Sports 1", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/fox-sports-en-vivo-por-internet.html", logo: "https://i.postimg.cc/15jNWQjC/foxsport-AR.png" },
-            { id: 100, name: "Fox Sports 2", server: "daddylive", serverKey: "daddylive", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://dlhd.st/watch/stream-788.php", logo: "https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png" },
-            { id: 101, name: "Fox Sports 2", server: "zonatv", serverKey: "zonatv", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://zonatv.space/canales/fox-sports2/op2.php", logo: "https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png" },
-            { id: 102, name: "Fox Sports 2", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/79", logo: "https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png" },
-            { id: 103, name: "Fox Sports 2", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/79", logo: "https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png" },
-            { id: 104, name: "Fox Sports 2", server: "tvporint", serverKey: "tvporint", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://www.tvporinternet2.com/fox-sports-2-en-vivo-por-internet.html", logo: "https://i.postimg.cc/Y0mwMQtm/foxsport2-AR.png" },
-            { id: 105, name: "Fox Sports 3", server: "daddylive", serverKey: "daddylive", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://dlhd.st/watch/stream-789.php", logo: "https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png" },
-            { id: 106, name: "Fox Sports 3", server: "embedme", serverKey: "embedme", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://embedme.click/player/3/80", logo: "https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png" },
-            { id: 107, name: "Fox Sports 3", server: "bolaloca", serverKey: "bolaloca", category: "Canales Latinos", categoryLabel: "Canales Latinos", url: "https://bolaloca.my/player/capo/80", logo: "https://i.postimg.cc/RVdz9CBd/foxsport3-AR.png" }];
-
-
-
-
-        let currentCategory = 'all';
-
-        function renderChannels(category) {
-            const grid = document.getElementById('channelsGrid');
-            const counter = document.getElementById('visibleCounter');
-            const sectionTitle = document.getElementById('currentSectionTitle');
-            
-            grid.innerHTML = '';
-
-            const filtered = category === 'all' 
-                ? CHANNELS_DATA 
-                : CHANNELS_DATA.filter(ch => ch.category === category);
-
-            counter.textContent = `Mostrando ${filtered.length} canales`;
-
-            if (category !== 'all') {
-                const activeBtn = document.querySelector(`.menu-cat-btn[data-category="${category}"]`);
-                const catName = activeBtn ? activeBtn.querySelector('.menu-cat-name').textContent : category;
-                sectionTitle.innerHTML = `<i class="fa-solid fa-layer-group"></i><span>${catName}</span>`;
-            } else {
-                sectionTitle.innerHTML = `<i class="fa-solid fa-layer-group"></i><span>Todos los Canales</span>`;
-            }
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-face-sad-tear"></i>
-                        <h3>No hay canales disponibles</h3>
-                        <p>Prueba a seleccionar otra categoría desde el menú superior.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filtered.forEach(channel => {
-                const card = document.createElement('div');
-                card.className = 'channel-card';
-                card.setAttribute('data-id', channel.id);
-                card.setAttribute('tabindex', '0');
-                
-                card.innerHTML = `
-                    <div class="card-logo-container">
-                        <img src="${channel.logo}" alt="${channel.name}" class="card-logo" loading="lazy">
-                    </div>
-                    <div class="card-info">
-                        <span class="card-channel-name">${channel.name}</span>
-                        <span class="card-category-name">${channel.categoryLabel}</span>
-                        <span class="server-badge ${channel.serverKey}">
-                            <i class="fa-solid fa-server"></i> ${channel.server}
-                        </span>
-                    </div>
-                `;
-
-                card.addEventListener('click', () => {
-                    openChannelInNewPage(channel);
-                });
-
-                grid.appendChild(card);
-            });
-        }
-
-        function openChannelInNewPage(channel) {
-            const playerWindow = window.open('', '_blank');
-            if (!playerWindow) return;
-
-            const isM3U8 = channel.url.includes('.m3u8') || channel.type === 'm3u8';
-
-            playerWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${channel.name} - Deportes ERB</title>
-                    <link rel="preconnect" href="https://fonts.googleapis.com">
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-                    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"><\/script>
-                    <style>
-                        * { margin: 0; padding: 0; box-sizing: border-box; }
-                        body, html {
-                            width: 100%;
-                            height: 100%;
-                            background-color: #0b0f19;
-                            font-family: 'Plus Jakarta Sans', sans-serif;
-                            color: #f8fafc;
-                            display: flex;
-                            flex-direction: column;
-                            overflow: hidden;
-                        }
-                        .player-header {
-                            background: rgba(11, 15, 25, 0.95);
-                            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                            padding: 10px 16px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            flex-wrap: wrap;
-                            gap: 10px;
-                            flex-shrink: 0;
-                        }
-                        .header-left {
-                            display: flex;
-                            align-items: center;
-                            gap: 12px;
-                            justify-content: flex-start;
-                        }
-                        .header-right {
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                        }
-                        .channel-logo-wrap {
-                            width: 40px;
-                            height: 40px;
-                            background: #ffffff;
-                            border-radius: 8px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 4px;
-                            flex-shrink: 0;
-                        }
-                        .channel-logo-wrap img {
-                            max-width: 100%;
-                            max-height: 100%;
-                            object-fit: contain;
-                        }
-                        .channel-meta {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 2px;
-                            align-items: flex-start;
-                        }
-                        .channel-name {
-                            font-size: 0.95rem;
-                            font-weight: 700;
-                            color: #ffffff;
-                            line-height: 1.2;
-                        }
-                        .server-tag {
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 4px;
-                            font-size: 0.7rem;
-                            font-weight: 700;
-                            text-transform: uppercase;
-                            color: #00d2ff;
-                            background: rgba(0, 210, 255, 0.1);
-                            padding: 2px 6px;
-                            border-radius: 4px;
-                        }
-                        .player-btn {
-                            background: rgba(255, 255, 255, 0.06);
-                            border: 1px solid rgba(255, 255, 255, 0.08);
-                            color: #f8fafc;
-                            padding: 6px 12px;
-                            border-radius: 8px;
-                            font-size: 0.8rem;
-                            font-weight: 600;
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 6px;
-                            cursor: pointer;
-                            text-decoration: none;
-                            transition: background 0.2s;
-                        }
-                        .player-btn:hover {
-                            background: rgba(255, 255, 255, 0.12);
-                        }
-                        
-                        /* Marco envolvente adaptable para el reproductor */
-                        .player-wrapper-outer {
-                            flex: 1;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            padding: 15px;
-                            background: #0b0f19;
-                            width: 100%;
-                            height: calc(100vh - 61px);
-                            overflow: hidden;
-                        }
-
-                        .iframe-container {
-                            width: 100%;
-                            height: 100%;
-                            max-width: 100%;
-                            max-height: 100%;
-                            background: #000;
-                            position: relative;
-                            border-radius: 12px;
-                            border: 2px solid rgba(0, 210, 255, 0.3);
-                            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.15);
-                            overflow: hidden;
-                            display: flex;
-                            flex-direction: column;
-                        }
-
-                        iframe, video {
-                            width: 100%;
-                            height: 100%;
-                            border: none;
-                            flex: 1;
-                            object-fit: contain; /* Adapta y escala el video perfectamente */
-                            background: #000;
-                        }
-
-                        @media (max-width: 768px) {
-                            .player-header {
-                                flex-direction: column;
-                                align-items: stretch;
-                                padding: 10px;
-                                gap: 8px;
-                            }
-                            .header-right {
-                                width: 100%;
-                                display: flex;
-                                justify-content: flex-end;
-                            }
-                            .player-btn {
-                                flex: 1;
-                                justify-content: center;
-                            }
-                            .player-wrapper-outer {
-                                padding: 5px;
-                                height: calc(100vh - 100px);
-                            }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <header class="player-header">
-                        <div class="header-left">
-                            <div class="channel-logo-wrap">
-                                <img src="${channel.logo}" alt="${channel.name}">
-                            </div>
-                            <div class="channel-meta">
-                                <span class="channel-name">${channel.name}</span>
-                                <span class="server-tag"><i class="fa-solid fa-server"></i> ${channel.server}</span>
-                            </div>
-                        </div>
-                        <div class="header-right">
-                            <a href="javascript:window.close();" class="player-btn">
-                                <i class="fa-solid fa-arrow-left"></i> Volver
-                            </a>
-                        </div>
-                    </header>
-                    <div class="player-wrapper-outer">
-                        <div class="iframe-container" id="iframeContainer">
-                            ${isM3U8 
-                                ? `<video id="videoPlayer" controls autoplay playsinline></video>` 
-                                : `<iframe src="${channel.url}" allowfullscreen allow="encrypted-media; picture-in-picture"></iframe>`
-                            }
-                        </div>
-                    </div>
-
-                    ${isM3U8 ? `
-                    <script>
-                        const video = document.getElementById('videoPlayer');
-                        const videoSrc = "${channel.url}";
-                        if (Hls.isSupported()) {
-                            const hls = new Hls();
-                            hls.loadSource(videoSrc);
-                            hls.attachMedia(video);
-                            hls.on(Hls.Events.MANIFEST_PARSED,function() {
-                                video.play().catch(e => console.log("Autoplay bloqueado:", e));
-                            });
-                        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                            video.src = videoSrc;
-                            video.addEventListener('loadedmetadata',function() {
-                                video.play().catch(e => console.log("Autoplay bloqueado:", e));
-                            });
-                        }
-                    <\/script>` : ''}
-                </body>
-                </html>
-            `);
-            playerWindow.document.close();
-        }
-
-        function filterCategory(category) {
-            currentCategory = category;
-            
-            // Remueve la clase active de todas las categorías y la asigna únicamente a la seleccionada
-            document.querySelectorAll('.menu-cat-btn').forEach(btn => {
-                if (btn.getAttribute('data-category') === category) {
-                    btn.classList.add('active');
+        function filtrarCategoria(categoria, nombreMostrado, logoUrl) {
+            const tarjetas = document.querySelectorAll('.card');
+            tarjetas.forEach(tarjeta => {
+                if (categoria === 'todos' || tarjeta.getAttribute('data-categoria') === categoria) {
+                    tarjeta.classList.remove('hidden');
                 } else {
-                    btn.classList.remove('active');
+                    tarjeta.classList.add('hidden');
                 }
             });
-
-            renderChannels(category);
-        }
-
-        function toggleDeviceMode() {
-            const body = document.body;
-            const icon = document.getElementById('deviceModeIcon');
-            const text = document.getElementById('deviceModeText');
-            const btn = document.getElementById('deviceModeBtn');
-
-            if (!body.classList.contains('mode-tv') && !body.classList.contains('mode-mobile')) {
-                body.classList.add('mode-tv');
-                icon.className = 'fa-solid fa-tv';
-                text.textContent = 'Modo: TV';
-                btn.classList.add('active');
-            } else if (body.classList.contains('mode-tv')) {
-                body.classList.remove('mode-tv');
-                body.classList.add('mode-mobile');
-                icon.className = 'fa-solid fa-mobile-screen-button';
-                text.textContent = 'Modo: MÓVIL';
-            } else {
-                body.classList.remove('mode-mobile');
-                icon.className = 'fa-solid fa-desktop';
-                text.textContent = 'Modo: PC';
-                btn.classList.remove('active');
-            }
-        }
-
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Error al activar pantalla completa: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-
-       document.addEventListener('DOMContentLoaded', () => {
-            // Detección automática de dispositivo móvil
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            document.getElementById('categoria-actual').textContent = nombreMostrado;
             
-            if (isMobileDevice) {
-                const body = document.body;
-                const icon = document.getElementById('deviceModeIcon');
-                const text = document.getElementById('deviceModeText');
-                
-                body.classList.add('mode-mobile');
-                if (icon && text) {
-                    icon.className = 'fa-solid fa-mobile-screen-button';
-                    text.textContent = 'Modo: MÓVIL';
-                }
+            // Actualizar también el logo pequeño de la barra superior si se proporciona
+            if (logoUrl) {
+                document.getElementById('nav-logo-img').src = logoUrl;
             }
+        }
 
-            renderChannels('all');
-            setupKeyboardNavigation();
-        });
+        function seleccionarCategoriaInicio(categoria, nombreMostrado, logoUrl) {
+            document.getElementById('pagina-inicio').classList.add('hidden-start');
+            filtrarCategoria(categoria, nombreMostrado, logoUrl);
+        }
 
+        function mostrarPaginaInicio() {
+            document.getElementById('pagina-inicio').classList.remove('hidden-start');
+        }
 
-	   function setupKeyboardNavigation() {
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && document.activeElement.classList.contains('channel-card')) {
-                    const id = parseInt(document.activeElement.getAttribute('data-id'));
-                    const channel = CHANNELS_DATA.find(ch => ch.id === id);
-                    if (channel) openChannelInNewPage(channel);
-                }
-            });
+        // Funciones del reproductor integrado
+        function abrirReproductor(elemento, url, titulo, servidor, logoUrl) {
+            event.preventDefault();
+
+            document.getElementById('repro-titulo').textContent = titulo;
+            document.getElementById('repro-servidor').textContent = servidor;
+            document.getElementById('repro-logo').src = logoUrl;
+
+            document.getElementById('iframe-reproductor').src = url;
+
+            document.getElementById('pantalla-reproduccion').classList.remove('hidden');
+        }
+
+        function cerrarReproductor() {
+            document.getElementById('pantalla-reproduccion').classList.add('hidden');
+            document.getElementById('iframe-reproductor').src = '';
         }
     </script>
 </body>
