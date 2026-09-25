@@ -600,7 +600,7 @@
     </div>
 
     <!-- ================= PANTALLA / OVERLAY DE REPRODUCCIÓN ================= -->
-    <div id="reproductor-overlay">
+    <div style="margin: 0px;" id="reproductor-overlay">
         <div class="reproductor-container">
             <!-- SECCIÓN EXTERIOR SUPERIOR (Controles, info y botones fuera del marco) -->
             <div class="header-canales-top">
@@ -608,10 +608,10 @@
                 <h2>Deportes ERB</h2>
                 <div style="width: 70px; text-align: center;"></div>
             </div>
-             <div class="reproductor-footer">
+             <div style="height: 13px; background-color: rgb(0, 0, 0);" class="reproductor-footer">
                 <p style="margin: 0;"><strong>-</strong> Si Página en Blanco: Pulsar Nueva Pestaña</p>
             </div>
-            <div style="font-size: 16px; text-align: center;" class="reproductor-seccion-superior">
+            <div style="font-size: 16px; text-align: center; height: 33px; background-color: #000000; border-style: none;" class="reproductor-seccion-superior">
                 <div class="btn-flotante-info" id="infoReproductor">La Liga (futbolhoy)</div>            
                 <div class="controles-derecha">
                     <a id="btnAbrirExterno" href="" target="_blank" class="btn-flotante-externo">Nueva Pestaña↗</a>
@@ -620,8 +620,8 @@
             </div>
             
             <!-- MARCO EXCLUSIVO DEL REPRODUCTOR -->
-            <div class="reproductor-wrapper">
-                <iframe id="iframeStream" src="" allowfullscreen></iframe>
+            <div style="margin: -10px;" class="reproductor-wrapper">
+                <iframe style="height: 104%; padding: 0px; margin: -9px;" id="iframeStream" src="" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -646,14 +646,16 @@
             
             if(textoFiltro) {
                 const logosCategorias = {
-'todos': 'images/deportes-erb.png',
-'Horarios Deportivos': 'images/horarios.PNG',
-'La Liga': 'images/la-liga.PNG',
-'Champions League': 'images/champions.PNG',
-'Liga ACB': 'images/liga-acb.PNG',
-'Euroliga': 'images/euroliga.PNG',
-'Zona Dazn': 'images/zona-dazn.PNG',
-'Canales Latinos': 'images/canales-latinos.png',
+				
+'todos': 'https://www.image2url.com/r2/default/images/1789981413680-01e3dc2f-229e-4c8f-bd44-1e1fcf6573e9.png',
+'Horarios Deportivos': 'https://www.image2url.com/r2/default/images/1789981674992-66476b50-06cf-4b4e-89c3-73d110499aef.png',
+'La Liga': 'https://www.image2url.com/r2/default/images/1789982718588-4eff55a6-8d88-4060-b693-263d066a633e.png',
+'Champions League': 'https://www.image2url.com/r2/default/images/1789982167297-7ab85390-815e-4c52-96a8-90fb477e3bc7.png',
+'Liga ACB': 'https://i.imgur.com/cUofr0E.png',
+'Euroliga': 'https://i.imgur.com/OM5wSUD.png',
+'Zona Dazn': 'https://www.image2url.com/r2/default/images/1789982192214-6053df91-059d-452f-b093-82f7b2f1fc01.png',
+'Canales Latinos': 'https://www.image2url.com/r2/default/images/1789982157605-82ea2455-f9e9-4473-9269-132ea5263bb9.png',
+
 
                 };
 
