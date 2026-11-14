@@ -40,20 +40,26 @@
         }
 
         .home-container header {
-            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--bg-color);
+            padding: 10px 0 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .home-container header h1 {      /*titulo pagina principa*/
+        .home-container header h1 {      /*titulo pagina principal*/
             text-decoration: underline;
             font-size: 2.5rem;
             color: #60a5fa;
             margin: 0;
         }
 
-        .home-container header p {
+        .home-container header p {   /*Aviso Legal - pagina principal*/
             color: #94a3b8;
-            font-size: 1.1rem;
-            margin-top: 10px;
+            font-size: 0.8rem;
+            margin-top: 5px;
         }
 
          /* Grid de categorías para la página principal */
@@ -290,7 +296,7 @@
         .reproductor-container {
             width: 100%;
             max-width: 1200px;
-            height: 90vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             gap: 20px;               /*separacion botones con marco reproductor*/
@@ -408,7 +414,7 @@
         <div class="home-container">
             <header>
                 <h1>Deportes ERB</h1>
-                <p>(Portal de Deportes en Directo)</p>
+                <p>(Aviso Legal: Deportes ERB no aloja ni transmite contenido propio; solo comparte enlaces externos disponibles online públicamente.)</p>
             </header>
 
             <div class="grid-categorias-inicio">
@@ -423,9 +429,7 @@
 
             </div>
         </div>
-        <div style="text-align: center; color: yellow; font-size: 14px; padding: 15px 0;">
-            <p>Aviso Legal: Deportes ERB no aloja ni transmite contenido propio; solo comparte enlaces externos disponibles online públicamente.</p>
-        </div>
+
     </div>
 	
     <!-- ================= VISTA 2: SECCIÓN DE CANALES Y ENLACES ================= -->
@@ -672,9 +676,9 @@
             <div class="header-canales-top">
                 <p style="text-align: center;"></p>  
                 <h2>Deportes ERB</h2>
-                <div style="width: 70px; text-align: center;"></div>
+                <div style="text-align: center;"></div>
             </div>
-             <div style="height: 13px; background-color: rgb(0, 0, 0);" class="reproductor-footer">
+ 				<div style="height: 13px; background-color: rgb(0, 0, 0);" class="reproductor-footer">
                 <p style="margin: 0;"><strong>-</strong> Si Página en Blanco: Pulsar Nueva Pestaña</p>
             </div>
             <div style="font-size: 16px; text-align: center; height: 40px; background-color: #000000; border-style: none;" class="reproductor-seccion-superior">
