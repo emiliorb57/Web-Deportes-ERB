@@ -224,7 +224,7 @@
                       /* Elimina el contorno predeterminado del navegador al enfocar */
         }
 
-        .category-card img {
+        .category-card img {      /*pagina principal*/
             width: 200px;
                       /* Ancho fijo de la imagen dentro de la tarjeta de categoría */
             height: auto;
@@ -353,21 +353,6 @@
                       /* Permite envoltura flexible */
         }
 
-        .player-info-left img {
-            height: 40px;
-                      /* Altura fija de 36 píxeles para el logotipo del canal reproduciéndose */
-            width: auto;
-                      /* Ancho automático proporcional */
-            object-fit: contain;
-                      /* Ajusta la imagen sin distorsión */
-            background: #fff;
-                      /* Fondo blanco para destacar logotipos oscuros */
-            padding: 2px;
-                      /* Pequeño relleno interior de 2px */
-            border-radius: 6px;
-                      /* Esquinas ligeramente redondeadas de 6 píxeles */
-        }
-
         .player-info-left h2 {
             font-size: 18px;
                       /* Tamaño de fuente de 18 píxeles para el título del canal activo */
@@ -465,11 +450,11 @@
         }
 
         .header-action-btn {
-            background: rgba(0, 0, 0, 0.4);
+            background: brown;
                       /* Fondo oscuro semitransparente */
             border: 1px solid rgba(255, 255, 255, 0.2);
                       /* Borde blanco semitransparente */
-            color: #ffffff;
+            color: silver;
                       /* Texto en blanco */
             padding: 5px 12px;
                       /* Relleno interior de 5px vertical y 12px horizontal */
@@ -768,8 +753,8 @@
                       /* Borde grueso de color rojo definido por variable */
             border-radius: 14px;
                       /* Esquinas redondeadas de 14 píxeles */
-            padding: 4px 6px;
-                      /* Relleno interior vertical de 4px y horizontal de 6px */
+            padding: 30px 20px;
+                      /* Relleno interior vertical y horizontal */
             text-align: center;
                       /* Centra el texto dentro de la tarjeta */
             text-decoration: underline;
@@ -788,12 +773,13 @@
                       /* Centra horizontalmente los elementos de la tarjeta */
             justify-content: space-between;
                       /* Distribuye el contenido espaciándolo verticalmente entre los extremos */
-            width: 140px;
-                      /* Ancho base fijo de 140 píxeles para la tarjeta de canal */
-            flex: 0 0 140px; 
-                      /* Impide que la tarjeta crezca o se encoja de su tamaño base fijo de 140px */
-            height: 160px;
-                      /* Altura fija de 160 píxeles para mantener uniformidad */
+            width: fit-content;
+            max-width: 100%;
+            flex: 0 1 auto;
+            height: auto;
+            min-height: 0;
+            box-sizing: border-box;
+                      /* El ancho se adapta al contenido y la altura al número de líneas */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
                       /* Sombra oscura difuminada debajo de la tarjeta */
             position: relative;
@@ -872,40 +858,38 @@
             }
             .category-card {
                 width: 100%;
+                min-width: 0;
                 min-height: 0;
                 height: 100%;
                 padding: 10px 8px;
                 gap: 8px;
                 border-radius: 12px;
-                          /* Ajusta las dimensiones, relleno y esquinas de las tarjetas de categoría para pantallas móviles */
+                overflow: hidden;
+                          /* Evita que el logo o el texto sobrepasen horizontalmente la tarjeta en móviles */
             }
-            .category-card img {
-                width: 90px;
-                max-height: 60px;
+			.category-card img {
+                width: auto;
+                max-width: 100%;
+                max-height: 65%;
                 height: auto;
-                          /* Reduce el tamaño de las imágenes de las tarjetas de categoría en móviles */
-            }
+                          /* Ajusta el logo para que nunca supere el ancho de la tarjeta en móviles */
+			}
+            
             .category-card span {
                 font-size: 13px;
                 line-height: 1.15;
                           /* Reduce el tamaño de la fuente del texto de categoría para adaptarlo a pantallas móviles */
             }
 
-                      /* MODIFICACIÓN APLICADA: 2 columnas en pantallas filtradas móviles */
-            .cards-container {
-                gap: 10px;
-                          /* Espacio de 10px entre tarjetas de canales en móvil */
-                justify-content: space-between;           /* Distribuye equitativamente las 2 columnas */
-                padding: 0 4px;
-                          /* Relleno lateral de 4px */
-            }
+  
             .card {
-                width: calc(50% - 6px);                   /* Exactamente la mitad del ancho menos la mitad del gap */
-                flex: 0 0 calc(50% - 6px);
-                          /* Ajusta el ancho de cada tarjeta de canal al 50% menos el espacio del margen para crear 2 columnas perfectas */
-                height: 160px;                           /* Mantiene altura fija limpia */
-                min-height: unset;
-                          /* Elimina la altura mínima predeterminada */
+                width: fit-content;
+                max-width: 100%;
+                flex: 0 1 auto;
+                height: auto;
+                min-height: 0;
+                box-sizing: border-box;
+                          /* En móviles, cada tarjeta también adapta sus dimensiones al texto */
             }
 
                       /* PANTALLA DE REPRODUCCIÓN AJUSTADA HASTA EL BORDE INFERIOR DEL MÓVIL */
@@ -929,10 +913,6 @@
             }
             .player-info-left {
                 gap: 8px;
-            }
-            .player-info-left img {
-                height: 28px;
-                          /* Reduce la altura del logo del canal en la barra del reproductor móvil */
             }
             .player-info-left h2 {
                 font-size: 14px;
@@ -1012,39 +992,16 @@
                       /* Eleva la capa del elemento enfocado para que no quede oculto */
         }
 
-        .card-img-wrapper {
-            width: 100%;
-                      /* Ocupa el 100% del ancho de la tarjeta */
-            height: 85px;
-                      /* Altura fija de 85 píxeles para el contenedor de la imagen de la tarjeta */
-            display: flex;
-                      /* Activa Flexbox para centrar la imagen */
-            align-items: center;
-                      /* Centra verticalmente la imagen */
-            justify-content: center;
-                      /* Centra horizontalmente la imagen */
-            margin-bottom: 0px;
-                      /* Sin margen inferior adicional */
-        }
-
-        .card img {
-            max-width: 98%;
-                      /* Ancho máximo del 98% para dejar un pequeño margen interno */
-            max-height: 82px;
-                      /* Altura máxima de 82 píxeles para el logotipo del canal */
-            object-fit: contain;
-                      /* Ajusta la imagen manteniendo su proporción exacta sin recortes */
-            transition: transform 0.2s;
-                      /* Transición suave para cualquier cambio en la imagen */
-        }
-
         .card-body {
-            width: 100%;
-                      /* Ocupa el 100% del ancho del cuerpo inferior de la tarjeta */
+            width: fit-content;
+            max-width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+                      /* El contenido determina el ancho sin desbordar la tarjeta */
         }
 
         .card-title {
-            font-size: 15px;
+            font-size: 25px;
                       /* Tamaño de fuente de 12 píxeles para el título del canal en la tarjeta */
             font-weight: 700;
                       /* Fuente en negrita */
@@ -1052,14 +1009,17 @@
                       /* Altura de línea compacta */
             color: #000;
                       /* Color del texto en negro oscuro dentro de la tarjeta */
-            word-break: break-word;
-                      /* Permite romper palabras largas para evitar que desborden la tarjeta */
+            word-break: normal;
+            overflow-wrap: normal;
+            hyphens: none;
+            white-space: normal;
+                      /* El texto pasa a la línea siguiente solo entre palabras, nunca por la mitad */
         }
 
         .card-server-badge {
             display: inline-block;
                       /* Muestra la insignia como bloque en línea */
-            font-size: 12px;
+            font-size: 14px;
                       /* Tamaño de fuente muy pequeño de 10 píxeles */
             font-weight: 600;
                       /* Fuente seminegrita */
@@ -1071,8 +1031,8 @@
                       /* Relleno interior de 2px vertical y 6px horizontal */
             border-radius: 8px;
                       /* Bordes redondeados de 8 píxeles */
-            margin-top: 4px;
-                      /* Margen superior de 4 píxeles */
+            margin-top: 10px;
+                      /* Margen superior de 8 píxeles */
         }
 
         .card-m3u8-tag {
@@ -1237,9 +1197,7 @@
                 <div class="player-info-left">
 				  <span id="playerCategory" class="category-tag">Deportes</span>
                         <!-- Etiqueta dinámica de la categoría del canal activo -->
-                    <!-- Sección izquierda con logotipo, título, categoría y lista de servidores -->
-                    <img id="playerLogo" src="" alt="Canal">
-                    <!-- Elemento de imagen para mostrar el logotipo del canal activo en el reproductor -->
+                    <!-- Sección izquierda con título, categoría y lista de servidores -->
                     <div>
                       
 						<h2 id="playerTitle">Canal en Directo</h2>
@@ -1256,13 +1214,14 @@
                 </div>
                 <div class="player-controls-right">
                     <!-- Controles del lado derecho del reproductor (pantalla completa, nueva pestaña, cerrar) -->
-					<button class="header-action-btn close-btn" onclick="closePlayer()" title="Cerrar reproductor">⮾ CERRAR</button>
-                    <!-- Botón para cerrar el reproductor y volver a la vista anterior -->
-                    <button class="header-action-btn" onclick="toggleFullscreen()" title="Pantalla Completa">⛶ Pantalla Completa</button>
-                    <!-- Botón para activar o desactivar el modo de pantalla completa -->
+					
                     <button class="header-action-btn" onclick="openCurrentServerInNewTab()" title="Abrir servidor en nueva pestaña">↗ Nueva Pestaña</button>
 					<p style="color: yellow; font-size: 12px;">(Si Pagina en Blanco: Pulsar Nueva Pestaña)</p>					
                     <!-- Botón para abrir el enlace del servidor actual en una nueva pestaña del navegador -->
+					 <button class="header-action-btn" onclick="toggleFullscreen()" title="Pantalla Completa">⛶ Pantalla Completa</button>
+                    <!-- Botón para activar o desactivar el modo de pantalla completa -->
+					<button class="header-action-btn close-btn" onclick="closePlayer()" title="Cerrar reproductor">⮾ CERRAR</button>
+                    <!-- Botón para cerrar el reproductor y volver a la vista anterior -->
                     
 
                 </div>
@@ -1275,9 +1234,9 @@
             <!-- Botón flotante de pantalla completa situado sobre el vídeo -->
             <div class="fullscreen-top-bar">
                 <!-- Barra superior especial que aparece exclusivamente en el modo de pantalla completa -->
-                <span class="fs-action-text" tabindex="0" onclick="exitFullscreenOrBack()" title="Volver Atrás">Volver Atrás</span>
+                <span class="fs-action-text" tabindex="0" onclick="exitFullscreenOrBack()" title="Volver Atrás">VOLVER ATRÁS</span>
                 <!-- Opción de texto para salir de pantalla completa o volver atrás -->
-                <span class="fs-action-text close-btn" tabindex="0" onclick="closePlayer()" title="Cerrar reproductor">Cerrar</span>
+                <span class="fs-action-text close-btn" tabindex="0" onclick="closePlayer()" title="Cerrar reproductor">CERRAR</span>
                 <!-- Opción de texto para cerrar el reproductor desde el modo de pantalla completa -->
             </div>
 
@@ -1294,26 +1253,26 @@
 		
 		
 <!-- HORARIOS DEPORTIVOS -->
-{id: "Horarios Futbol", title: "Horarios Futbol", category: "Horarios Deportivos", logo: "https://www.image2url.com/r2/default/images/1789982713626-4360f484-7989-4cd0-9fc7-5fb7dc8a2463.png", sources: [
+{id: "Horarios Futbol", title: "Horarios Futbol", category: "Horarios Deportivos", sources: [
            { name: "futbolhoy", url: "https://www.futbolhoy.es/", type: "embed"} ]},
-{id: "Horarios La Liga", title: "Horarios La Liga", category: "Horarios Deportivos", logo: "https://www.image2url.com/r2/default/images/1789982718588-4eff55a6-8d88-4060-b693-263d066a633e.png", sources: [
+{id: "Horarios La Liga", title: "Horarios La Liga", category: "Horarios Deportivos", sources: [
            { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/laliga", type: "embed"} ]},
-{id: "Horarios La Liga (Latinos)", title: "Horarios La Liga (Latinos)", category: "Horarios Deportivos", logo: "https://i.imgur.com/MiWf6au.png", sources: [
+{id: "Horarios La Liga (Latinos)", title: "Horarios La Liga (Latinos)", category: "Horarios Deportivos", sources: [
            { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/la-liga", type: "embed"} ]},
-{id: "Horarios Champions", title: "Horarios Champions", category: "Horarios Deportivos", logo: "https://i.imgur.com/2nCsK2b.png", sources: [
+{id: "Horarios Champions", title: "Horarios Champions", category: "Horarios Deportivos", sources: [
            { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/champions-league", type: "embed"} ]},
-{id: "Horarios Champions (Latinos)", title: "Horarios Champions (Latinos)", category: "Horarios Deportivos", logo: "https://i.imgur.com/pyRtZfy.png", sources: [
+{id: "Horarios Champions (Latinos)", title: "Horarios Champions (Latinos)", category: "Horarios Deportivos", sources: [
            { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/liga-campeones", type: "embed"} ]},
-{id: "Horarios Baloncesto", title: "Horarios Baloncesto", category: "Horarios Deportivos", logo: "https://i.imgur.com/3Hrk7tS.png", sources: [
+{id: "Horarios Baloncesto", title: "Horarios Baloncesto", category: "Horarios Deportivos", sources: [
            { name: "baloncestohoy", url: "https://www.baloncestohoy.es/", type: "embed"} ]},
-{id: "Horarios Liga ACB", title: "Horarios Liga ACB", category: "Horarios Deportivos", logo: "https://i.imgur.com/cUofr0E.png", sources: [
+{id: "Horarios Liga ACB", title: "Horarios Liga ACB", category: "Horarios Deportivos", sources: [
            { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/liga-endesa", type: "embed"} ]},
-{id: "Horarios Euroliga", title: "Horarios Euroliga", category: "Horarios Deportivos", logo: "https://i.imgur.com/OM5wSUD.png", sources: [
+{id: "Horarios Euroliga", title: "Horarios Euroliga", category: "Horarios Deportivos", sources: [
            { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/euroliga", type: "embed"} ]},
 <!-- LA LIGA -->
-{id: "LaLiga/Dazn", title: "LaLiga/Dazn", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069171252-c50bcc66-7199-493d-94d0-8ba7d14d7013.png", sources: [
+{id: "LaLiga/Dazn", title: "LaLiga/Dazn", category: "La Liga", sources: [
            { name: "sportzonline", url: "https://sportsoonline.click/channels/hd/hd6.php", type: "embed"} ]},
-{id: "M. LaLiga", title: "M. LaLiga", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069165639-d9259c5e-3a6c-43b4-b1b5-534832046eba.png", sources: [
+{id: "M. LaLiga", title: "M. LaLiga", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/4", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=mlaliga", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=mlaliga", type: "embed"},
@@ -1324,7 +1283,7 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=84", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-84.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/movistarliga1.php", type: "embed"} ]},
-{id: "Dazn LaLiga", title: "Dazn LaLiga", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069461706-b8d7577a-4a1e-4cc0-a4d5-53bd58c6fbf1.png", sources: [
+{id: "Dazn LaLiga", title: "Dazn LaLiga", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/1", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznlaliga", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=daznlaliga", type: "embed"},
@@ -1335,7 +1294,7 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=538", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-538.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/daznlaliga.php", type: "embed"} ]},
-{id: "Espn Deportes", title: "Espn Deportes", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069158714-539bd6ab-4304-45d9-b965-494ec08f0721.png", sources: [
+{id: "Espn Deportes", title: "Espn Deportes", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/10", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espndeportes", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espndeportes", type: "embed"},
@@ -1346,16 +1305,16 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=375", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-375.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/espndeportes.php", type: "embed"} ]},
-{id: "Sky S. LaLiga", title: "Sky S. LaLiga", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069178132-49791c63-0846-41f6-a817-576eb30ad548.png", sources: [
+{id: "Sky S. LaLiga", title: "Sky S. LaLiga", category: "La Liga", sources: [
            { name: "streamxhd", url: "https://stream-xhd.com/live1.php?stream=sky_sports_laliga", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=sky_sports_laliga", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=sky_sports_laliga", type: "embed"},
            { name: "a03h", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", type: "embed"} ]},
-{id: "Página Web LaLiga", title: "Página Web LaLiga", category: "La Liga", logo: "https://www.image2url.com/r2/default/images/1790069183972-f6384cc0-16cb-412e-ba02-6262fe4fc162.png", sources: [
+{id: "Web LaLiga", title: "Web LaLiga", category: "La Liga", sources: [
            { name: "choc2foot", url: "https://choc2foot.biz/league.php?league=Laliga", type: "embed"},
            { name: "livetv", url: "https://livetv904.me/es/competitions/15/", type: "embed"} ]},
 <!-- CHAMPIONS LEAGUE -->
-{id: "L. Campeones", title: "L. Campeones", category: "Champions League", logo: "https://i.imgur.com/ITrKmgv.png", sources: [
+{id: "L. Campeones", title: "L. Campeones", category: "Champions League", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/6", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/4/61", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/61", type: "embed"},
@@ -1363,7 +1322,7 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=435", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-435.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/movistarcampeones.php", type: "embed"} ]},
-{id: "Tudn", title: "Tudn", category: "Champions League", logo: "https://i.imgur.com/MPm8isp.png", sources: [
+{id: "Tudn", title: "Tudn", category: "Champions League", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=tudnmxhd", type: "embed"},
            { name: "streamxhd", url: "https://stream-xhd.com/live1.php?stream=tudn_usa", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=tudnus", type: "embed"},
@@ -1376,16 +1335,16 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=66", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-66.php", type: "embed"},
            { name: "asiria", url: "https://abisnews.com/abc30.php", type: "embed"} ]},
-{id: "Página Web Champions League", title: "Página Web Champions League", category: "Champions League", logo: "https://i.imgur.com/duK0Gix.png", sources: [
+{id: "Web Champions League", title: "Web Champions League", category: "Champions League", sources: [
            { name: "livetv", url: "https://livetv904.me/es/competitions/7/", type: "embed"} ]},
 <!-- BALONCESTO -->
-{id: "Movistar+", title: "Movistar+", category: "Baloncesto", logo: "https://i.postimg.cc/gXrHtwNc/movistar.png", sources: [
+{id: "M. Plus", title: "M. Plus", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/28", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/4/65", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/65", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=437", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-437.php", type: "embed"} ]},
-{id: "M. deportes 1", title: "M. deportes 1", category: "Baloncesto", logo: "https://i.postimg.cc/LYh3QqN2/m-deportes.png", sources: [
+{id: "M. deportes 1", title: "M. deportes 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/19", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/4/62", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/62", type: "embed"},
@@ -1393,43 +1352,43 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=436", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-436.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/movistar1.php", type: "embed"} ]},
-{id: "Vamos", title: "Vamos", category: "Baloncesto", logo: "https://i.postimg.cc/34WFfyn8/vamos.png", sources: [
+{id: "Vamos", title: "Vamos", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/9", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/4/55", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/55", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/vamos_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=521", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-521.php", type: "embed"} ]},
-{id: "Dazn Baloncesto 1", title: "Dazn Baloncesto 1", category: "Baloncesto", logo: "https://www.image2url.com/r2/default/images/1790764920681-6eb21c85-7bfa-4beb-a4b6-5005d7961cbd.png", sources: [
+{id: "Dazn Baloncesto 1", title: "Dazn Baloncesto 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42898", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/63", type: "embed"} ]},
-{id: "Dazn Baloncesto 2", title: "Dazn Baloncesto 2", category: "Baloncesto", logo: "https://www.image2url.com/r2/default/images/1790765008307-bf1cf1f7-037a-4115-b1d2-819e8b05cacc.png", sources: [
+{id: "Dazn Baloncesto 2", title: "Dazn Baloncesto 2", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43194", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/64", type: "embed"} ]},
-{id: "Dazn Baloncesto 3", title: "Dazn Baloncesto 3", category: "Baloncesto", logo: "https://www.image2url.com/r2/default/images/1790765068791-9d9413ca-6b33-4027-b6cb-68fb6dd2e59f.png", sources: [
+{id: "Dazn Baloncesto 3", title: "Dazn Baloncesto 3", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43195", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/65", type: "embed"} ]},
-{id: "M+ Baloncesto", title: "M+ Baloncesto", category: "Baloncesto", logo: "https://i.postimg.cc/zfX3Znhn/m-baloncesto.png", sources: [
+{id: "M. Baloncesto", title: "M. Baloncesto", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42816", type: "embed"} ]},
-{id: "M+ Baloncesto 2", title: "M+ Baloncesto 2", category: "Baloncesto", logo: "https://i.postimg.cc/nhTckCWX/m-baloncesto-2.png", sources: [
+{id: "M. Baloncesto 2", title: "M. Baloncesto 2", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/47001", type: "embed"} ]},
-{id: "M+ Baloncesto 3", title: "M+ Baloncesto 3", category: "Baloncesto", logo: "https://i.postimg.cc/fWxwbhNM/m-baloncesto-3.png", sources: [
+{id: "M. Baloncesto 3", title: "M. Baloncesto 3", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/50506", type: "embed"} ]},
-{id: "TVC Deportes", title: "TVC Deportes", category: "Baloncesto", logo: "https://i.imgur.com/9cspdOm.png", sources: [
+{id: "TVC Deportes", title: "TVC Deportes", category: "Baloncesto", sources: [
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=tvc_deportes", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=tvc_deportes", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=932", type: "embed"} ]},
-{id: "Página Web Liga ACB", title: "Página Web Liga ACB", category: "Baloncesto", logo: "https://i.imgur.com/CPBaShq.png", sources: [
+{id: "Web Liga ACB", title: "Web Liga ACB", category: "Baloncesto", sources: [
            { name: "choc2foot", url: "https://choc2foot.biz/league.php?league=Liga+Endesa", type: "embed"},
            { name: "livetv", url: "https://livetv904.me/es/competitions/215/", type: "embed"} ]},
-{id: "Página Web Euroliga", title: "Página Web Euroliga", category: "Baloncesto", logo: "https://i.postimg.cc/zbMSsJPs/web-euroliga.png", sources: [
+{id: "Web Euroliga", title: "Web Euroliga", category: "Baloncesto", sources: [
            { name: "tiroalpalo", url: "https://tiroalpalooffi.net/baloncesto", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/index.php?cat=Euroleague+Basketball", type: "embed"},
            { name: "livetv", url: "https://livetv904.me/es/competitions/41/", type: "embed"} ]},
-{id: "Página Web Baloncesto", title: "Página Web Baloncesto", category: "Baloncesto", logo: "https://i.postimg.cc/pLGdRwCg/baloncesto.png", sources: [
+{id: "Web Baloncesto", title: "Web Baloncesto", category: "Baloncesto", sources: [
            { name: "vipleague", url: "https://vipleague.vg/sport/basketball", type: "embed"} ]},
 <!-- ZONA DAZN -->
-{id: "Dazn 1", title: "Dazn 1", category: "Zona Dazn", logo: "https://www.image2url.com/r2/default/images/1790094664996-f3702f70-4ab8-408c-8798-683f875e81ca.png", sources: [
+{id: "Dazn 1", title: "Dazn 1", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn1", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dazn1", type: "embed"},
@@ -1437,7 +1396,7 @@
            { name: "m6foot", url: "https://m6foot.click/player/2/56", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=445", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-445.php", type: "embed"} ]},
-{id: "Dazn 2", title: "Dazn 2", category: "Zona Dazn", logo: "https://www.image2url.com/r2/default/images/1790094671843-452a94af-d30f-42b0-a82f-3f20feabde18.png", sources: [
+{id: "Dazn 2", title: "Dazn 2", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/3", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn2", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dazn2", type: "embed"},
@@ -1445,12 +1404,12 @@
            { name: "m6foot", url: "https://m6foot.click/player/2/57", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=446", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-446.php", type: "embed"} ]},
-{id: "Dazn 3", title: "Dazn 3", category: "Zona Dazn", logo: "https://www.image2url.com/r2/default/images/1790094677005-95f22ca7-545c-4c82-9ffa-c48a0cabd099.png", sources: [
+{id: "Dazn 3", title: "Dazn 3", category: "Zona Dazn", sources: [
            { name: "embedme", url: "https://embedme.click/player/4/58", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/2/58", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=447", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-447.php", type: "embed"} ]},
-{id: "Dazn F1", title: "Dazn F1", category: "Zona Dazn", logo: "https://i.imgur.com/HmyTmmq.png", sources: [
+{id: "Dazn F1", title: "Dazn F1", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/11", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznf1", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=daznf1", type: "embed"},
@@ -1461,7 +1420,7 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=537", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-537.php", type: "embed"} ]},
 <!-- CANALES LATINOS -->
-{id: "Dsports 1", title: "Dsports 1", category: "Canales Latinos", logo: "https://i.imgur.com/XywR6wm.png", sources: [
+{id: "Dsports 1", title: "Dsports 1", category: "Canales Latinos", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=dsportsco", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=dsports", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=dsports", type: "embed"},
@@ -1471,7 +1430,7 @@
            { name: "m6foot", url: "https://m6foot.click/player/2/94", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-001.php", type: "embed"} ]},
-{id: "Dsports 2", title: "Dsports 2", category: "Canales Latinos", logo: "https://i.imgur.com/IvEyJuY.png", sources: [
+{id: "Dsports 2", title: "Dsports 2", category: "Canales Latinos", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=dsports2", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=dsports2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dsports2", type: "embed"},
@@ -1480,7 +1439,7 @@
            { name: "m6foot", url: "https://m6foot.click/player/2/95", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports2.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-002.php", type: "embed"} ]},
-{id: "Espn 1", title: "Espn 1", category: "Canales Latinos", logo: "https://i.imgur.com/sE2IOQY.png", sources: [
+{id: "Espn 1", title: "Espn 1", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espn", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=espn", type: "embed"},
@@ -1491,7 +1450,7 @@
            { name: "livetvsx", url: "https://livetvsx.live/go/espn1_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=149", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-01.php", type: "embed"} ]},
-{id: "Espn 2", title: "Espn 2", category: "Canales Latinos", logo: "https://i.imgur.com/ZIq51q5.png", sources: [
+{id: "Espn 2", title: "Espn 2", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espn2", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=espn2", type: "embed"},
@@ -1501,7 +1460,7 @@
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/espn2.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=150", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-02.php", type: "embed"} ]},
-{id: "Fox Sports 1", title: "Fox Sports 1", category: "Canales Latinos", logo: "https://i.imgur.com/ev8GWNy.png", sources: [
+{id: "Fox Sports 1", title: "Fox Sports 1", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=fox1ar", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox1ar", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=foxsports", type: "embed"},
@@ -1511,7 +1470,7 @@
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/foxsports.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=767", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-787.php", type: "embed"} ]},
-{id: "Fox Sports 2", title: "Fox Sports 2", category: "Canales Latinos", logo: "https://i.imgur.com/jgUvxLC.png", sources: [
+{id: "Fox Sports 2", title: "Fox Sports 2", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=fox2ar", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox2ar", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=foxsports2", type: "embed"},
@@ -1522,22 +1481,37 @@
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=788", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-788.php", type: "embed"} ]},
 <!-- WEBS MULTIDEPORTES -->
-{id: "Web Multideportes", title: "Web Multideportes", category: "Webs Multideportes", logo: "https://www.image2url.com/r2/default/images/1790584112645-1ec1f027-46f8-4693-9ac7-f93f36274ad9.png", sources: [
-           { name: "fctv33", url: "https://www.fctv33go.monster/es", type: "embed"},
-           { name: "tiroalpalo", url: "https://tiroalpaloffi.org/", type: "embed"},
-           { name: "tvnow247", url: "https://tvnow247.top/", type: "embed"},
-           { name: "tflix", url: "https://tflix.su/", type: "embed"},
-           { name: "streamfree", url: "https://streamfree.pro/", type: "embed"},
-           { name: "tv gratis", url: "https://pelisjuanita.com/tv/agenda.html", type: "embed"},
-           { name: "zicotv", url: "https://bp.zicotv.cc/", type: "embed"},
-           { name: "streamxhd", url: "https://streamxhd.sbs/", type: "embed"},
-           { name: "streamx305", url: "https://streamx305.sbs/", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte-libre7.live/", type: "embed"},
-           { name: "choc2foot", url: "https://choc2foot.biz/", type: "embed"},
-           { name: "asiria", url: "https://asiria.is", type: "embed"},
-           { name: "livetv", url: "https://livetv904.me/es/allupcoming/1", type: "embed"},
-           { name: "vipleague", url: "https://vipleague.vg/", type: "embed"},
+{id: "fctv33", title: "fctv33", category: "Webs Multideportes", sources: [
+           { name: "fctv33", url: "https://www.fctv33go.monster/es", type: "embed"} ]},
+{id: "tiroalpalo", title: "tiroalpalo", category: "Webs Multideportes", sources: [
+           { name: "tiroalpalo", url: "https://tiroalpaloffi.org/", type: "embed"} ]},
+{id: "tvnow247", title: "tvnow247", category: "Webs Multideportes", sources: [
+           { name: "tvnow247", url: "https://tvnow247.top/", type: "embed"} ]},
+{id: "tflix", title: "tflix", category: "Webs Multideportes", sources: [
+           { name: "tflix", url: "https://tflix.su/", type: "embed"} ]},
+{id: "streamfree", title: "streamfree", category: "Webs Multideportes", sources: [
+           { name: "streamfree", url: "https://streamfree.pro/", type: "embed"} ]},
+{id: "tv gratis", title: "tv gratis", category: "Webs Multideportes", sources: [
+           { name: "tv gratis", url: "https://pelisjuanita.com/tv/agenda.html", type: "embed"} ]},
+{id: "zicotv", title: "zicotv", category: "Webs Multideportes", sources: [
+           { name: "zicotv", url: "https://bp.zicotv.cc/", type: "embed"} ]},
+{id: "streamxhd", title: "streamxhd", category: "Webs Multideportes", sources: [
+           { name: "streamxhd", url: "https://streamxhd.sbs/", type: "embed"} ]},
+{id: "streamx305", title: "streamx305", category: "Webs Multideportes", sources: [
+           { name: "streamx305", url: "https://streamx305.sbs/", type: "embed"} ]},
+{id: "daddylive", title: "daddylive", category: "Webs Multideportes", sources: [
+           { name: "daddylive", url: "https://thedaddy.li/", type: "embed"} ]},
+{id: "deporte-libre", title: "deporte-libre", category: "Webs Multideportes", sources: [
+           { name: "deporte-libre", url: "https://deporte-libre7.live/", type: "embed"} ]},
+{id: "choc2foot", title: "choc2foot", category: "Webs Multideportes", sources: [
+           { name: "choc2foot", url: "https://choc2foot.biz/", type: "embed"} ]},
+{id: "asiria", title: "asiria", category: "Webs Multideportes", sources: [
+           { name: "asiria", url: "https://asiria.is", type: "embed"} ]},
+{id: "livetv", title: "livetv", category: "Webs Multideportes", sources: [
+           { name: "livetv", url: "https://livetv904.me/es/allupcoming/1", type: "embed"} ]},
+{id: "vipleague", title: "vipleague", category: "Webs Multideportes", sources: [
+           { name: "vipleague", url: "https://vipleague.vg/", type: "embed"} ]},
+{id: "elitegol.pl", title: "elitegol.pl", category: "Webs Multideportes", sources: [
            { name: "elitegol.pl", url: "https://elitegol.quest/", type: "embed"}]}];
 
 
@@ -1559,8 +1533,6 @@
                   /* Referencia constante al contenedor de estado vacío */
         const playerSection = document.getElementById("playerSection");
                   /* Referencia constante a la sección del reproductor multimedia */
-        const playerLogo = document.getElementById("playerLogo");
-                  /* Referencia constante a la imagen del logotipo en el reproductor */
         const playerTitle = document.getElementById("playerTitle");
                   /* Referencia constante al título del reproductor */
         const playerCategory = document.getElementById("playerCategory");
@@ -1607,9 +1579,6 @@
                          onclick="openChannelInNewTab('${channel.id}')"
                          onkeydown="handleCardKey(event, '${channel.id}')"
                          title="${channel.title} - ${channel.category}">
-                        <div class="card-img-wrapper">
-                            <img src="${channel.logo}" alt="${channel.title}" loading="lazy">
-                        </div>
                         <div class="card-body">
                             <div class="card-title">${channel.title}</div>
                             <div class="card-server-badge">${serverCount} ${serverCount === 1 ? 'opción' : 'servidores'}</div>
@@ -1655,7 +1624,6 @@
 
             const activeSource = channel.sources[sourceIndex];
 
-            playerLogo.src = channel.logo;
             playerTitle.textContent = `${channel.title} - ${activeSource.name}`;
             playerCategory.textContent = channel.category;
 
@@ -1789,4 +1757,3 @@
     </script>
 </body>
 </html>
-<!-- Fin del documento HTML -->
