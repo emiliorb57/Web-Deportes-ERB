@@ -113,11 +113,11 @@
                   /* TEXTO DEL TÍTULO PRINCIPAL "DEPORTES ERB" */
         .title h1 {
             font-size: 25px;
-                      /* Establece el tamaño de fuente en 25 píxeles */
+                      /* Establece el tamaño de fuente en píxeles */
             font-weight: 800;          
                       /* Hace que la tipografía sea muy gruesa (negrita fuerte) */
             color: #ffffff;           
-                      /* Establece el color del texto en blanco puro */
+                      /* Establece el color del texto*/
         }
 
                   /* ETIQUETA INFORMATIVA PARA NAVEGACIÓN CON MANDO DE TV */
@@ -234,7 +234,7 @@
         }
 
         .category-card span {
-            font-size: 22px;
+            font-size: 35px;
                       /* Tamaño de fuente de 20 píxeles para el texto de la categoría */
             font-weight: 700;
                       /* Fuente en negrita */
@@ -813,8 +813,8 @@
                           /* Ocupa el 100% del ancho en móviles */
             }
             .logo-title-group h1 {
-                font-size: 18px;
-                          /* Tamaño de fuente reducido a 18 píxeles para el título principal en móviles */
+                font-size: 22px;
+                          /* Tamaño de fuente para el título principal en móviles */
                 line-height: 1.1;
                           /* Altura de línea compacta */
             }
@@ -845,7 +845,7 @@
                           /* Modificado para que la sección de categorías ocupe toda la pantalla del móvil */
             }
             .category-home-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(1, minmax(0, 1fr));
                           /* Cambia la cuadrícula de categorías a exactamente 2 columnas en móviles */
                 grid-template-rows: repeat(3, minmax(0, 1fr));
                           /* Define 3 filas automáticas */
@@ -876,9 +876,12 @@
 			}
             
             .category-card span {
-                font-size: 13px;
-                line-height: 1.15;
-                          /* Reduce el tamaño de la fuente del texto de categoría para adaptarlo a pantallas móviles */
+                width: 100%;
+                font-size: 22px;
+                font-weight: 700;
+                line-height: 1.2;
+                overflow-wrap: break-word;
+                          /* Aumenta el tamaño del texto y permite que las categorías largas se ajusten dentro de la tarjeta */
             }
 
   
@@ -1110,7 +1113,7 @@
             <!-- Contenedor interno flexible para organizar el logotipo y la insignia de TV -->
             <div class="logo-title-group" onclick="window.location.href='?'">
                 <!-- Grupo interactivo del título y logotipo que recarga la página al hacer clic (vuelve al inicio) -->
-                <h1>DEPORTES ERB</h1>
+                <h1>📺 DEPORTES ERB</h1>
                 <!-- Encabezado principal H1 con el nombre de la aplicación web -->	
 				<p style="color: #1a73e8; font-size: 12px;padding:5px;">(Aviso Legal: Deportes ERB no aloja ni transmite contenido propio; solo comparte enlaces externos disponibles online públicamente)</p>
             </div>
@@ -1138,40 +1141,16 @@
         <!-- Sección principal de inicio que muestra la cuadrícula con las tarjetas de categorías deportivas -->
         <div class="category-home-grid">
 	
-			<button class="category-card" onclick="selectCategory('Horarios Deportivos')">
-                <img src="https://www.image2url.com/r2/default/images/1789981674992-66476b50-06cf-4b4e-89c3-73d110499aef.png" alt="Horarios Deportivos">
-                <span>Horarios Deportivos</span>
-            </button>
-            <button class="category-card" onclick="selectCategory('La Liga')">
-                <img src="https://www.image2url.com/r2/default/images/1789981878320-c6307ba2-3ccf-41c2-8220-b643d322f28b.png" alt="La Liga">
-                <span>La Liga</span>
-            </button>
-            <button class="category-card" onclick="selectCategory('Champions League')">
-                <!-- Botón de tarjeta para la categoría "Champions League" -->
-                <img src="https://www.image2url.com/r2/default/images/1789982167297-7ab85390-815e-4c52-96a8-90fb477e3bc7.png" alt="Champions League">
-                <span>Champions League</span>
-            </button>
-            <button class="category-card" onclick="selectCategory('Baloncesto')">
-                <!-- Botón de tarjeta para la categoría de baloncesto "Baloncesto" -->
-                <img src="https://i.postimg.cc/pLGdRwCg/baloncesto.png" alt="Baloncesto">
-                <span>Baloncesto</span>
-            </button>
-            <button class="category-card" onclick="selectCategory('Zona Dazn')">
-                <!-- Botón de tarjeta para la categoría "Zona Dazn" -->
-                <img src="https://www.image2url.com/r2/default/images/1789982192214-6053df91-059d-452f-b093-82f7b2f1fc01.png" alt="Zona Dazn">
-                <span>Zona Dazn</span>
-            </button>
-            <button class="category-card" onclick="selectCategory('Canales Latinos')">
-                <!-- Botón de tarjeta para la categoría de canales de Latinoamérica -->
-                <img src="https://www.image2url.com/r2/default/images/1789982157605-82ea2455-f9e9-4473-9269-132ea5263bb9.png" alt="Canales Latinos">
-                <span>Canales Latinos</span>
-            </button>
-			<button class="category-card" onclick="selectCategory('Webs Multideportes')">
-                <!-- Botón de tarjeta para la categoría de canales de Latinoamérica -->
-                <img src="https://www.image2url.com/r2/default/images/1790503864490-e67a2e4e-070a-43d2-87f6-a6d8f6f8c6c1.png" alt="Webs Multideportes">
-                <span>Webs Multideportes</span>
-            </button>
-			
+<button class="category-card" onclick="selectCategory('Horarios Deportivos')"><span>⏰ Horarios Deportivos</span></button>
+<button class="category-card" onclick="selectCategory('La Liga')"><span>⚽ La Liga</span></button>
+<button class="category-card" onclick="selectCategory('Champions League')"><span>⚽ Champions League</span></button>
+<button class="category-card" onclick="selectCategory('Baloncesto')"><span>🏀 Baloncesto</span></button>
+<button class="category-card" onclick="selectCategory('Zona Dazn')"><span>ⓏⒹ Zona Dazn</span></button>
+<button class="category-card" onclick="selectCategory('Canales Latinos')"><span>🌎 Canales Latinos</span></button>
+<button class="category-card" onclick="selectCategory('Webs Multideportes')"><span>🌐 Webs Multideportes</span></button>
+
+
+
         </div>
     </section>
 
@@ -1276,8 +1255,9 @@
            { name: "zicotv", url: "https://zicotv.cc/api/player/4", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=mlaliga", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=mlaliga", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/49", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/49", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/49", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/49", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/49", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/movistarlaliga.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/beinlaliga_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=84", type: "embed"},
@@ -1287,8 +1267,9 @@
            { name: "zicotv", url: "https://zicotv.cc/api/player/1", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznlaliga", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=daznlaliga", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/51", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/51", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/51", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/51", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/51", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/daznlaliga.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/daznlaliga_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=538", type: "embed"},
@@ -1300,8 +1281,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espndeportes", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=espndeportes", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=espndeportes", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/71", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/71", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/71", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/71", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/71", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=375", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-375.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/espndeportes.php", type: "embed"} ]},
@@ -1316,8 +1298,9 @@
 <!-- CHAMPIONS LEAGUE -->
 {id: "L. Campeones", title: "L. Campeones", category: "Champions League", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/6", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/61", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/61", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/61", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/61", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/61", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/movistarligadecampeones.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=435", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-435.php", type: "embed"},
@@ -1328,8 +1311,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=tudnus", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=tudn", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=tudn", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/68", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/68", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/68", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/68", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/68", type: "embed"},
            { name: "a02x", url: "http://45.228.234.30:16000/play/a02x/index.m3u8", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/tudn.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=66", type: "embed"},
@@ -1340,34 +1324,40 @@
 <!-- BALONCESTO -->
 {id: "M. Plus", title: "M. Plus", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/28", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/65", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/65", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=437", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-437.php", type: "embed"} ]},
 {id: "M. deportes 1", title: "M. deportes 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/19", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/62", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/62", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/62", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/62", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/62", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/plusdep_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=436", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-436.php", type: "embed"},
            { name: "asiria", url: "https://asiria.is/movistar1.php", type: "embed"} ]},
 {id: "Vamos", title: "Vamos", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/9", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/55", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/55", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/55", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/55", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/55", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/vamos_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=521", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-521.php", type: "embed"} ]},
 {id: "Dazn Baloncesto 1", title: "Dazn Baloncesto 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42898", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/63", type: "embed"} ]},
+           { name: "m6foot", url: "https://m6foot.click/player/1/63", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/63", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/63", type: "embed"} ]},
 {id: "Dazn Baloncesto 2", title: "Dazn Baloncesto 2", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43194", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/64", type: "embed"} ]},
+           { name: "m6foot", url: "https://m6foot.click/player/1/64", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/64", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/64", type: "embed"} ]},
 {id: "Dazn Baloncesto 3", title: "Dazn Baloncesto 3", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43195", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/65", type: "embed"} ]},
+           { name: "m6foot", url: "https://m6foot.click/player/1/65", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/65", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/65", type: "embed"} ]},
 {id: "M. Baloncesto", title: "M. Baloncesto", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42816", type: "embed"} ]},
 {id: "M. Baloncesto 2", title: "M. Baloncesto 2", category: "Baloncesto", sources: [
@@ -1392,29 +1382,33 @@
            { name: "zicotv", url: "https://zicotv.cc/api/player/2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn1", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dazn1", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/56", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/56", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/67", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/67", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/67", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=445", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-445.php", type: "embed"} ]},
 {id: "Dazn 2", title: "Dazn 2", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/3", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn2", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dazn2", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/57", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/57", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/57", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/57", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/57", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=446", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-446.php", type: "embed"} ]},
 {id: "Dazn 3", title: "Dazn 3", category: "Zona Dazn", sources: [
-           { name: "embedme", url: "https://embedme.click/player/4/58", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/58", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/58", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/58", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/58", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=447", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-447.php", type: "embed"} ]},
 {id: "Dazn F1", title: "Dazn F1", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/11", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznf1", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=daznf1", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/60", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/60", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/60", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/60", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/60", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/daznf1.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/daznf1_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=537", type: "embed"},
@@ -1426,8 +1420,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=dsports", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dsports", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dsports", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/94", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/94", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/94", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/94", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/94", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-001.php", type: "embed"} ]},
 {id: "Dsports 2", title: "Dsports 2", category: "Canales Latinos", sources: [
@@ -1435,8 +1430,9 @@
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=dsports2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dsports2", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=dsports2", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/95", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/95", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/95", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/95", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/95", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports2.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-002.php", type: "embed"} ]},
 {id: "Espn 1", title: "Espn 1", category: "Canales Latinos", sources: [
@@ -1444,8 +1440,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=espn", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=espn", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/87", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/87", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/87", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/87", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/87", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/espn.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/espn1_spain.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=149", type: "embed"},
@@ -1455,8 +1452,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=espn2", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=espn2", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/88", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/88", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/88", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/88", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/88", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/espn2.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=150", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-02.php", type: "embed"} ]},
@@ -1465,8 +1463,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox1ar", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=foxsports", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=foxsports", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/78", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/78", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/78", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/78", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/78", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/foxsports.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=767", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-787.php", type: "embed"} ]},
@@ -1475,8 +1474,9 @@
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox2ar", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=foxsports2", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=foxsports2", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/4/79", type: "embed"},
-           { name: "m6foot", url: "https://m6foot.click/player/2/79", type: "embed"},
+           { name: "m6foot", url: "https://m6foot.click/player/1/79", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/79", type: "embed"},
+           { name: "embedme", url: "https://embedme.click/player/3/79", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/foxsports2.php", type: "embed"},
            { name: "daddylive", url: "https://thedaddy.li/watch.php?id=788", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-788.php", type: "embed"} ]},
@@ -1590,11 +1590,16 @@
         }
 
         function selectCategory(categoryName) {
-                      /* Función que maneja la selección de una categoría, actualiza la vista y oculta la pantalla de inicio */
+                      /* Selecciona la categoría pulsada y muestra solo sus canales */
             currentCategory = categoryName;
+
+            // Oculta la página principal y muestra el listado filtrado.
             categoryHome.style.display = "none";
+            playerSection.style.display = "none";
             categoryInfo.style.display = "flex";
             mainContainer.style.display = "flex";
+
+            // Actualiza el título y las tarjetas correspondientes a la categoría.
             renderChannels();
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
