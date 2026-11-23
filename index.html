@@ -162,6 +162,8 @@
                       /* Activa el sistema de diseño CSS Grid */
             grid-template-columns: repeat(4, minmax(180px, 1fr));
                       /* Crea 4 columnas automáticas con un ancho mínimo de 180px que se expanden */
+            align-items: start;
+                      /* Evita que las tarjetas se estiren verticalmente más allá de su contenido */
             gap: 20px;
                       /* Espacio de separación de 20px entre las tarjetas de la cuadrícula */
             justify-content: center;
@@ -170,20 +172,15 @@
 
                   /* DISEÑO DE CADA TARJETA DE CATEGORÍA */
         .category-card {
-            min-height: 170px;
-                      /* Altura mínima base de la tarjeta */
             width: 95%;       
                       /* Ocupa el 95% del espacio disponible de su celda */
             max-width: 100%;     
                       /* Ancho máximo del 100% */
-            min-height: 200px;   
-                      /* Redefine la altura mínima a 200 píxeles */
-            row-gap: 20px;   
-                      /* Espacio vertical interno de 20px entre elementos */
-            column-gap: 30px;   
-                      /* Espacio horizontal interno de 30px */
-            padding: 18px 12px;
-                      /* Relleno interior vertical de 18px y horizontal de 12px */
+            height: fit-content;
+            min-height: 0;
+                      /* Ajusta la altura vertical al contenido del texto */
+            padding: 10px 14px;
+                      /* Relleno interior compacto ajustado al texto */
             display: flex;
                       /* Activa Flexbox para alinear su contenido interno */
             flex-direction: column;
@@ -192,8 +189,8 @@
                       /* Centra horizontalmente los elementos */
             justify-content: center;
                       /* Centra verticalmente los elementos */
-            gap: 20px;              
-                      /* Espacio general de 20px entre los elementos internos */
+            gap: 8px;
+                      /* Espacio compacto entre elementos internos */
             text-align: center;
                       /* Centra el texto alineado */
             cursor: pointer;
@@ -235,9 +232,11 @@
 
         .category-card span {
             font-size: 35px;
-                      /* Tamaño de fuente de 20 píxeles para el texto de la categoría */
+                      /* Tamaño de fuente de 35 píxeles para el texto de la categoría */
             font-weight: 700;
                       /* Fuente en negrita */
+            line-height: 1.15;
+                      /* Altura de línea ajustada al texto */
         }
 
                   /* BOTÓN "VOLVER" */
@@ -324,7 +323,6 @@
             border-top-left-radius: 12px;
                       /* Redondea la esquina superior izquierda */
             border-top-right-radius: 12px;
-                      /* Redondea la esquina superior derecha */
         }
 
         .player-info {
@@ -835,37 +833,35 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
                 width: 100vw;
                 max-width: 100vw;
-                min-height: calc(100dvh - 60px);           /* Ocupa la altura completa de la pantalla descontando cabecera */
+                min-height: calc(100dvh - 60px);
                 margin: 0;
                 padding: 12px;
                 box-sizing: border-box;
-                          /* Modificado para que la sección de categorías ocupe toda la pantalla del móvil */
             }
             .category-home-grid {
                 grid-template-columns: repeat(1, minmax(0, 1fr));
-                          /* Cambia la cuadrícula de categorías a exactamente 2 columnas en móviles */
-                grid-template-rows: repeat(3, minmax(0, 1fr));
-                          /* Define 3 filas automáticas */
+                          /* Cambia la cuadrícula de categorías a 1 columna en móviles */
+                grid-template-rows: auto;
+                          /* Altura de filas ajustada al contenido de cada tarjeta */
+                align-items: start;
                 gap: 12px;
                           /* Espacio de 12px entre elementos de la cuadrícula en móviles */
                 width: 100%;
-                height: 100%;
-                flex: 1;
-                          /* Fuerza a la cuadrícula a expandirse por completo cubriendo el alto disponible */
+                height: auto;
             }
             .category-card {
                 width: 100%;
                 min-width: 0;
                 min-height: 0;
-                height: 100%;
-                padding: 10px 8px;
-                gap: 8px;
+                height: fit-content;
+                padding: 10px 12px;
+                gap: 6px;
                 border-radius: 12px;
                 overflow: hidden;
-                          /* Evita que el logo o el texto sobrepasen horizontalmente la tarjeta en móviles */
+                          /* Ajusta el alto de la tarjeta al texto en móviles */
             }
 			.category-card img {
                 width: auto;
@@ -879,20 +875,26 @@
                 width: 100%;
                 font-size: 22px;
                 font-weight: 700;
-                line-height: 1.2;
+                line-height: 1.15;
                 overflow-wrap: break-word;
-                          /* Aumenta el tamaño del texto y permite que las categorías largas se ajusten dentro de la tarjeta */
+                          /* Ajusta el tamaño del texto y permite que las categorías largas se ajusten dentro de la tarjeta */
             }
 
-  
+            .cards-container {
+                align-items: flex-start;
+                          /* Evita que las tarjetas de canales se estiren verticalmente en móviles */
+            }
+
             .card {
                 width: fit-content;
                 max-width: 100%;
                 flex: 0 1 auto;
-                height: auto;
+                height: fit-content;
                 min-height: 0;
+                padding: 12px 16px;
+                justify-content: center;
                 box-sizing: border-box;
-                          /* En móviles, cada tarjeta también adapta sus dimensiones al texto */
+                          /* En móviles, cada tarjeta adapta su alto y ancho exactamente al texto */
             }
 
                       /* PANTALLA DE REPRODUCCIÓN AJUSTADA HASTA EL BORDE INFERIOR DEL MÓVIL */
