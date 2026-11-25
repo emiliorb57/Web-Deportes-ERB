@@ -1,832 +1,375 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Declaración del tipo de documento HTML5 -->
     <meta charset="UTF-8">
-    <!-- Configuración de la codificación de caracteres a UTF-8 para admitir tildes, eñes y caracteres especiales -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Configuración de la ventana gráfica (viewport) para que la página sea responsiva y se adapte a móviles -->
     <title>DEPORTES ERB</title>
-    <!-- Título de la página web que aparece en la pestaña del navegador -->
-    <!--           /* Librería externa HLS.js para reproducir transmisiones en formato .m3u8 */ -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <!-- Importación del script de la librería HLS.js mediante CDN para permitir la reproducción de vídeo adaptativo HLS -->
     <style>
-                  /* VARIABLES GLOBALES DE COLORES Y ESTILOS REUTILIZABLES */
+        /* VARIABLES GLOBALES DE COLORES Y ESTILOS REUTILIZABLES */
         :root {
-            --bg-primary: #0d1117;                         /* Color de fondo principal oscuro */
-            --bg-secondary: #161b22;                       /* Color de fondo secundario */
-            --bg-card: rgba(255, 255, 255, 0.95);          /* Fondo blanco semitransparente para tarjetas */
-            --accent: #007bff;                             /* Color azul principal de acento */
-            --accent-hover: #0056b3;                       /* Azul más oscuro al pasar el ratón */
-            --focus-ring: #00e5ff;                         /* Color cian brillante para enfoque de teclado/TV */
-            --text-main: #f0f6fc;                          /* Color del texto claro sobre fondo oscuro */
-            --text-dark: #1f2328;                          /* Color del texto oscuro dentro de tarjetas */
-            --header-bg: #1F305E;                          /* Color azul marino de la cabecera */
-            --card-border: #ff2a2a;                        /* Borde rojo de las tarjetas de canales */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --accent: #007bff;
+            --accent-hover: #0056b3;
+            --focus-ring: #00e5ff;
+            --text-main: #f0f6fc;
+            --text-dark: #1f2328;
+            --header-bg: #1F305E;
+            --card-border: #ff2a2a;
         }
 
-                  /* REINICIO DE MÁRGENES Y RELLENOS POR DEFECTO DEL NAVEGADOR */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-                      /* Establece el modelo de caja border-box para incluir padding y borde en el ancho/alto total */
         }
 
-                  /* ESTILOS GENERALES DEL CUERPO DE LA PÁGINA */
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-                      /* Define la familia tipográfica principal con alternativas modernas del sistema */
             background-color: var(--bg-primary);  
-                      /* Establece el color de fondo primario usando la variable CSS */
             background-image: linear-gradient(rgba(13, 17, 23, 0.92), rgba(13, 17, 23, 0.92));
-                      /* Añade un degradado lineal oscuro superpuesto al fondo */
             background-size: cover;
-                      /* Hace que la imagen o degradado de fondo cubra todo el espacio */
             background-attachment: fixed;
-                      /* Fija el fondo para que no se mueva al hacer scroll */
             background-position: center;
-                      /* Centra el fondo en la pantalla */
             color: var(--text-main);
-                      /* Define el color del texto principal utilizando una variable */
             min-height: 100vh;
-                      /* Asegura que el cuerpo ocupe al menos el 100% de la altura de la ventana */
             display: flex;
-                      /* Activa el diseño flexible (Flexbox) para ordenar los elementos hijos */
             flex-direction: column;
-                      /* Coloca los elementos hijos en columna verticalmente */
             align-items: center; 
-                      /* Centra horizontalmente los elementos hijos */
             overflow-x: hidden;
-                      /* Oculta la barra de desplazamiento horizontal no deseada */
         }
 
-                  /* BARRA SUPERIOR FIJA (HEADER PRINCIPAL) */
         header {
             position: sticky;
-                      /* Mantiene la cabecera fija en la parte superior al desplazar la página */
             top: 0;
-                      /* Posiciona la cabecera en el borde superior exacto */
             z-index: 1000;
-                      /* Establece una prioridad de capas alta para que esté por encima de otros elementos */
             background: linear-gradient(180deg, #152244 0%, #1F305E 100%);
-                      /* Aplica un fondo con degradado vertical azul oscuro */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-                      /* Añade una sombra difuminada debajo de la cabecera */
             border-bottom: 2px solid rgba(0, 123, 255, 0.4);
-                      /* Añade una línea de borde inferior semitransparente azulada */
             padding: 5px 16px;
-                      /* Relleno interior horizontal de 16px y vertical de 0px */
             width: 100%;
-                      /* Hace que la cabecera ocupe todo el ancho disponible */
             display: flex;
-                      /* Activa Flexbox para alinear su contenido interno */
             flex-direction: column;
-                      /* Organiza el contenido en columna vertical */
             align-items: center;
-                      /* Centra horizontalmente los elementos hijos */
             justify-content: center;
-                      /* Centra verticalmente los elementos hijos */
         }
 
-                  /* CONTENEDOR INTERNO DE LA CABECERA (LOGO + INSIGNIA TV) */
         .header-content {
             max-width: 1600px;
-                      /* Limita el ancho máximo del contenedor interno a 1600 píxeles */
             width: 100%;
-                      /* Ocupa el 100% del ancho disponible hasta el máximo */
             margin: 0 auto;
-                      /* Centra automáticamente el contenedor horizontalmente */
             display: flex;
-                      /* Activa Flexbox para distribuir elementos horizontalmente */
             flex-wrap: wrap;
-                      /* Permite que los elementos pasen a otra línea si no caben */
             align-items: center;
-                      /* Alinea verticalmente los elementos al centro */
             justify-content: space-between;
-                      /* Distribuye el espacio entre los elementos a los extremos */
             gap: 12px;
-                      /* Espacio de separación de 12px entre los elementos internos */
         }
         
-                  /* TEXTO DEL TÍTULO PRINCIPAL "DEPORTES ERB" */
-        .title h1 {
-            font-size: 25px;
-                      /* Establece el tamaño de fuente en píxeles */
-            font-weight: 800;          
-                      /* Hace que la tipografía sea muy gruesa (negrita fuerte) */
-            color: #ffffff;           
-                      /* Establece el color del texto*/
+        .logo-title-group {
+            cursor: pointer;
         }
 
-                  /* ETIQUETA INFORMATIVA PARA NAVEGACIÓN CON MANDO DE TV */
+        .title h1, .logo-title-group h1 {
+            font-size: 25px;
+            font-weight: 800;          
+            color: #ffffff;           
+        }
+
         .tv-badge {
             display: flex;
-                      /* Activa Flexbox para alinear icono y texto horizontalmente */
             align-items: center;
-                      /* Centra verticalmente los elementos de la insignia */
             gap: 6px;
-                      /* Espacio de 6px entre el icono y el texto */
             font-size: 11px;
-                      /* Tamaño de fuente pequeño de 11 píxeles */
             background: rgba(0, 229, 255, 0.15);
-                      /* Fondo de color cian semitransparente */
             border: 1px solid rgba(0, 229, 255, 0.4);
-                      /* Borde delgado de color cian semitransparente */
             padding: 1px 10px;
-                      /* Relleno interior vertical de 1px y horizontal de 10px */
             border-radius: 20px;
-                      /* Bordes totalmente redondeados en forma de píldora */
             color: #00e5ff;
-                      /* Color del texto en cian brillante */
             white-space: nowrap;
-                      /* Evita que el texto de la insignia se divida en varias líneas */
         }
 
-                  /* SECCIÓN DE INICIO CON LAS TARJETAS DE CATEGORÍAS */
         .category-home {
             width: 100%;
-                      /* Ocupa todo el ancho disponible */
             max-width: 1450px;
-                      /* Limita el ancho máximo a 1450 píxeles */
             margin: 22px auto 30px;
-                      /* Margen superior de 22px, inferior de 30px y centrado automático */
             padding: 0 16px;
-                      /* Relleno horizontal interior de 16px */
         }
 
-                  /* CUADRÍCULA RESPONSIVA DE BOTONES DE CATEGORÍAS */
         .category-home-grid {
             display: grid;
-                      /* Activa el sistema de diseño CSS Grid */
             grid-template-columns: repeat(4, minmax(180px, 1fr));
-                      /* Crea 4 columnas automáticas con un ancho mínimo de 180px que se expanden */
             align-items: start;
-                      /* Evita que las tarjetas se estiren verticalmente más allá de su contenido */
             gap: 15px;
-                      /* Espacio de separación entre las tarjetas de la cuadrícula */
             justify-content: center;
-                      /* Centra los elementos de la cuadrícula */
         }
 
-                  /* DISEÑO DE CADA TARJETA DE CATEGORÍA */
         .category-card {
             width: 95%;       
-                      /* Ocupa el 95% del espacio disponible de su celda */
             max-width: 100%;     
-                      /* Ancho máximo del 100% */
-            height:150px;
-                      /* Ajusta la altura vertical al contenido del texto */
+            height: 150px;
             padding: 10px 14px;
-                      /* Relleno interior compacto ajustado al texto */
             display: flex;
-                      /* Activa Flexbox para alinear su contenido interno */
             flex-direction: column;
-                      /* Organiza los elementos internos en columna */
             align-items: center;
-                      /* Centra horizontalmente los elementos */
             justify-content: center;
-                      /* Centra verticalmente los elementos */
             gap: 8px;
-                      /* Espacio compacto entre elementos internos */
             text-align: center;
-                      /* Centra el texto alineado */
             cursor: pointer;
-                      /* Cambia el cursor del ratón a una mano indicando interactividad */
             color: #fff;
-                      /* Color del texto interno en blanco */
             background: linear-gradient(145deg, rgba(31,48,94,.96), rgba(18,27,48,.96));
-                      /* Fondo con degradado angular en tonos azul oscuro */
             border: 2px solid #2d4778;
-                      /* Borde sólido de color azul intermedio */
             border-radius: 16px;
-                      /* Bordes redondeados de 16 píxeles */
             box-shadow: 0 5px 16px rgba(0,0,0,.35);
-                      /* Sombra difuminada oscura alrededor de la tarjeta */
             transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-                      /* Transición suave para animaciones al pasar el ratón */
         }
 
         .category-card:hover,
         .category-card:focus {
             transform: translateY(-5px);
-                      /* Eleva ligeramente la tarjeta 5 píxeles hacia arriba al pasar el cursor o enfocar */
             border-color: #00e5ff;
-                      /* Cambia el color del borde a cian brillante */
             box-shadow: 0 8px 22px rgba(0,229,255,.22);
-                      /* Intensifica la sombra con un brillo cian */
             outline: none;
-                      /* Elimina el contorno predeterminado del navegador al enfocar */
         }
 
-        .category-card img {      /*pagina principal*/
+        .category-card img {
             width: 200px;
-                      /* Ancho fijo de la imagen dentro de la tarjeta de categoría */
             height: auto;
-                      /* Altura automática para mantener la proporción de la imagen */
             object-fit: contain;
-                      /* Asegura que la imagen se ajuste sin deformarse dentro de su contenedor */
         }
 
         .category-card span {
             font-size: 35px;
-                      /* Tamaño de fuente de 35 píxeles para el texto de la categoría */
             font-weight: 700;
-                      /* Fuente en negrita */
             line-height: 1.15;
-                      /* Altura de línea ajustada al texto */
         }
 
-                  /* BOTÓN "VOLVER" */
         .back-categories-btn {
             background: #1c2b4b;
-                      /* Color de fondo azul oscuro para el botón */
             border: 1px solid #3c5b91;
-                      /* Borde sutil azul claro */
             color: #fff;
-                      /* Texto en color blanco */
             border-radius: 9px;
-                      /* Bordes redondeados de 9 píxeles */
             padding: 7px 14px;
-                      /* Relleno interior de 7px vertical y 14px horizontal */
             font-size: 12px;
-                      /* Tamaño de fuente de 12 píxeles */
             font-weight: 600;
-                      /* Fuente seminegrita */
             cursor: pointer;
-                      /* Cambia el cursor a una mano */
             display: inline-flex;
-                      /* Muestra el botón como elemento flexible en línea */
             align-items: center;
-                      /* Centra verticalmente su contenido */
             gap: 6px;
-                      /* Separación de 6px entre icono/texto */
             transition: all 0.2s ease;
-                      /* Transición suave para los cambios de estilo */
         }
 
         .back-categories-btn:hover,
         .back-categories-btn:focus {
             border-color: #00e5ff;
-                      /* Cambia el borde a cian al pasar el ratón o enfocar */
             color: #00e5ff;
-                      /* Cambia el color del texto a cian */
             outline: none;
-                      /* Elimina el contorno por defecto */
         }
 
-                  /* CONTENEDOR PRINCIPAL DEL REPRODUCTOR DE VÍDEO */
-        .player-section {
+        .servers-page {
             display: none;
-                      /* Oculto por defecto hasta que se seleccione un canal o vídeo */
             flex-direction: column;
-                      /* Organiza sus elementos internos en columna vertical */
             max-width: 1300px;
-                      /* Ancho máximo de 1300 píxeles */
             width: 100%;
-                      /* Ocupa el 100% del ancho disponible */
-            margin: 16px auto 2px;
-                      /* Margen superior de 16px, inferior de 2px y centrado horizontal */
+            margin: 18px auto 30px;
             padding: 0 16px;
-                      /* Relleno interior horizontal de 16px */
             animation: fadeIn 0.3s ease;
-                      /* Aplica una animación de aparición gradual (fade in) */
             align-self: center;
-                      /* Se alinea automáticamente al centro del contenedor padre */
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-                  /* Definición de la animación keyframe que desplaza y desvanece suavemente el reproductor */
 
-        .player-header {
+        .servers-header {
             background: #141b2b;
-                      /* Color de fondo oscuro para la cabecera del reproductor */
-            padding: 12px 18px;
-                      /* Relleno interior de 12px vertical y 18px horizontal */
+            padding: 16px 20px;
             display: flex;
-                      /* Activa Flexbox para distribuir elementos */
             flex-wrap: wrap;
-                      /* Permite envolver elementos si no caben */
             justify-content: space-between;
-                      /* Separa los elementos hacia los extremos opuestos */
             align-items: center;
-                      /* Alinea verticalmente los elementos al centro */
             gap: 15px;
-                      /* Espacio de separación de 15px */
-            border-bottom: 1px solid #23314d;
-                      /* Borde inferior sutil de color azul oscuro */
-            border-top-left-radius: 12px;
-                      /* Redondea la esquina superior izquierda */
-            border-top-right-radius: 12px;
-        }
-
-        .player-info {
-            display: flex;
-                      /* Activa Flexbox para la información del reproductor */
-            align-items: center;
-                      /* Centra verticalmente los elementos */
-            gap: 20px;
-                      /* Espacio de 20px entre elementos */
-            flex-wrap: wrap;
-                      /* Permite envolver elementos en pantallas pequeñas */
-            width: 100%;
-                      /* Ocupa el 100% del ancho */
-            justify-content: space-between;
-                      /* Distribuye el contenido a los extremos */
-        }
-
-        .player-info-left {
-            display: flex;
-                      /* Activa Flexbox para la parte izquierda de la información */
-            align-items: center;
-                      /* Centra verticalmente los elementos */
-            gap: 12px;
-                      /* Espacio de 12px entre elementos */
-            flex-wrap: wrap;
-                      /* Permite envoltura flexible */
-        }
-
-        .player-info-left h2 {
-            font-size: 18px;
-                      /* Tamaño de fuente de 18 píxeles para el título del canal activo */
-            color: #ffffff;
-                      /* Color del texto en blanco */
-            font-weight: 700;
-                      /* Fuente en negrita */
-        }
-
-        .player-info-left .category-tag {
-            font-size: 17px;
-                      /* Tamaño de fuente pequeño de 11 píxeles para la etiqueta de categoría */
-            background: green;
-                      /* Fondo azul de acento */
-            padding: 2px 8px;
-                      /* Relleno interior de 2px vertical y 8px horizontal */
-            border-radius: 5px;
-                      /* Bordes redondeados en forma de píldora */
-            color: yellow;
-                      /* Texto Color */
-			font-weight: 700;
-                      /* Fuente en negrita */
-        }
-
-        .servers-inline-container {
-            display: flex;
-                      /* Activa Flexbox para alinear la lista de servidores */
-            align-items: center;
-                      /* Centra verticalmente los elementos */
-            gap: 6px;
-                      /* Espacio de 6px entre elementos */
-            flex-wrap: wrap;
-                      /* Permite envolver los servidores si hay muchos */
-        }
-
-        .servers-label {
-            font-size: 15px;
-                      /* Tamaño de fuente de 15 píxeles para la etiqueta "Servidores:" */
-            font-weight: 700;
-                      /* Fuente en negrita */
-            color: #8b9bb4;
-                      /* Color gris claro azulado */
-        }
-
-        .server-pill {
-            background: #1c263c;
-                      /* Color de fondo oscuro para las píldoras de servidores */
-            border: 1px solid #334366;
-                      /* Borde sutil azul oscuro */
-            color: #d1d9e6;
-                      /* Color de texto claro */
-            padding: 4px 10px;
-                      /* Relleno interior de 4px vertical y 10px horizontal */
+            border: 1px solid #23314d;
             border-radius: 12px;
-                      /* Bordes redondeados de píldora */
-            font-size: 15px;
-                      /* Tamaño de fuente de 15 píxeles */
-            font-weight: 600;
-                      /* Fuente seminegrita */
+            margin-bottom: 20px;
+        }
+
+        .servers-info-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .servers-info-left h2 {
+            font-size: 30px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .servers-info-left .category-tag {
+            font-size: 20px;
+            background: green;
+            padding: 3px 10px;
+            border-radius: 6px;
+            color: yellow;
+            font-weight: 700;
+        }
+
+        .servers-list-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .server-pill {             /*boton servidores*/
+            background: #1c263c;
+            border: 2px solid #334366;
+            color: #d1d9e6;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 25px;
+            font-weight: 700;
             cursor: pointer;
-                      /* Cambia el cursor a una mano */
             transition: all 0.2s;
-                      /* Transición suave para interacciones */
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .server-pill:hover {
             background: #2a3a5c;
-                      /* Cambia el color de fondo a un tono más claro al pasar el ratón */
             color: #fff;
-                      /* Cambia el texto a blanco puro */
             border-color: #00e5ff;
-                      /* Cambia el borde a cian brillante */
+            transform: translateY(-3px);
         }
 
-        .server-pill.active {
-            background: #007bff;
-                      /* Fondo azul activo para el servidor seleccionado actualmente */
-            border-color: #00e5ff;
-                      /* Borde cian brillante */
-            color: #fff;
-                      /* Texto en blanco */
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
-                      /* Sombra brillante azul para destacar el servidor activo */
-        }
-
-        .player-controls-right {
-            display: flex;
-                      /* Activa Flexbox para los controles del lado derecho del reproductor */
-            align-items: center;
-                      /* Centra verticalmente los botones */
-            gap: 6px;
-                      /* Separación de 6px entre botones */
-            flex-wrap: wrap;
-                      /* Permite flexibilidad en pantallas pequeñas */
-        }
-
-        .header-action-btn {
+        .header-action-btn {   /*boton cerrar pagina servidores*/
             background: brown;
-                      /* Fondo oscuro semitransparente */
             border: 1px solid rgba(255, 255, 255, 0.2);
-                      /* Borde blanco semitransparente */
             color: silver;
-                      /* Texto en blanco */
-            padding: 5px 12px;
-                      /* Relleno interior de 5px vertical y 12px horizontal */
+            padding: 6px 14px;
             border-radius: 12px;
-                      /* Bordes redondeados de 12 píxeles */
             font-size: 13px;
-                      /* Tamaño de fuente de 13 píxeles */
             font-weight: 600;
-                      /* Fuente seminegrita */
             cursor: pointer;
-                      /* Cambia el cursor a una mano */
             display: inline-flex;
-                      /* Muestra el botón como elemento flexible en línea */
             align-items: center;
-                      /* Centra verticalmente iconos/texto */
             gap: 5px;
-                      /* Espacio de 5px entre elementos internos */
             transition: all 0.2s ease;
-                      /* Transición suave para efectos visuales */
         }
 
         .header-action-btn:hover {
             background: rgba(0, 0, 0, 0.75);
-                      /* Fondo más oscuro al pasar el cursor */
             border-color: #00e5ff;
-                      /* Borde cian brillante */
             color: #00e5ff;
-                      /* Texto de color cian */
         }
 
         .header-action-btn.close-btn:hover {
             border-color: #dc3545;
-                      /* Borde rojo para el botón de cerrar al pasar el ratón */
             color: #ff4d4d;
-                      /* Texto rojo claro */
-        }
-
-        .video-container {
-            position: relative;
-                      /* Posicionamiento relativo para contener elementos absolutos internos (como botones de pantalla completa) */
-            width: 100%;
-                      /* Ocupa el 100% del ancho */
-            padding-top: 30%; 
-                      /* Proporción de aspecto basada en porcentaje del ancho para mantener dimensiones de vídeo */
-            background: #000;
-                      /* Fondo negro por defecto mientras carga el contenido multimedia */
-            border: 2px solid silver;
-                      /* Borde plateado alrededor del contenedor del vídeo */
-            border-bottom-left-radius: 12px;
-                      /* Redondea la esquina inferior izquierda */
-            border-bottom-right-radius: 12px;
-                      /* Redondea la esquina inferior derecha */
-            overflow: hidden;
-                      /* Oculta cualquier contenido desbordado fuera de los bordes redondeados */
-        }
-
-        .video-container iframe,
-        .video-container video {
-            position: absolute;
-                      /* Posicionamiento absoluto para cubrir todo el contenedor del vídeo */
-            top: 0;
-                      /* Alineado arriba */
-            left: 0;
-                      /* Alineado a la izquierda */
-            width: 100%;
-                      /* Ocupa el 100% del ancho del contenedor */
-            height: 100%;
-                      /* Ocupa el 100% de la altura del contenedor */
-            border: none;
-                      /* Sin bordes predeterminados en el iframe o etiqueta video */
-            background: #000;
-                      /* Fondo negro de respaldo */
-        }
-
-        .fullscreen-top-bar {
-            display: none;
-                      /* Oculto por defecto, se muestra solo en modo pantalla completa */
-            position: absolute;
-                      /* Posicionamiento absoluto en la parte superior del vídeo en pantalla completa */
-            top: 0;
-                      /* Alineado arriba */
-            left: 0;
-                      /* Alineado a la izquierda */
-            width: 100%;
-                      /* Ancho completo del 100% */
-            padding: 6px 16px; 
-                      /* Relleno interior de 6px vertical y 16px horizontal */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-                      /* Fondo con degradado negro semitransparente superior */
-            z-index: 9999;
-                      /* Capa muy alta para asegurar que se vea sobre el reproductor en pantalla completa */
-            justify-content: center;
-                      /* Centra los controles horizontalmente */
-            align-items: center;
-                      /* Centra verticalmente */
-            gap: 24px;
-                      /* Espacio de 24px entre elementos */
-            pointer-events: none;
-                      /* Desactiva eventos de puntero en la barra base para evitar bloqueos no deseados */
-        }
-
-        .fullscreen-top-bar span {
-            pointer-events: auto;
-                      /* Reactiva los eventos de puntero específicamente en los elementos internos de texto/botones */
-        }
-
-        .frame-fullscreen-btn {
-            position: absolute;
-                      /* Posicionamiento absoluto en la esquina del vídeo normal */
-            top: 10px;
-                      /* Margen superior de 10px */
-            right: 10px;
-                      /* Margen derecho de 10px */
-            z-index: 9998;
-                      /* Capa alta de visualización */
-            background: rgba(13, 17, 23, 0.78);
-                      /* Fondo oscuro semitransparente */
-            border: 1.5px solid rgba(0, 229, 255, 0.75);
-                      /* Borde cian semitransparente */
-            color: #ffffff;
-                      /* Texto en color blanco */
-            width: 38px;
-                      /* Ancho fijo de 38 píxeles */
-            height: 38px;
-                      /* Altura fija de 38 píxeles */
-            border-radius: 10px;
-                      /* Esquinas redondeadas de 10 píxeles */
-            font-size: 18px;
-                      /* Tamaño de fuente de 18 píxeles para el icono */
-            line-height: 1;
-                      /* Altura de línea compacta */
-            cursor: pointer;
-                      /* Cambia el cursor a una mano */
-            display: flex;
-                      /* Activa Flexbox para centrar el icono */
-            align-items: center;
-                      /* Centra verticalmente */
-            justify-content: center;
-                      /* Centra horizontalmente */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-                      /* Sombra oscura profunda */
-            transition: all 0.2s ease;
-                      /* Transición suave */
-        }
-
-        .frame-fullscreen-btn:hover,
-        .frame-fullscreen-btn:focus {
-            background: #007bff;
-                      /* Cambia el fondo a azul al pasar el cursor o enfocar */
-            border-color: #00e5ff;
-                      /* Borde cian brillante */
-            color: #ffffff;
-                      /* Color del texto en blanco */
-            transform: scale(1.08);
-                      /* Aumenta ligeramente de tamaño (efecto zoom) */
-            outline: none;
-                      /* Elimina el contorno predeterminado */
-        }
-
-        .video-container:fullscreen .frame-fullscreen-btn,
-        .video-container:-webkit-full-screen .frame-fullscreen-btn {
-            display: none;
-        }
-                  /* Oculta el botón flotante de pantalla completa cuando el contenedor ya está en pantalla completa */
-
-        .video-container:fullscreen .fullscreen-top-bar,
-        .video-container:-webkit-full-screen .fullscreen-top-bar {
-            display: flex;
-        }
-                  /* Muestra la barra superior especial cuando el contenedor entra en modo pantalla completa */
-
-        .fs-action-text {
-            color: yellow;
-                      /* Color de texto en la barra de pantalla completa */
-            font-size: 15px; 
-                      /* Tamaño de fuente  */
-            font-weight: 600;
-                      /* Fuente seminegrita */
-            cursor: pointer;
-                      /* Cambia el cursor a una mano */
-            display: inline-flex;
-                      /* Muestra como elemento flexible en línea */
-            align-items: center;
-                      /* Centra verticalmente */
-            gap: 6px;
-                      /* Espacio de 6px */
-            transition: all 0.2s ease;
-                      /* Transición suave */
-            user-select: none;
-                      /* Evita la selección de texto accidental al hacer clic */
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-                      /* Sombra de texto oscura para mayor legibilidad sobre el vídeo */
-            background: transparent;
-                      /* Fondo transparente */
-            border: none;
-                      /* Sin bordes */
-            padding: 2px 4px;
-                      /* Relleno interior mínimo */
-        }
-
-        .fs-action-text:hover {
-            color: #00e5ff;
-                      /* Cambia el color del texto a cian al pasar el ratón */
-        }
-
-        .fs-action-text.close-btn:hover {
-            color: #ff4d4d;
-                      /* Cambia el color del texto a rojo claro en el botón de cerrar al pasar el ratón */
         }
 
         main {
             flex: 1;
-                      /* Hace que el elemento main ocupe el espacio flexible restante en la página */
             width: 100%;
-                      /* Ancho completo del 100% */
             max-width: 1600px;
-                      /* Ancho máximo de 1600 píxeles */
             margin: 18px auto 0;
-                      /* Margen superior de 18px y centrado horizontal */
             padding: 0 16px 60px;
-                      /* Relleno interior horizontal de 16px e inferior de 60px para dar espacio al pie */
             display: flex;
-                      /* Activa Flexbox */
             flex-direction: column;
-                      /* Organiza en columna vertical */
             align-items: center;
-                      /* Centra horizontalmente los elementos */
             justify-content: flex-start;
-                      /* Alinea los elementos hijos al inicio superior */
         }
 
         .grid-header {
             display: none;
-                      /* Oculto por defecto hasta que se seleccione una categoría de canales */
             flex-wrap: wrap;
-                      /* Permite envolver elementos si no caben */
             justify-content: center;
-                      /* Centra el contenido horizontalmente */
             align-items: center;
-                      /* Centra verticalmente */
             gap: 14px;
-                      /* Espacio de separación de 14px */
             margin: 6px auto 0;
-                      /* Margen superior de 6px y centrado */
             padding: 8px 0 3px;
-                      /* Relleno interior de 8px arriba y 3px abajo */
             border-top: 1px solid rgba(255, 255, 255, 0.16);
-                      /* Línea de borde superior semitransparente sutil */
             width: 100%;
-                      /* Ancho completo del 100% */
             max-width: 1600px;
-                      /* Ancho máximo de 1600 píxeles */
         }
 
-        .grid-header h2 {      /* CATEGORIAS FILTRADAS */
+        .grid-header h2 {
             font-size: 25px;
-                      /* Tamaño de fuente para el título de la sección de la categoría */
             font-weight: 700;
-                      /* Fuente en negrita */
             color: yellow;
-                      /* Color de texto */
             display: flex;
-                      /* Activa Flexbox */
             align-items: center;
-                      /* Centra verticalmente */
             gap: 40px;    
-                      /* Espacio amplio de 40px entre elementos del título de sección */
         }
 
-
-                  /* CONTENEDOR DE TARJETAS DE CANALES */
         .cards-container {
             display: flex;
-                      /* Activa Flexbox para distribuir las tarjetas de canales */
             flex-wrap: wrap;
-                      /* Permite que las tarjetas salten a la siguiente línea al completarse el ancho */
             justify-content: center; 
-                      /* Centra las tarjetas horizontalmente en el contenedor */
             align-items: stretch;
-                      /* Estira las tarjetas para que tengan la misma altura dentro de sus filas */
             gap: 16px;
-                      /* Espacio de separación de 16px entre las tarjetas */
             width: 100%;
-                      /* Ancho completo del 100% */
             max-width: 1450px;
-                      /* Ancho máximo de 1450 píxeles */
             margin: 0 auto;
-                      /* Centrado horizontal automático */
         }
         
-                  /* DISEÑO DE CADA TARJETA DE CANAL */
         .card {
             background: var(--bg-card);
-                      /* Fondo de la tarjeta utilizando la variable de color (blanco semitransparente) */
             border: 3px solid var(--card-border);
-                      /* Borde grueso de color rojo definido por variable */
             border-radius: 14px;
-                      /* Esquinas redondeadas de 14 píxeles */
             padding: 30px 20px;
-                      /* Relleno interior vertical y horizontal */
             text-align: center;
-                      /* Centra el texto dentro de la tarjeta */
             text-decoration: underline;
-                      /* Texto subrayado enlaces*/
             color: var(--text-dark);
-                      /* Color de texto oscuro para las tarjetas */
             cursor: pointer;
-                      /* Cambia el cursor a una mano */
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                      /* Transición fluida con curva Bezier para animaciones de escala/movimiento */
             display: flex;
-                      /* Activa Flexbox para organizar su contenido verticalmente */
             flex-direction: column;
-                      /* Organiza los elementos internos en columna */
             align-items: center;
-                      /* Centra horizontalmente los elementos de la tarjeta */
             justify-content: space-between;
-                      /* Distribuye el contenido espaciándolo verticalmente entre los extremos */
             width: fit-content;
             max-width: 100%;
             flex: 0 1 auto;
             height: auto;
             min-height: 0;
             box-sizing: border-box;
-                      /* El ancho se adapta al contenido y la altura al número de líneas */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-                      /* Sombra oscura difuminada debajo de la tarjeta */
             position: relative;
-                      /* Posicionamiento relativo para elementos internos absolutos si los hay */
             outline: none;
-                      /* Elimina el contorno predeterminado del navegador */
             user-select: none;
-                      /* Evita la selección de texto dentro de la tarjeta al hacer clic */
         }
 
-           /* DISPOSITIVOS MÓVILES */
         @media (max-width: 600px) {
-                      /* Reglas de diseño multimedia aplicadas exclusivamente en pantallas menores o iguales a 600px (móviles) */
             body {
                 min-height: 100dvh;
-                          /* Altura mínima basada en la unidad dinámica de la ventana del dispositivo móvil */
                 justify-content: flex-start;
-                          /* Alinea al inicio superior */
-				
             }
             header {
                 padding: 6px 10px;
-                          /* Relleno reducido de la cabecera en móviles */
             }
             .header-content {
                 gap: 4px;
-                          /* Espacio reducido de 4px entre elementos del header en móviles */
             }
             .logo-title-group {
                 width: 100%;
-                          /* Ocupa el 100% del ancho en móviles */
             }
             .logo-title-group h1 {
                 font-size: 22px;
-                          /* Tamaño de fuente para el título principal en móviles */
                 line-height: 1.1;
-                          /* Altura de línea compacta */
             }
             footer {
                 padding: 2px 0;
-                          /* Relleno mínimo del pie de página en móviles */
                 font-size: 10px;
-                          /* Tamaño de fuente pequeño de 10 píxeles en móviles */
                 line-height: 1.2;
-                          /* Altura de línea ajustada */
-				overflow-wrap: break-word;
+                overflow-wrap: break-word;
             }
             .tv-badge {
                 display: none;
-                          /* Oculta la insignia del modo TV en pantallas móviles pequeñas para ahorrar espacio */
             }
             .category-home {
                 flex: 1;
@@ -842,12 +385,9 @@
             }
             .category-home-grid {
                 grid-template-columns: repeat(1, minmax(0, 1fr));
-                          /* Cambia la cuadrícula de categorías a 1 columna en móviles */
                 grid-template-rows: auto;
-                          /* Altura de filas ajustada al contenido de cada tarjeta */
                 align-items: start;
                 gap: 12px;
-                          /* Espacio de 12px entre elementos de la cuadrícula en móviles */
                 width: 100%;
                 height: auto;
             }
@@ -860,30 +400,23 @@
                 gap: 6px;
                 border-radius: 12px;
                 overflow: hidden;
-                          /* Ajusta el alto de la tarjeta al texto en móviles */
             }
-			.category-card img {
+            .category-card img {
                 width: auto;
                 max-width: 100%;
                 max-height: 65%;
                 height: auto;
-                          /* Ajusta el logo para que nunca supere el ancho de la tarjeta en móviles */
-			}
-            
+            }
             .category-card span {
                 width: 100%;
                 font-size: 22px;
                 font-weight: 700;
                 line-height: 1.15;
                 overflow-wrap: break-word;
-                          /* Ajusta el tamaño del texto y permite que las categorías largas se ajusten dentro de la tarjeta */
             }
-
             .cards-container {
                 align-items: flex-start;
-                          /* Evita que las tarjetas de canales se estiren verticalmente en móviles */
             }
-
             .card {
                 width: fit-content;
                 max-width: 100%;
@@ -893,107 +426,37 @@
                 padding: 12px 16px;
                 justify-content: center;
                 box-sizing: border-box;
-                          /* En móviles, cada tarjeta adapta su alto y ancho exactamente al texto */
             }
-
-                      /* PANTALLA DE REPRODUCCIÓN AJUSTADA HASTA EL BORDE INFERIOR DEL MÓVIL */
-            .player-section {
-                flex: 1;
+            .servers-page {
                 width: 100%;
                 max-width: 100%;
-                margin: 0;
-                padding: 0;
-                flex-direction: column;
-                          /* Expande el reproductor para ocupar toda la pantalla disponible en dispositivos móviles */
+                margin: 10px 0;
+                padding: 0 10px;
             }
-            .player-header {
-                border-radius: 0;
-                padding: 8px 10px;
-                gap: 8px;
-                          /* Elimina los bordes redondeados y ajusta el relleno de la cabecera del reproductor en móvil */
-            }
-            .player-info {
+            .servers-header {
+                padding: 10px 12px;
                 gap: 8px;
             }
-            .player-info-left {
-                gap: 8px;
-            }
-            .player-info-left h2 {
-                font-size: 14px;
-                          /* Reduce el tamaño del título del canal en el reproductor móvil a 14px */
-            }
-            .video-container {
-                flex: 1;
-                width: 100%;
-                padding-top: 0;
-                min-height: 0;
-                border-left: none;
-                border-right: none;
-                border-bottom: none;
-                border-radius: 0;
-                          /* Ajusta el contenedor de vídeo para eliminar bordes y ocupar el área completa en móvil */
-            }
-        }
-
-        @media (max-width: 900px) and (orientation: landscape) {
-                      /* Reglas de estilo específicas para dispositivos móviles en modo horizontal (paisaje) con ancho menor a 900px */
-            body {
-                min-height: 100dvh;
-            }
-            header {
-                display: none;
-                          /* Oculta la cabecera completa en modo horizontal en móviles para maximizar el área de vídeo */
-            }
-            .player-section {
-                flex: 1;
-                flex-direction: column;
-                max-width: 100% !important;
-                width: 100% !important;
-                height: 100dvh !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                          /* Hace que el reproductor ocupe el 100% de la altura y ancho en modo paisaje móvil */
-            }
-            .video-container {
-                flex: 1;
-                width: 100% !important;
-                height: 100dvh !important;
-                max-height: 100dvh;
-                padding-top: 0;
-                border: none;
-                border-radius: 0;
-                          /* Expande el vídeo a pantalla completa real sin bordes en orientación horizontal móvil */
-            }
-            .player-header {
-                display: none; 
-                          /* Oculta la cabecera del reproductor en modo horizontal móvil */
+            .servers-info-left h2 {
+                font-size: 16px;
             }
         }
 
         .card:hover {
             background-color: #a8e6cf;
-                      /* Cambia el color de fondo de la tarjeta a un tono verde claro pastel al pasar el ratón */
             transform: translateY(-5px) scale(1.05);
-                      /* Eleva la tarjeta 5 píxeles y la agranda un 5% al pasar el cursor */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-                      /* Aumenta la intensidad de la sombra oscura */
             border-color: #00e5ff;
-                      /* Cambia el color del borde de la tarjeta a cian brillante */
         }
 
         .card:focus,
         .cat-btn:focus,
         .server-pill:focus,
-        .header-action-btn:focus,
-        .fs-action-text:focus {
+        .header-action-btn:focus {
             border-color: var(--focus-ring) !important;
-                      /* Aplica el color del anillo de enfoque (cian brillante) al recibir foco por teclado o mando de TV */
             box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.8), 0 0 20px rgba(0, 229, 255, 0.6) !important;
-                      /* Genera un halo luminoso e intenso alrededor del elemento enfocado */
             transform: scale(1.08);
-                      /* Aumenta ligeramente el tamaño del elemento enfocado */
             z-index: 10;
-                      /* Eleva la capa del elemento enfocado para que no quede oculto */
         }
 
         .card-body {
@@ -1001,257 +464,149 @@
             max-width: 100%;
             box-sizing: border-box;
             text-align: center;
-                      /* El contenido determina el ancho sin desbordar la tarjeta */
         }
 
         .card-title {
             font-size: 25px;
-                      /* Tamaño de fuente de 12 píxeles para el título del canal en la tarjeta */
             font-weight: 700;
-                      /* Fuente en negrita */
             line-height: 1.2;
-                      /* Altura de línea compacta */
             color: #000;
-                      /* Color del texto en negro oscuro dentro de la tarjeta */
             word-break: normal;
             overflow-wrap: normal;
             hyphens: none;
             white-space: normal;
-                      /* El texto pasa a la línea siguiente solo entre palabras, nunca por la mitad */
         }
 
         .card-server-badge {
             display: inline-block;
-                      /* Muestra la insignia como bloque en línea */
             font-size: 14px;
-                      /* Tamaño de fuente muy pequeño de 10 píxeles */
             font-weight: 600;
-                      /* Fuente seminegrita */
             color: #444;
-                      /* Color de texto gris oscuro */
             background: rgba(0, 0, 0, 0.08);
-                      /* Fondo negro muy sutil semitransparente */
             padding: 2px 6px;
-                      /* Relleno interior de 2px vertical y 6px horizontal */
             border-radius: 8px;
-                      /* Bordes redondeados de 8 píxeles */
             margin-top: 10px;
-                      /* Margen superior de 8 píxeles */
         }
 
         .card-m3u8-tag {
             display: inline-block;
-                      /* Muestra la etiqueta M3U8 como bloque en línea */
             font-size: 9px;
-                      /* Tamaño de fuente diminuto de 9 píxeles */
             font-weight: 800;
-                      /* Fuente extra gruesa (negrita fuerte) */
             color: #fff;
-                      /* Texto en color blanco */
             background: #28a745;
-                      /* Fondo de color verde brillante para indicar tecnología avanzada o directa M3U8 */
             padding: 1px 5px;
-                      /* Relleno interior de 1px vertical y 5px horizontal */
             border-radius: 4px;
-                      /* Esquinas ligeramente redondeadas de 4 píxeles */
             margin-top: 2px;
-                      /* Margen superior de 2 píxeles */
         }
 
         .empty-state {
             display: none;
-                      /* Oculto por defecto, se muestra solo cuando no se encuentran canales en una categoría */
             text-align: center;
-                      /* Centra el texto del estado vacío */
             padding: 60px 20px;
-                      /* Relleno interior amplio de 60px vertical y 20px horizontal */
             color: #8b9bb4;
-                      /* Color gris azulado claro para el mensaje */
             margin: 0 auto;
-                      /* Centrado horizontal automático */
         }
 
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-                      /* Línea de borde superior sutil y semitransparente */
             padding: 5px 5px;
-                      /* Relleno interior de 5px */
             text-align: left;
-                      /* Alineación del texto a la izquierda */
             font-size: 12px;
-                      /* Tamaño de fuente de 12 píxeles */
             color: #6e7681;
-                      /* Color gris para el texto del aviso legal */
-            width: 100%;                 /*linea separacion titulo-aviso legal*/
-                      /* Ancho configurado al 200% para extender el diseño del pie */
+            width: 100%;
             display: flex;
-                      /* Activa Flexbox */
             justify-content: center;
-                      /* Centra el contenido horizontalmente */
         }
 
         footer p {
             max-width: 1600px;
-                      /* Ancho máximo de 1600 píxeles para el párrafo del footer */
             width: 100%;
-                      /* Ocupa el 100% del ancho */
             margin: 0 auto;
-                      /* Centrado horizontal automático */
         }
 
         footer strong {
             color: #00e5ff;
-                      /* Destaca las palabras en negrita del footer (como el Aviso Legal) en color cian brillante */
         }
     </style>
 </head>
 <body>
-    <!-- Inicio del cuerpo del documento HTML que contiene toda la estructura visible de la aplicación -->
 
     <header>
-        <!-- Contenedor principal de la cabecera fija de la página -->
         <div class="header-content">
-            <!-- Contenedor interno flexible para organizar el logotipo y la insignia de TV -->
-            <div class="logo-title-group" onclick="window.location.href='?'">
-                <!-- Grupo interactivo del título y logotipo que recarga la página al hacer clic (vuelve al inicio) -->
+            <div class="logo-title-group" onclick="showCategories()">
                 <h1>📺 DEPORTES ERB</h1>
-                <!-- Encabezado principal H1 con el nombre de la aplicación web -->	
-				<p style="color: #1a73e8; font-size: 12px;padding:5px;">(Aviso Legal: Deportes ERB no aloja ni transmite contenido propio; solo comparte enlaces externos disponibles online públicamente)</p>
+                <p style="color: #1a73e8; font-size: 12px;padding:5px;">(Aviso Legal: Deportes ERB no aloja ni transmite contenido propio; solo comparte enlaces externos disponibles online públicamente)</p>
             </div>
-			
+            
             <div class="tv-badge">
-                <!-- Insignia informativa orientada a usuarios que utilizan un mando de televisión -->
                 <span>📺</span>
-                <!-- Icono de televisión en formato emoji -->
                 <span>Modo TV: Flechas / Enter</span>
-                <!-- Texto explicativo sobre los controles de navegación por teclado o mando -->
             </div>
         </div>
         <div class="grid-header" id="categoryInfo">
-            <!-- Cabecera secundaria de la cuadrícula de canales, oculta inicialmente -->
             <h2 id="sectionTitle">
                 <span>Todos los Canales</span>
-                <!-- Título dinámico de la sección de canales seleccionada -->
             </h2>
-			<button class="back-categories-btn" onclick="showCategories()" title="Volver a categorías">Volver</button>
-            <!-- Botón para regresar a la vista general de categorías principales -->
+            <button class="back-categories-btn" onclick="showCategories()" title="Volver a categorías">Volver</button>
         </div>
     </header>
 
     <section class="category-home" id="categoryHome">
-        <!-- Sección principal de inicio que muestra la cuadrícula con las tarjetas de categorías deportivas -->
         <div class="category-home-grid">
-	
-<button class="category-card" onclick="selectCategory('Horarios Deportivos')"><span>⏰ Horarios Deportivos</span></button>
-<button class="category-card" onclick="selectCategory('La Liga')"><span>⚽ La Liga</span></button>
-<button class="category-card" onclick="selectCategory('Champions League')"><span>⚽ Champions League</span></button>
-<button class="category-card" onclick="selectCategory('Baloncesto')"><span>🏀 Baloncesto</span></button>
-<button class="category-card" onclick="selectCategory('Zona Dazn')"><span>ⓏⒹ Zona Dazn</span></button>
-<button class="category-card" onclick="selectCategory('Canales Latinos')"><span>🌎 Canales Latinos</span></button>
-<button class="category-card" onclick="selectCategory('Webs Multideportes')"><span>🌐 Webs Multideportes</span></button>
-
-
-
+            <button class="category-card" onclick="selectCategory('Horarios Deportivos')"><span>⏰ Horarios Deportivos</span></button>
+            <button class="category-card" onclick="selectCategory('La Liga')"><span>⚽ La Liga</span></button>
+            <button class="category-card" onclick="selectCategory('Champions League')"><span>🏆 Champions League</span></button>
+            <button class="category-card" onclick="selectCategory('Baloncesto')"><span>🏀 Baloncesto</span></button>
+            <button class="category-card" onclick="selectCategory('Zona Dazn')"><span>🥇 Zona Dazn</span></button>
+            <button class="category-card" onclick="selectCategory('Canales Latinos')"><span>🌎 Canales Latinos</span></button>
+            <button class="category-card" onclick="selectCategory('Webs Multideportes')"><span>🌐 Webs Multideportes</span></button>
         </div>
     </section>
 
-    <main id="mainContainer" style="display:none;">
-        <!-- Contenedor principal para mostrar los canales filtrados, oculto por defecto -->
+     <main id="mainContainer" style="display:none;">
         <div class="cards-container" id="channelsGrid"></div>
-        <!-- Contenedor de cuadrícula donde se inyectarán dinámicamente las tarjetas de los canales mediante JavaScript -->
         <div id="emptyState" class="empty-state">
-            <!-- Estado vacío que se muestra cuando no hay canales disponibles en el filtro actual -->
             <h3>No se encontraron canales</h3>
             <p>Selecciona otra categoría.</p>
             <button onclick="resetFilters()">Restablecer Filtros</button>
-            <!-- Botón para restablecer los filtros y volver al estado inicial -->
         </div>
     </main>
 
-    <section id="playerSection" class="player-section">
-        <!-- Sección del reproductor multimedia para visualizar los streams, oculta inicialmente -->
-        <div class="player-header">
-            <!-- Cabecera superior interna del reproductor multimedia -->
-            <div class="player-info">
-                <!-- Contenedor de la información del canal en reproducción y servidores -->
-                <div class="player-info-left">
-				  <span id="playerCategory" class="category-tag">Deportes</span>
-                        <!-- Etiqueta dinámica de la categoría del canal activo -->
-                    <!-- Sección izquierda con título, categoría y lista de servidores -->
-                    <div>
-                      
-						<h2 id="playerTitle">Canal en Directo</h2>
-                        <!-- Título dinámico del canal y servidor activo -->
-                        
-                    </div>
-                    <div class="servers-inline-container" id="serversBar">
-                        <!-- Contenedor en línea para los botones de selección de servidores disponibles -->
-                        <span class="servers-label">Servidores:</span>
-                        <!-- Etiqueta de texto "Servidores:" -->
-                        <div id="serversList" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
-                        <!-- Contenedor donde se generan dinámicamente las píldoras de servidores -->
-                    </div>
-                </div>
-                <div class="player-controls-right">
-                    <!-- Controles del lado derecho del reproductor (pantalla completa, nueva pestaña, cerrar) -->
-					
-                    <button class="header-action-btn" onclick="openCurrentServerInNewTab()" title="Abrir servidor en nueva pestaña">↗ Nueva Pestaña</button>
-					<p style="color: yellow; font-size: 12px;">(Si Pagina en Blanco: Pulsar Nueva Pestaña)</p>					
-                    <!-- Botón para abrir el enlace del servidor actual en una nueva pestaña del navegador -->
-					 <button class="header-action-btn" onclick="toggleFullscreen()" title="Pantalla Completa">⛶ Pantalla Completa</button>
-                    <!-- Botón para activar o desactivar el modo de pantalla completa -->
-					<button class="header-action-btn close-btn" onclick="closePlayer()" title="Cerrar reproductor">⮾ CERRAR</button>
-                    <!-- Botón para cerrar el reproductor y volver a la vista anterior -->
-                    
-
-                </div>
+    <section id="serversPage" class="servers-page">
+        <div class="servers-header">
+            <div class="servers-info-left">
+                <span id="serversCategory" class="category-tag">Deportes</span>
+                <h2 id="serversTitle">Servidores del Canal</h2>
             </div>
+            <button class="header-action-btn close-btn" onclick="closeServersPage()" title="Cerrar">⮾ CERRAR</button>
         </div>
-
-        <div class="video-container" id="videoContainer">
-            <!-- Contenedor físico donde se incrusta el reproductor de vídeo o iframe -->
-            <button class="frame-fullscreen-btn" id="frameFullscreenBtn" onclick="toggleFullscreen()" title="Pantalla Completa" aria-label="Pantalla Completa">⛶</button>
-            <!-- Botón flotante de pantalla completa situado sobre el vídeo -->
-            <div class="fullscreen-top-bar">
-                <!-- Barra superior especial que aparece exclusivamente en el modo de pantalla completa -->
-                <span class="fs-action-text" tabindex="0" onclick="exitFullscreenOrBack()" title="Volver Atrás">VOLVER ATRÁS</span>
-                <!-- Opción de texto para salir de pantalla completa o volver atrás -->
-                <span class="fs-action-text close-btn" tabindex="0" onclick="closePlayer()" title="Cerrar reproductor">CERRAR</span>
-                <!-- Opción de texto para cerrar el reproductor desde el modo de pantalla completa -->
-            </div>
-
-            <iframe id="embedPlayer" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
-            <!-- Etiqueta iframe utilizada para cargar reproductores externos basados en web o páginas embebidas -->
-            <video id="hlsPlayer" controls autoplay playsinline style="display:none;"></video>
-            <!-- Etiqueta de vídeo HTML5 estándar utilizada para transmisiones directas HLS (.m3u8), oculta por defecto -->
-        </div>
+        <div class="servers-list-grid" id="serversList"></div>
     </section>
 
     <script>
-                  /* BLOQUE DE SCRIPT JAVASCRIPT: Lógica, gestión de datos, control de reproductores y navegación */
         const CHANNELS_DATA = [
 		
 		
-<!-- HORARIOS DEPORTIVOS -->
+//HORARIOS DEPORTIVOS
 {id: "Horarios Futbol", title: "Horarios Futbol", category: "Horarios Deportivos", sources: [
-           { name: "futbolhoy", url: "https://www.futbolhoy.es/", type: "embed"} ]},
+           { name: "futbolhoy", url: "https://www.futbolhoy.es/", type: "embed"}]},
 {id: "Horarios La Liga", title: "Horarios La Liga", category: "Horarios Deportivos", sources: [
-           { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/laliga", type: "embed"} ]},
+           { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/laliga", type: "embed"}]},
 {id: "Horarios La Liga (Latinos)", title: "Horarios La Liga (Latinos)", category: "Horarios Deportivos", sources: [
-           { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/la-liga", type: "embed"} ]},
+           { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/la-liga", type: "embed"}]},
 {id: "Horarios Champions", title: "Horarios Champions", category: "Horarios Deportivos", sources: [
-           { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/champions-league", type: "embed"} ]},
+           { name: "futbolhoy", url: "https://www.futbolhoy.es/competiciones/champions-league", type: "embed"}]},
 {id: "Horarios Champions (Latinos)", title: "Horarios Champions (Latinos)", category: "Horarios Deportivos", sources: [
-           { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/liga-campeones", type: "embed"} ]},
+           { name: "futbolenvivoargentina", url: "https://www.futbolenvivoargentina.com/competicion/liga-campeones", type: "embed"}]},
 {id: "Horarios Baloncesto", title: "Horarios Baloncesto", category: "Horarios Deportivos", sources: [
-           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/", type: "embed"} ]},
+           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/", type: "embed"}]},
 {id: "Horarios Liga ACB", title: "Horarios Liga ACB", category: "Horarios Deportivos", sources: [
-           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/liga-endesa", type: "embed"} ]},
+           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/liga-endesa", type: "embed"}]},
 {id: "Horarios Euroliga", title: "Horarios Euroliga", category: "Horarios Deportivos", sources: [
-           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/euroliga", type: "embed"} ]},
-<!-- LA LIGA -->
+           { name: "baloncestohoy", url: "https://www.baloncestohoy.es/competiciones/euroliga", type: "embed"}]},
+//LA LIGA
 {id: "LaLiga/Dazn", title: "LaLiga/Dazn", category: "La Liga", sources: [
-           { name: "sportzonline", url: "https://sportsoonline.click/channels/hd/hd6.php", type: "embed"} ]},
+           { name: "sportzonline", url: "https://sportsoonline.click/channels/hd/hd6.php", type: "embed"}]},
 {id: "M. LaLiga", title: "M. LaLiga", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/4", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=mlaliga", type: "embed"},
@@ -1261,9 +616,9 @@
            { name: "embedme", url: "https://embedme.click/player/3/49", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/movistarlaliga.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/beinlaliga_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=84", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-84.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-84.php", type: "embed"},
-           { name: "asiria", url: "https://asiria.is/movistarliga1.php", type: "embed"} ]},
+           { name: "asiria", url: "https://asiria.is/movistarliga1.php", type: "embed"}]},
 {id: "Dazn LaLiga", title: "Dazn LaLiga", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/1", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznlaliga", type: "embed"},
@@ -1273,9 +628,9 @@
            { name: "embedme", url: "https://embedme.click/player/3/51", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/daznlaliga.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/daznlaliga_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=538", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-538.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-538.php", type: "embed"},
-           { name: "asiria", url: "https://asiria.is/daznlaliga.php", type: "embed"} ]},
+           { name: "asiria", url: "https://asiria.is/daznlaliga.php", type: "embed"}]},
 {id: "Espn Deportes", title: "Espn Deportes", category: "La Liga", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/10", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espndeportes", type: "embed"},
@@ -1285,27 +640,27 @@
            { name: "m6foot", url: "https://m6foot.click/player/1/71", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/71", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/71", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=375", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-375.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-375.php", type: "embed"},
-           { name: "asiria", url: "https://asiria.is/espndeportes.php", type: "embed"} ]},
+           { name: "asiria", url: "https://asiria.is/espndeportes.php", type: "embed"}]},
 {id: "Sky S. LaLiga", title: "Sky S. LaLiga", category: "La Liga", sources: [
            { name: "streamxhd", url: "https://stream-xhd.com/live1.php?stream=sky_sports_laliga", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=sky_sports_laliga", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=sky_sports_laliga", type: "embed"},
-           { name: "a03h", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", type: "embed"} ]},
+           { name: "a03h", url: "http://45.228.234.30:16000/play/a03h/index.m3u8", type: "embed"}]},
 {id: "Web LaLiga", title: "Web LaLiga", category: "La Liga", sources: [
            { name: "choc2foot", url: "https://choc2foot.biz/league.php?league=Laliga", type: "embed"},
-           { name: "livetv", url: "https://livetv904.me/es/competitions/15/", type: "embed"} ]},
-<!-- CHAMPIONS LEAGUE -->
+           { name: "livetv", url: "https://livetv904.me/es/competitions/15/", type: "embed"}]},
+//CHAMPIONS LEAGUE
 {id: "L. Campeones", title: "L. Campeones", category: "Champions League", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/6", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/61", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/61", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/61", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/movistarligadecampeones.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=435", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-435.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-435.php", type: "embed"},
-           { name: "asiria", url: "https://asiria.is/movistarcampeones.php", type: "embed"} ]},
+           { name: "asiria", url: "https://asiria.is/movistarcampeones.php", type: "embed"}]},
 {id: "Tudn", title: "Tudn", category: "Champions League", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=tudnmxhd", type: "embed"},
            { name: "streamxhd", url: "https://stream-xhd.com/live1.php?stream=tudn_usa", type: "embed"},
@@ -1317,68 +672,69 @@
            { name: "embedme", url: "https://embedme.click/player/3/68", type: "embed"},
            { name: "a02x", url: "http://45.228.234.30:16000/play/a02x/index.m3u8", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/tudn.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=66", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-66.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-66.php", type: "embed"},
-           { name: "asiria", url: "https://abisnews.com/abc30.php", type: "embed"} ]},
+           { name: "asiria", url: "https://abisnews.com/abc30.php", type: "embed"}]},
 {id: "Web Champions League", title: "Web Champions League", category: "Champions League", sources: [
-           { name: "livetv", url: "https://livetv904.me/es/competitions/7/", type: "embed"} ]},
-<!-- BALONCESTO -->
+           { name: "livetv", url: "https://livetv904.me/es/competitions/7/", type: "embed"}]},
+//BALONCESTO
 {id: "M. Plus", title: "M. Plus", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/28", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=437", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-437.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-437.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-437.php", type: "embed"}]},
 {id: "M. deportes 1", title: "M. deportes 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/19", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/62", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/62", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/62", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/plusdep_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=436", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-436.php", type: "embed"},
            { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-436.php", type: "embed"},
-           { name: "asiria", url: "https://asiria.is/movistar1.php", type: "embed"} ]},
+           { name: "asiria", url: "https://asiria.is/movistar1.php", type: "embed"}]},
 {id: "Vamos", title: "Vamos", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/9", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/55", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/55", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/55", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/vamos_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=521", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-521.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-521.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-521.php", type: "embed"}]},
 {id: "Dazn Baloncesto 1", title: "Dazn Baloncesto 1", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42898", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/63", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/63", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/3/63", type: "embed"} ]},
+           { name: "embedme", url: "https://embedme.click/player/3/63", type: "embed"}]},
 {id: "Dazn Baloncesto 2", title: "Dazn Baloncesto 2", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43194", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/64", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/64", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/3/64", type: "embed"} ]},
+           { name: "embedme", url: "https://embedme.click/player/3/64", type: "embed"}]},
 {id: "Dazn Baloncesto 3", title: "Dazn Baloncesto 3", category: "Baloncesto", sources: [
            { name: "zicotv", url: "https://bp.zicotv.cc/api/player/43195", type: "embed"},
            { name: "m6foot", url: "https://m6foot.click/player/1/65", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/65", type: "embed"},
-           { name: "embedme", url: "https://embedme.click/player/3/65", type: "embed"} ]},
+           { name: "embedme", url: "https://embedme.click/player/3/65", type: "embed"}]},
 {id: "M. Baloncesto", title: "M. Baloncesto", category: "Baloncesto", sources: [
-           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42816", type: "embed"} ]},
+           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/42816", type: "embed"}]},
 {id: "M. Baloncesto 2", title: "M. Baloncesto 2", category: "Baloncesto", sources: [
-           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/47001", type: "embed"} ]},
+           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/47001", type: "embed"}]},
 {id: "M. Baloncesto 3", title: "M. Baloncesto 3", category: "Baloncesto", sources: [
-           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/50506", type: "embed"} ]},
+           { name: "zicotv", url: "https://bp.zicotv.cc/api/player/50506", type: "embed"}]},
 {id: "TVC Deportes", title: "TVC Deportes", category: "Baloncesto", sources: [
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=tvc_deportes", type: "embed"},
            { name: "la18hd", url: "https://la18hd.su/vivo/canales.php?stream=tvc_deportes", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=932", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-932.php", type: "embed"}]},
 {id: "Web Liga ACB", title: "Web Liga ACB", category: "Baloncesto", sources: [
            { name: "choc2foot", url: "https://choc2foot.biz/league.php?league=Liga+Endesa", type: "embed"},
-           { name: "livetv", url: "https://livetv904.me/es/competitions/215/", type: "embed"} ]},
+           { name: "livetv", url: "https://livetv904.me/es/competitions/215/", type: "embed"}]},
 {id: "Web Euroliga", title: "Web Euroliga", category: "Baloncesto", sources: [
            { name: "tiroalpalo", url: "https://tiroalpalooffi.net/baloncesto", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/index.php?cat=Euroleague+Basketball", type: "embed"},
-           { name: "livetv", url: "https://livetv904.me/es/competitions/41/", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/index.php?cat=Euroleague+Basketball+🏀", type: "embed"},
+           { name: "livetv", url: "https://livetv904.me/es/competitions/41/", type: "embed"}]},
 {id: "Web Baloncesto", title: "Web Baloncesto", category: "Baloncesto", sources: [
-           { name: "vipleague", url: "https://vipleague.vg/sport/basketball", type: "embed"} ]},
-<!-- ZONA DAZN -->
+           { name: "daddylive", url: "https://thedaddy.li/index.php?cat=Basketball+🏀", type: "embed"},
+           { name: "vipleague", url: "https://vipleague.vg/sport/basketball", type: "embed"}]},
+//ZONA DAZN
 {id: "Dazn 1", title: "Dazn 1", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/2", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn1", type: "embed"},
@@ -1386,8 +742,8 @@
            { name: "m6foot", url: "https://m6foot.click/player/1/67", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/67", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/67", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=445", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-445.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-445.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-445.php", type: "embed"}]},
 {id: "Dazn 2", title: "Dazn 2", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/3", type: "embed"},
            { name: "tvf90", url: "https://tvf90.com/online.php?stream=dazn2", type: "embed"},
@@ -1395,14 +751,14 @@
            { name: "m6foot", url: "https://m6foot.click/player/1/57", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/57", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/57", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=446", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-446.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-446.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-446.php", type: "embed"}]},
 {id: "Dazn 3", title: "Dazn 3", category: "Zona Dazn", sources: [
            { name: "m6foot", url: "https://m6foot.click/player/1/58", type: "embed"},
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/58", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/58", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=447", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-447.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-447.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-447.php", type: "embed"}]},
 {id: "Dazn F1", title: "Dazn F1", category: "Zona Dazn", sources: [
            { name: "zicotv", url: "https://zicotv.cc/api/player/11", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=daznf1", type: "embed"},
@@ -1412,9 +768,9 @@
            { name: "embedme", url: "https://embedme.click/player/3/60", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/daznf1.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/daznf1_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=537", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-537.php", type: "embed"} ]},
-<!-- CANALES LATINOS -->
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-537.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-537.php", type: "embed"}]},
+//CANALES LATINOS
 {id: "Dsports 1", title: "Dsports 1", category: "Canales Latinos", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=dsportsco", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=dsports", type: "embed"},
@@ -1425,7 +781,7 @@
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/94", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/94", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports.php", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-001.php", type: "embed"} ]},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-001.php", type: "embed"}]},
 {id: "Dsports 2", title: "Dsports 2", category: "Canales Latinos", sources: [
            { name: "tv gratis", url: "https://pelisjuanita.com/tv/servers/golden.php?id=dsports2", type: "embed"},
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=dsports2", type: "embed"},
@@ -1435,7 +791,7 @@
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/95", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/95", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/directvsports2.php", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-002.php", type: "embed"} ]},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-002.php", type: "embed"}]},
 {id: "Espn 1", title: "Espn 1", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espn", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn", type: "embed"},
@@ -1446,8 +802,8 @@
            { name: "embedme", url: "https://embedme.click/player/3/87", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/espn.php", type: "embed"},
            { name: "livetvsx", url: "https://livetvsx.live/go/espn1_spain.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=149", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-01.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-149.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-01.php", type: "embed"}]},
 {id: "Espn 2", title: "Espn 2", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=espn2", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=espn2", type: "embed"},
@@ -1457,8 +813,8 @@
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/88", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/88", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/espn2.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=150", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-02.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-150.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-02.php", type: "embed"}]},
 {id: "Fox Sports 1", title: "Fox Sports 1", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=fox1ar", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox1ar", type: "embed"},
@@ -1468,8 +824,8 @@
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/78", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/78", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/foxsports.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=767", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-787.php", type: "embed"} ]},
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-767.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-787.php", type: "embed"}]},
 {id: "Fox Sports 2", title: "Fox Sports 2", category: "Canales Latinos", sources: [
            { name: "streamxhd", url: "https://streamxhd.sbs/live1.php?stream=fox2ar", type: "embed"},
            { name: "streamx305", url: "https://streamx305.sbs/global1.php?channel=fox2ar", type: "embed"},
@@ -1479,82 +835,45 @@
            { name: "choc2foot", url: "https://choc2foot.biz/part/Ll.php?id=2/79", type: "embed"},
            { name: "embedme", url: "https://embedme.click/player/3/79", type: "embed"},
            { name: "latam", url: "https://embed.ksdjugfsddeports.com/embed/foxsports2.php", type: "embed"},
-           { name: "daddylive", url: "https://thedaddy.li/watch.php?id=788", type: "embed"},
-           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-788.php", type: "embed"} ]},
-<!-- WEBS MULTIDEPORTES -->
-{id: "fctv33", title: "fctv33", category: "Webs Multideportes", sources: [
-           { name: "fctv33", url: "https://www.fctv33go.monster/es", type: "embed"} ]},
-{id: "tiroalpalo", title: "tiroalpalo", category: "Webs Multideportes", sources: [
-           { name: "tiroalpalo", url: "https://tiroalpaloffi.org/", type: "embed"} ]},
-{id: "tvnow247", title: "tvnow247", category: "Webs Multideportes", sources: [
-           { name: "tvnow247", url: "https://tvnow247.top/", type: "embed"} ]},
-{id: "tflix", title: "tflix", category: "Webs Multideportes", sources: [
-           { name: "tflix", url: "https://tflix.su/", type: "embed"} ]},
-{id: "streamfree", title: "streamfree", category: "Webs Multideportes", sources: [
-           { name: "streamfree", url: "https://streamfree.pro/", type: "embed"} ]},
-{id: "tv gratis", title: "tv gratis", category: "Webs Multideportes", sources: [
-           { name: "tv gratis", url: "https://pelisjuanita.com/tv/agenda.html", type: "embed"} ]},
-{id: "zicotv", title: "zicotv", category: "Webs Multideportes", sources: [
-           { name: "zicotv", url: "https://bp.zicotv.cc/", type: "embed"} ]},
-{id: "streamxhd", title: "streamxhd", category: "Webs Multideportes", sources: [
-           { name: "streamxhd", url: "https://streamxhd.sbs/", type: "embed"} ]},
-{id: "streamx305", title: "streamx305", category: "Webs Multideportes", sources: [
-           { name: "streamx305", url: "https://streamx305.sbs/", type: "embed"} ]},
-{id: "daddylive", title: "daddylive", category: "Webs Multideportes", sources: [
-           { name: "daddylive", url: "https://thedaddy.li/", type: "embed"} ]},
-{id: "deporte-libre", title: "deporte-libre", category: "Webs Multideportes", sources: [
-           { name: "deporte-libre", url: "https://deporte-libre7.live/", type: "embed"} ]},
-{id: "choc2foot", title: "choc2foot", category: "Webs Multideportes", sources: [
-           { name: "choc2foot", url: "https://choc2foot.biz/", type: "embed"} ]},
-{id: "asiria", title: "asiria", category: "Webs Multideportes", sources: [
-           { name: "asiria", url: "https://asiria.is", type: "embed"} ]},
-{id: "livetv", title: "livetv", category: "Webs Multideportes", sources: [
-           { name: "livetv", url: "https://livetv904.me/es/allupcoming/1", type: "embed"} ]},
-{id: "vipleague", title: "vipleague", category: "Webs Multideportes", sources: [
-           { name: "vipleague", url: "https://vipleague.vg/", type: "embed"} ]},
-{id: "elitegol.pl", title: "elitegol.pl", category: "Webs Multideportes", sources: [
+           { name: "daddylive", url: "https://thedaddy.li/stream/stream-788.php", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte7-libre.live/total/stream-788.php", type: "embed"}]},
+//WEBS MULTIDEPORTES
+{id: "Web Multideportes", title: "Web Multideportes", category: "Webs Multideportes", sources: [
+           { name: "fctv33", url: "https://www.fctv33go.monster/es", type: "embed"},
+           { name: "tiroalpalo", url: "https://tiroalpaloffi.org/", type: "embed"},
+           { name: "tvnow247", url: "https://tvnow247.top/", type: "embed"},
+           { name: "tflix", url: "https://tflix.su/", type: "embed"},
+           { name: "streamfree", url: "https://streamfree.pro/", type: "embed"},
+           { name: "tv gratis", url: "https://pelisjuanita.com/tv/agenda.html", type: "embed"},
+           { name: "zicotv", url: "https://bp.zicotv.cc/", type: "embed"},
+           { name: "verpartidos.cc (zicotv)", url: "https://verpartidos.cc/", type: "embed"},
+           { name: "streamxhd", url: "https://streamxhd.sbs/", type: "embed"},
+           { name: "streamx305", url: "https://streamx305.sbs/", type: "embed"},
+           { name: "choc2foot", url: "https://choc2foot.biz/", type: "embed"},
+           { name: "daddylive", url: "https://thedaddy.li/", type: "embed"},
+           { name: "deporte-libre", url: "https://deporte-libre7.live/", type: "embed"},
+           { name: "asiria", url: "https://asiria.is", type: "embed"},
+           { name: "livetv", url: "https://livetv904.me/es/allupcoming/1", type: "embed"},
+           { name: "vipleague", url: "https://vipleague.vg/", type: "embed"},
            { name: "elitegol.pl", url: "https://elitegol.quest/", type: "embed"}]}];
 
 
 
-        let currentCategory = "Todos";     
-                  /* Variable de estado para almacenar la categoría actual seleccionada, por defecto "Todos" */
-        let currentActiveChannel = null;   
-                  /* Variable para almacenar el objeto del canal actualmente activo en el reproductor */
-        let currentSourceIndex = 0;      
-                  /* Índice numérico de la fuente o servidor activo del canal */
-        let hlsInstance = null;            
-                  /* Instancia activa de la librería HLS.js para la reproducción de streams HLS */
+
+    let currentCategory = "Todos";
 
         const channelsGrid = document.getElementById("channelsGrid");
-                  /* Referencia constante al elemento DOM de la cuadrícula de canales */
         const sectionTitle = document.getElementById("sectionTitle");
-                  /* Referencia constante al título de la sección activa */
         const emptyState = document.getElementById("emptyState");
-                  /* Referencia constante al contenedor de estado vacío */
-        const playerSection = document.getElementById("playerSection");
-                  /* Referencia constante a la sección del reproductor multimedia */
-        const playerTitle = document.getElementById("playerTitle");
-                  /* Referencia constante al título del reproductor */
-        const playerCategory = document.getElementById("playerCategory");
-                  /* Referencia constante a la etiqueta de categoría del reproductor */
-        const embedPlayer = document.getElementById("embedPlayer");
-                  /* Referencia constante al elemento iframe del reproductor */
-        const hlsPlayer = document.getElementById("hlsPlayer");
-                  /* Referencia constante al elemento de vídeo HTML5 para HLS */
+        const serversPage = document.getElementById("serversPage");
+        const serversTitle = document.getElementById("serversTitle");
+        const serversCategory = document.getElementById("serversCategory");
         const serversList = document.getElementById("serversList");
-                  /* Referencia constante al a lista de botones de servidores */
-        const videoContainer = document.getElementById("videoContainer");
-                  /* Referencia constante al contenedor general del vídeo */
         const mainContainer = document.getElementById("mainContainer");
-                  /* Referencia constante al contenedor principal de la cuadrícula */
         const categoryHome = document.getElementById("categoryHome");
-                  /* Referencia constante a la vista de inicio de categorías */
         const categoryInfo = document.getElementById("categoryInfo");
-                  /* Referencia constante a la información de categoría en la cabecera */
 
         function renderChannels() {
-                      /* Función encargada de filtrar y renderizar dinámicamente las tarjetas de canales según la categoría seleccionada */
             const filteredChannels = CHANNELS_DATA.filter(ch => {
                 return (currentCategory === "Todos" || ch.category === currentCategory);
             });
@@ -1568,17 +887,18 @@
             }
 
             emptyState.style.display = "none";
-            
+
             channelsGrid.innerHTML = filteredChannels.map((channel) => {
                 const hasM3U8 = channel.sources.some(s => s.type === "m3u8");
                 const serverCount = channel.sources.length;
+                const safeId = channel.id.replace(/'/g, "\\'");
 
                 return `
-                    <div class="card" 
-                         tabindex="0" 
+                    <div class="card"
+                         tabindex="0"
                          role="button"
-                         onclick="openChannelInNewTab('${channel.id}')"
-                         onkeydown="handleCardKey(event, '${channel.id}')"
+                         onclick="openChannelInNewTab('${safeId}')"
+                         onkeydown="handleCardKey(event, '${safeId}')"
                          title="${channel.title} - ${channel.category}">
                         <div class="card-body">
                             <div class="card-title">${channel.title}</div>
@@ -1591,161 +911,99 @@
         }
 
         function selectCategory(categoryName) {
-                      /* Selecciona la categoría pulsada y muestra solo sus canales */
             currentCategory = categoryName;
 
-            // Oculta la página principal y muestra el listado filtrado.
             categoryHome.style.display = "none";
-            playerSection.style.display = "none";
+            serversPage.style.display = "none";
             categoryInfo.style.display = "flex";
             mainContainer.style.display = "flex";
 
-            // Actualiza el título y las tarjetas correspondientes a la categoría.
             renderChannels();
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
         function showCategories() {
-                      /* Función para regresar a la vista de selección de categorías y restablecer el estado */
             mainContainer.style.display = "none";
             categoryInfo.style.display = "none";
+            serversPage.style.display = "none";
             categoryHome.style.display = "";
             currentCategory = "Todos";
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
         function openChannelInNewTab(channelId) {
-                      /* Función para abrir el canal seleccionado en una nueva pestaña del navegador usando parámetros URL */
-            const newWindowUrl = `${window.location.pathname}?channel=${channelId}`;
+            const newWindowUrl = `${window.location.pathname}?channel=${encodeURIComponent(channelId)}`;
             window.open(newWindowUrl, '_blank');
         }
 
-        function playChannel(channelId, sourceIndex = 0) {
-                      /* Función principal para cargar y reproducir un canal específico con un servidor determinado */
+        function openServerUrlInNewTab(url) {
+            if (url) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function showChannelServers(channelId) {
             const channel = CHANNELS_DATA.find(ch => ch.id === channelId);
             if (!channel || !channel.sources || channel.sources.length === 0) return;
 
-            currentActiveChannel = channel;
-            currentSourceIndex = sourceIndex;
+            serversTitle.textContent = channel.title;
+            serversCategory.textContent = channel.category;
 
-            const activeSource = channel.sources[sourceIndex];
-
-            playerTitle.textContent = `${channel.title} - ${activeSource.name}`;
-            playerCategory.textContent = channel.category;
-
-            serversList.innerHTML = channel.sources.map((src, idx) => `
-                <button class="server-pill ${idx === sourceIndex ? 'active' : ''}" 
+            serversList.innerHTML = channel.sources.map((src) => `
+                <button class="server-pill"
                         tabindex="0"
-                        onclick="playChannel('${channel.id}', ${idx})">
-                    ${src.type === 'm3u8' ? '⚡ ' : ''}${src.name}
+                        onclick="openServerUrlInNewTab('${src.url.replace(/'/g, "\\'")}')">
+                    ${src.type === 'm3u8' ? '⚡ ' : ''}↗ ${src.name}
                 </button>
             `).join("");
 
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
-
-            if (activeSource.type === "m3u8") {
-                embedPlayer.style.display = "none";
-                embedPlayer.src = "about:blank";
-                hlsPlayer.style.display = "block";
-
-                if (Hls.isSupported()) {
-                    hlsInstance = new Hls({ enableWorker: true });
-                    hlsInstance.loadSource(activeSource.url);	
-                    hlsInstance.attachMedia(hlsPlayer);
-                    hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-                        hlsPlayer.play().catch(() => {});
-                    });
-                } else if (hlsPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                    hlsPlayer.src = activeSource.url;
-                    hlsPlayer.addEventListener('loadedmetadata', function () {
-                        hlsPlayer.play().catch(() => {});
-                    });
-                }
-            } else {
-                hlsPlayer.style.display = "none";
-                hlsPlayer.pause();
-                embedPlayer.style.display = "block";
-                embedPlayer.src = activeSource.url;
-            }
-
-            playerSection.style.display = "flex";
+            serversPage.style.display = "flex";
         }
 
-        function openCurrentServerInNewTab() {
-                      /* Función para abrir directamente la URL del servidor actual en una nueva pestaña */
-            if (!currentActiveChannel || !currentActiveChannel.sources) return;
-            const activeSource = currentActiveChannel.sources[currentSourceIndex];
-            if (activeSource && activeSource.url) {
-                window.open(activeSource.url, '_blank');
-            }
-        }
-
-        function toggleFullscreen() {
-                      /* Función para alternar el modo de pantalla completa en el contenedor de vídeo */
-            const isFs = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-            if (isFs) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                return;
-            }
-
-            if (videoContainer.requestFullscreen) {
-                videoContainer.requestFullscreen().catch(() => {
-                    if (hlsPlayer.style.display !== "none" && hlsPlayer.webkitEnterFullscreen) {
-                        hlsPlayer.webkitEnterFullscreen();
-                    }
-                });
-            } else if (videoContainer.webkitRequestFullscreen) {
-                videoContainer.webkitRequestFullscreen();
-            } else if (videoContainer.msRequestFullscreen) {
-                videoContainer.msRequestFullscreen();
-            } else if (hlsPlayer.style.display !== "none" && hlsPlayer.webkitEnterFullscreen) {
-                hlsPlayer.webkitEnterFullscreen();
-            }
-        }
-
-        function exitFullscreenOrBack() {
-                      /* Función para salir de pantalla completa o volver atrás según corresponda */
-            if (document.fullscreenElement || document.webkitFullscreenElement) {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                }
-            } else {
-                closePlayer();
-            }
-        }
-
-        function closePlayer() {
-                      /* Función para cerrar el reproductor y limpiar la vista o la ventana actual */
+        function closeServersPage() {
             window.close();
             window.location.href = window.location.pathname;
         }
 
         function resetFilters() {
-                      /* Función para restablecer los filtros seleccionados */
             selectCategory("Todos");
         }
 
         function handleCardKey(e, channelId) {
-                      /* Función de gestión de eventos de teclado (como Enter o Espacio) en las tarjetas de canales para accesibilidad y mandos de TV */
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 openChannelInNewTab(channelId);
             }
         }
 
+        // Navegación con flechas en Modo TV
+        document.addEventListener("keydown", (e) => {
+            if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
+
+            const active = document.activeElement;
+            const focusables = Array.from(document.querySelectorAll("button, [tabindex='0']")).filter(el => {
+                const rect = el.getBoundingClientRect();
+                return rect.width > 0 && rect.height > 0 && getComputedStyle(el).visibility !== "hidden";
+            });
+
+            if (focusables.length === 0) return;
+
+            const currentIndex = focusables.indexOf(active);
+            if (currentIndex === -1) {
+                e.preventDefault();
+                focusables[0].focus();
+                return;
+            }
+
+            e.preventDefault();
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                focusables[(currentIndex + 1) % focusables.length].focus();
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                focusables[(currentIndex - 1 + focusables.length) % focusables.length].focus();
+            }
+        });
+
         window.addEventListener("DOMContentLoaded", () => {
-                      /* Evento que se ejecuta al cargar completamente el contenido del DOM de la página para comprobar parámetros URL iniciales */
             const urlParams = new URLSearchParams(window.location.search);
             const channelParam = urlParams.get('channel');
 
@@ -1753,7 +1011,7 @@
                 mainContainer.style.display = "none";
                 categoryHome.style.display = "none";
                 categoryInfo.style.display = "none";
-                playChannel(channelParam, 0);
+                showChannelServers(channelParam);
             } else {
                 categoryHome.style.display = "";
                 categoryInfo.style.display = "none";
